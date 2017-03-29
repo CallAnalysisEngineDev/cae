@@ -7,6 +7,8 @@ public class Condition {
 	private String timeStart;
 	private String timeEnd;
 	private String tokenString;
+	private String orderBy;
+	private String orderDir;
 	private String extraInfo;
 	public Integer getPageStart() {
 		return pageStart;
@@ -37,6 +39,18 @@ public class Condition {
 	}
 	public void setTokenString(String tokenString) {
 		this.tokenString = tokenString;
+	}
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+	public String getOrderDir() {
+		return orderDir;
+	}
+	public void setOrderDir(String orderDir) {
+		this.orderDir = orderDir;
 	}
 	public String getExtraInfo() {
 		return extraInfo;
