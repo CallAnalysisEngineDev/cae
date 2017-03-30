@@ -3,11 +3,13 @@ package org.cae.common;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
 
+	private Logger logger=Logger.getLogger(this.getClass().getName());
 	private static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static String toJson(Object target){

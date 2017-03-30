@@ -1,6 +1,7 @@
 package org.cae.service.impl;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service("callService")
 public class CallServiceImpl implements ICallService {
+	
+	private Logger logger=Logger.getLogger(this.getClass().getName());
 	
 	@Resource(name="callDao")
 	private ICallDao callDao;

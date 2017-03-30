@@ -1,6 +1,7 @@
 package org.cae.dao.impl;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.cae.common.DaoResult;
 import org.cae.dao.ICallDao;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository("callDao")
 public class CallDaoImpl implements ICallDao {
 
+	private Logger logger=Logger.getLogger(this.getClass().getName());
+	
 	@Autowired
 	private JdbcTemplate template;
 
