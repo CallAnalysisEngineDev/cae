@@ -2,35 +2,18 @@ package org.cae.common;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
-import org.cae.entity.CallRecord;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
 
 	private static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 	
-	@SuppressWarnings("unchecked")
-	public static Object toJson(Object target){
+	public static String toJson(Object target){
+		ObjectMapper mapper=new ObjectMapper();
 		try{
-			if(target instanceof Map){
-				return JSONObject.fromObject((Map<String,Object>)target);
-			}
-			else if(target instanceof List){
-				return JSONArray.fromObject((List<Map<String,Object>>)target);
-			}
-			else if(target instanceof CallRecord){
-				return JSONObject.fromObject((CallRecord)target);
-			}
-			else if(target instanceof JSONObject || target instanceof JSONArray){
-				return target;
-			}
-			System.err.println("传入的参数不是map或者list!");
+			return mapper.writeValueAsString(target);
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
