@@ -1,24 +1,23 @@
 package org.cae.service.impl;
 
 import java.util.List;
-import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
 import org.cae.dao.ICallDao;
-import org.cae.dao.ICallLucene;
 import org.cae.entity.CallRecord;
 import org.cae.service.ICallService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("callService")
 public class CallServiceImpl implements ICallService {
 
-	@Autowired
+	@Resource(name="callDao")
 	private ICallDao callDao;
-	@Autowired
-	private ICallLucene callLucene;
+	@Resource(name="callLucene")
+	private ICallDao callLucene;
 	
 	@Override
 	public ServiceResult queryAllCallService(Condition condition,
