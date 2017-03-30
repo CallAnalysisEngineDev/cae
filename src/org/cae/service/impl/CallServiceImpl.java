@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service("callService")
 public class CallServiceImpl implements ICallService {
-
+	
 	@Resource(name="callDao")
 	private ICallDao callDao;
 	@Resource(name="callLucene")
