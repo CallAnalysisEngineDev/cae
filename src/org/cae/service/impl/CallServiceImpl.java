@@ -21,13 +21,14 @@ public class CallServiceImpl implements ICallService {
 	private ICallLucene callLucene;
 	
 	@Override
-	public Map<String, Object> queryAllCallService(Condition condition,
+	public ServiceResult queryAllCallService(Condition condition,
 			CallRecord callRecord) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	@Override
-	public Map<String, Object> queryCallService(CallRecord callRecord) {
+	public ServiceResult queryCallService(CallRecord callRecord) {
 		// TODO Auto-generated method stub
 		return null;
 	}
