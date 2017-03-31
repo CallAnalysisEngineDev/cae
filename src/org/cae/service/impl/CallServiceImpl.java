@@ -9,6 +9,7 @@ import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
 import org.cae.dao.ICallDao;
 import org.cae.entity.CallRecord;
+import org.cae.entity.Song;
 import org.cae.service.ICallService;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,24 @@ public class CallServiceImpl implements ICallService {
 	
 	@Override
 	public ServiceResult modifyCallService(CallRecord callRecord) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResult queryAllSongService(Condition condition, Song song) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResult addSongService(Song song) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResult removeSongService(Song song) {
 		// TODO Auto-generated method stub
 		return null;
 	}

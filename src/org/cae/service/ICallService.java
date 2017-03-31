@@ -5,6 +5,7 @@ import java.util.List;
 import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
 import org.cae.entity.CallRecord;
+import org.cae.entity.Song;
 
 public interface ICallService {
 
@@ -19,4 +20,10 @@ public interface ICallService {
 	public ServiceResult removeCallService(List<CallRecord> callRecords);
 	
 	public ServiceResult modifyCallService(CallRecord callRecord);
+	
+	public ServiceResult queryAllSongService(Condition condition,Song song);
+	
+	public ServiceResult addSongService(Song song);
+	
+	public ServiceResult removeSongService(Song song);
 }
