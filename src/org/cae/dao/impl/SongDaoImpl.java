@@ -3,6 +3,7 @@ package org.cae.dao.impl;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.dao.ISongDao;
 import org.cae.entity.Song;
@@ -17,7 +18,7 @@ public class SongDaoImpl implements ISongDao {
 	private JdbcTemplate template;
 	
 	@Override
-	public List<Song> getAllSongDao(Song song) {
+	public List<Song> getAllSongDao(Condition condition, Song song) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -2,12 +2,13 @@ package org.cae.dao;
 
 import java.util.List;
 
+import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.entity.CallRecord;
 
 public interface ICallDao {
 
-	public List<CallRecord> getAllCallDao(CallRecord callRecord);
+	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord);
 	
 	public CallRecord getCallDao(CallRecord callRecord);
 	

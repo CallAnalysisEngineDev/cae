@@ -3,6 +3,7 @@ package org.cae.dao.impl;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.dao.ICallDao;
 import org.cae.entity.CallRecord;
@@ -19,7 +20,7 @@ public class CallDaoImpl implements ICallDao {
 	private JdbcTemplate template;
 
 	@Override
-	public List<CallRecord> getAllCallDao(CallRecord callRecord) {
+	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord) {
 		// TODO Auto-generated method stub
 		return null;
 	}

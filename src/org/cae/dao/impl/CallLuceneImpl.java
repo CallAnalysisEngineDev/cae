@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.dao.ICallDao;
 import org.cae.entity.CallRecord;
@@ -16,7 +17,7 @@ public class CallLuceneImpl implements ICallDao {
 	private CallLuceneAdaptee callLucene;
 	
 	@Override
-	public List<CallRecord> getAllCallDao(CallRecord callRecord) {
+	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord) {
 		return callLucene.getAllCallLucene(callRecord);
 	}
 
