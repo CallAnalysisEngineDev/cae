@@ -6,6 +6,10 @@ public class CallRecord {
 	private String callSource;
 	private Short callVersion;
 	private String callLastModify;
+	public CallRecord(){}
+	public CallRecord(String callId){
+		this.callId=callId;
+	}
 	public String getCallId() {
 		return callId;
 	}

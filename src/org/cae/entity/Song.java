@@ -7,6 +7,10 @@ public class Song {
 	private String songSellTime;
 	private String songOwner;
 	private String songCover;
+	public Song(){}
+	public Song(String songId){
+		this.songId=songId;
+	}
 	public String getSongId() {
 		return songId;
 	}
