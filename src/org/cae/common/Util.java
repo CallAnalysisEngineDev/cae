@@ -10,7 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Util {
 
 	private Logger logger=Logger.getLogger(this.getClass().getName());
-	private static SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat dateSdf=new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat timeSdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public static String toJson(Object target){
 		ObjectMapper mapper=new ObjectMapper();
@@ -22,11 +23,15 @@ public class Util {
 		return null;
 	}
 	
+	public static String date2String(Date date){
+		return dateSdf.format(date);
+	}
+	
 	public static String time2String(Date date){
-		return sdf.format(date);
+		return timeSdf.format(date);
 	}
 
-	public static String getNow(){
+	public static String getNowTime(){
 		return time2String(new Date());
 	}
 	

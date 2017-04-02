@@ -7,6 +7,9 @@ public class Song {
 	private String songSellTime;
 	private String songOwner;
 	private String songCover;
+	private String songCreateTime;
+	private String songLastModifyTime;
+	private Integer songClick;
 	public Song(){}
 	public Song(String songId){
 		this.songId=songId;
@@ -40,6 +43,24 @@ public class Song {
 	}
 	public void setSongCover(String songCover) {
 		this.songCover = songCover;
+	}
+	public String getSongCreateTime() {
+		return songCreateTime;
+	}
+	public void setSongCreateTime(String songCreateTime) {
+		this.songCreateTime = songCreateTime;
+	}
+	public String getSongLastModifyTime() {
+		return songLastModifyTime;
+	}
+	public void setSongLastModifyTime(String songLastModifyTime) {
+		this.songLastModifyTime = songLastModifyTime;
+	}
+	public Integer getSongClick() {
+		return songClick;
+	}
+	public void setSongClick(Integer songClick) {
+		this.songClick = songClick;
 	}
 	
 }

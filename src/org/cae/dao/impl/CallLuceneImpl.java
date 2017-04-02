@@ -1,6 +1,7 @@
 package org.cae.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -55,6 +56,12 @@ public class CallLuceneImpl implements ICallDao {
 	@Override
 	public DaoResult updateCallDao(CallRecord callRecord) {
 		return callLucene.updateCallLucene(callRecord);
+	}
+
+	@Override
+	public Map<String, Object> getCallForHomepageDao() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

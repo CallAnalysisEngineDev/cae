@@ -4,12 +4,13 @@ import java.util.Map;
 
 public class ServiceResult {
 
-	private boolean successed;
+	private boolean successed=false;
 	private Object result;
 	private Integer nowPage;
 	private Integer totalPage;
 	private String errInfo;
 	private Map<String,Object> extraInfo;
+	public ServiceResult(){}
 	public ServiceResult(DaoResult daoResult){
 		this.successed=daoResult.isResult();
 		this.errInfo=daoResult.getErrInfo();
