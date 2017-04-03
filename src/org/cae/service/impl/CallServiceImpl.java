@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 
 import org.cae.common.Condition;
+import org.cae.common.IConstant;
 import org.cae.common.ServiceResult;
 import org.cae.dao.ICallDao;
 import org.cae.entity.CallRecord;
@@ -44,8 +45,29 @@ public class CallServiceImpl implements ICallService {
 	@Override
 	public ServiceResult queryAllCallService(Condition condition,
 			CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceResult result=null;
+		condition.setPageLimit(IConstant.CALL_SEARCH_LIMIT);
+		List<CallRecord> callList=callDao.getAllCallDao(condition, callRecord);
+		if(callList.size()==0){
+			result=new ServiceResult();
+			result.setSuccessed(false);
+			result.setErrInfo("查询结果为空");
+			return result;
+		}
+		
+		int totalPage=0;
+		int count=callDao.getCallCountDao(condition, callRecord);
+		if(count%condition.getPageLimit()==0)
+			totalPage=count/condition.getPageLimit();
+		else
+			totalPage=(count/condition.getPageLimit())+1;
+		
+		result=new ServiceResult();
+		result.setSuccessed(true);
+		result.setResult(callList);
+		result.setNowPage(condition.getPage());
+		result.setTotalPage(totalPage);
+		return result;
 	}
 	
 	@Override

@@ -60,7 +60,11 @@ public class CallLuceneImpl implements ICallDao {
 
 	@Override
 	public Map<String, Object> getCallForHomepageDao() {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer getCallCountDao(Condition condition, CallRecord callRecord) {
 		return null;
 	}
 

@@ -1,5 +1,6 @@
 package org.cae.common;
 
+import java.util.List;
 import java.util.Map;
 
 public class ServiceResult {
@@ -51,5 +52,27 @@ public class ServiceResult {
 	public void setExtraInfo(Map<String, Object> extraInfo) {
 		this.extraInfo = extraInfo;
 	}
-	
+	public String toString(){
+		if(this.successed){
+			if(this.result instanceof List){
+				String result="successed : "+this.successed+"\n"
+						+ "result : \n";
+				List list=(List) this.result;
+				for(Object object:list){
+					result+="\t"+object.toString()+"\n";
+				}
+				result+="\n";
+				return result+"nowPage : "+this.nowPage+"\n"
+						+ "totalPage : "+this.totalPage;
+			}
+			else{
+				return "successed : "+this.successed+"\n"
+						+ "result : "+this.result;
+			}
+		}
+		else{
+			return "successed : "+this.successed+"\n"
+					+ "errInfo : "+this.errInfo;
+		}
+	}
 }

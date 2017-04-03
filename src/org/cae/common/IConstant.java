@@ -7,4 +7,7 @@ public class IConstant {
 	
 	//安卓端首页最新修改歌曲限制条数
 	public final static Integer HOMEPAGE_NEWEST_LIMIT = 4;
+	
+	//安卓端call表搜索页限制条数
+	public final static Integer CALL_SEARCH_LIMIT = 10;
 }

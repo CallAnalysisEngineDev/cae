@@ -1,6 +1,6 @@
 package org.cae.entity;
 
-public class CallRecord {
+public class CallRecord extends Entity{
 
 	private Song song;
 	private String callId;

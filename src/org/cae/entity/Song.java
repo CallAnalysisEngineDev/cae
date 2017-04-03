@@ -1,6 +1,6 @@
 package org.cae.entity;
 
-public class Song {
+public class Song extends Entity{
 
 	private String songId;
 	private String songName;

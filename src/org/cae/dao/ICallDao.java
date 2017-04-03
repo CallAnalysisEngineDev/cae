@@ -13,6 +13,8 @@ public interface ICallDao {
 	
 	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord);
 	
+	public Integer getCallCountDao(Condition condition, CallRecord callRecord);
+	
 	public CallRecord getCallDao(CallRecord callRecord);
 	
 	public DaoResult saveCallDao(CallRecord callRecord);
