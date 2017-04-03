@@ -36,11 +36,6 @@ public class CallLuceneAdaptee {
 		return null;
 	}
 
-	public DaoResult updateCallLucene(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	//判断一个字符串是英文还是日文
 	private boolean enOrJp(String word){
 		//先把字符串的特殊字符用正则消去,然后再判断是否纯英文

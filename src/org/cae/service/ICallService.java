@@ -21,8 +21,6 @@ public interface ICallService {
 	
 	public ServiceResult removeCallService(List<CallRecord> callRecords);
 	
-	public ServiceResult modifyCallService(CallRecord callRecord);
-	
 	public ServiceResult queryAllSongService(Condition condition,Song song);
 	
 	public ServiceResult addSongService(Song song);

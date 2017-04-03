@@ -1,5 +1,6 @@
 package org.cae.common;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,5 +75,29 @@ public class ServiceResult {
 			return "successed : "+this.successed+"\n"
 					+ "errInfo : "+this.errInfo;
 		}
+	}
+	public Map<String,Object> toMap(){
+		Map<String,Object> theResult=new HashMap<String,Object>();
+		if(this.successed){
+			if(this.result instanceof Map){
+				theResult=(Map<String, Object>) this.result;
+				theResult.put("successed", this.successed);
+			}
+			else if(this.result instanceof List){
+				theResult.put("successed", this.successed);
+				theResult.put("resultList", this.result);
+				theResult.put("nowPage", this.nowPage);
+				theResult.put("totalPage", this.totalPage);
+			}
+			else{
+				theResult.put("successed", this.successed);
+				theResult.put("result", this.result);
+			}
+		}
+		else{
+			theResult.put("successed", this.successed);
+			theResult.put("errInfo", this.errInfo);
+		}
+		return theResult;
 	}
 }

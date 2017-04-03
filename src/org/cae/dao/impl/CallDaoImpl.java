@@ -2,6 +2,7 @@ package org.cae.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +112,6 @@ public class CallDaoImpl implements ICallDao {
 		}
 		
 		Object[] params=new Object[paramsIndex];
-		int[] types=new int[paramsIndex];
 		System.arraycopy(preParams, 0, params, 0, paramsIndex);
 		return new SqlWithParams(buffer.toString(),params);
 	}
@@ -130,32 +130,86 @@ public class CallDaoImpl implements ICallDao {
 
 	@Override
 	public CallRecord getCallDao(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql="SELECT cr.call_id,s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover "
+				+ "FROM call_record AS cr "
+				+ "LEFT JOIN song AS s "
+				+ "USING(song_id) "
+				+ "WHERE cr.call_id = ?";
+		CallRecord theResult=template.queryForObject(sql, new Object[]{callRecord.getCallId()}, new RowMapper<CallRecord>(){
+
+			@Override
+			public CallRecord mapRow(ResultSet rs, int row)
+					throws SQLException {
+				CallRecord callRecord=new CallRecord();
+				callRecord.setCallId(rs.getString("call_id"));
+				callRecord.setCallSource(rs.getString("call_source"));
+				callRecord.setCallVersion(rs.getShort("call_version"));
+				Song song=new Song();
+				song.setSongName(rs.getString("song_name"));
+				song.setSongOwner(rs.getString("song_owner"));
+				song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
+				song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
+				song.setSongCover(rs.getString("song_cover"));
+				callRecord.setSong(song);
+				return callRecord;
+			}
+			
+		});
+		return theResult;
 	}
 
 	@Override
 	public DaoResult saveCallDao(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql="INSERT INTO call_record(call_id,song_id,call_source,call_version) "
+				+ "VALUES(?,?,?,?)";
+		int result=template.update(sql, Util.getCharId("CR-", 10),
+							callRecord.getSong().getSongId(),
+							callRecord.getCallSource(),
+							callRecord.getCallVersion());
+		if(result==0){
+			logger.log(Level.WARNING, "插入新的call表记录失败");
+			return new DaoResult(false, "插入失败");
+		}
+		else{
+			logger.log(Level.INFO, "插入新的call表记录成功");
+			return new DaoResult(true, null);
+		}
 	}
 
 	@Override
 	public DaoResult deleteCallDao(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			String sql="DELETE FROM call_record "
+					+ "WHERE call_id = ?";
+			template.update(sql, callRecord.getCallId());
+			logger.log(Level.INFO, "删除id为"+callRecord.getCallId()+"的call表记录成功");
+			return new DaoResult(true, null);
+		}catch(Exception ex){
+			logger.log(Level.WARNING, "删除id为"+callRecord.getCallId()+"的call表记录失败");
+			ex.printStackTrace();
+			return new DaoResult(false, "删除失败");
+		}
 	}
 
 	@Override
 	public DaoResult deleteCallDao(List<CallRecord> callRecords) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DaoResult updateCallDao(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			String sql="DELETE FROM call_record "
+					+ "WHERE call_id = ?";
+			List<Object[]> batchArgs=new ArrayList<Object[]>();
+			for(int i=0;i<callRecords.size();i++){
+				Object[] objectArray=new Object[1];
+				objectArray[0]=callRecords.get(i).getCallId();
+				batchArgs.add(objectArray);
+			}
+			template.batchUpdate(sql, batchArgs);
+			logger.log(Level.INFO, "批删除call表记录成功");
+			return new DaoResult(true, null);
+		}catch(Exception ex){
+			logger.log(Level.WARNING, "批删除call表记录失败");
+			ex.printStackTrace();
+			return new DaoResult(false, "批删除失败");
+		}
 	}
 	
 }

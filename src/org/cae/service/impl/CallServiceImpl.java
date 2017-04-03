@@ -72,32 +72,31 @@ public class CallServiceImpl implements ICallService {
 	
 	@Override
 	public ServiceResult queryCallService(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceResult result=new ServiceResult();
+		CallRecord cr=callDao.getCallDao(callRecord);
+		if(cr==null){
+			result.setSuccessed(false);
+			result.setErrInfo("查询结果为空");
+			return result;
+		}
+		result.setSuccessed(true);
+		result.setResult(cr);
+		return result;
 	}
 	
 	@Override
 	public ServiceResult addCallService(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ServiceResult(callDao.saveCallDao(callRecord));
 	}
 	
 	@Override
 	public ServiceResult removeCallService(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ServiceResult(callDao.deleteCallDao(callRecord));
 	}
 	
 	@Override
 	public ServiceResult removeCallService(List<CallRecord> callRecords) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public ServiceResult modifyCallService(CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ServiceResult(callDao.deleteCallDao(callRecords));
 	}
 
 	@Override

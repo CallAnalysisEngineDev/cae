@@ -54,11 +54,6 @@ public class CallLuceneImpl implements ICallDao {
 	}
 
 	@Override
-	public DaoResult updateCallDao(CallRecord callRecord) {
-		return callLucene.updateCallLucene(callRecord);
-	}
-
-	@Override
 	public Map<String, Object> getCallForHomepageDao() {
 		return null;
 	}

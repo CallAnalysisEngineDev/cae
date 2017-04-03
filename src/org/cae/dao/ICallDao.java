@@ -23,5 +23,4 @@ public interface ICallDao {
 	
 	public DaoResult deleteCallDao(List<CallRecord> callRecords);
 	
-	public DaoResult updateCallDao(CallRecord callRecord);
 }
