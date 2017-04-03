@@ -148,7 +148,7 @@ public class CallDaoImpl implements ICallDao {
 				song.setSongName(rs.getString("song_name"));
 				song.setSongOwner(rs.getString("song_owner"));
 				song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
-				song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
+				song.setSongLastModifyTime(Util.time2String(rs.getTimestamp("song_last_modify_time")));
 				song.setSongCover(rs.getString("song_cover"));
 				callRecord.setSong(song);
 				return callRecord;
