@@ -130,7 +130,7 @@ public class CallDaoImpl implements ICallDao {
 
 	@Override
 	public CallRecord getCallDao(CallRecord callRecord) {
-		String sql="SELECT cr.call_id,s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover "
+		String sql="SELECT cr.call_id,s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id "
 				+ "FROM call_record AS cr "
 				+ "LEFT JOIN song AS s "
 				+ "USING(song_id) "
@@ -150,11 +150,22 @@ public class CallDaoImpl implements ICallDao {
 				song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
 				song.setSongLastModifyTime(Util.time2String(rs.getTimestamp("song_last_modify_time")));
 				song.setSongCover(rs.getString("song_cover"));
+				song.setSongId(rs.getString("song_id"));
 				callRecord.setSong(song);
 				return callRecord;
 			}
 			
 		});
+		try{
+			sql="UPDATE song "
+					+ "SET song_click = song_click + 1 "
+					+ "WHERE song_id = ?";
+			template.update(sql, callRecord.getSong().getSongId());
+		}catch(Exception ex){
+			ex.printStackTrace();
+			logger.log(Level.WARNING, "增加歌曲id为"+callRecord.getSong().getSongId()+"的歌曲的点击量失败");
+		}
+		
 		return theResult;
 	}
 
