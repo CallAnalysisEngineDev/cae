@@ -160,10 +160,10 @@ public class CallDaoImpl implements ICallDao {
 			sql="UPDATE song "
 					+ "SET song_click = song_click + 1 "
 					+ "WHERE song_id = ?";
-			template.update(sql, callRecord.getSong().getSongId());
+			template.update(sql, theResult.getSong().getSongId());
 		}catch(Exception ex){
 			ex.printStackTrace();
-			logger.log(Level.WARNING, "增加歌曲id为"+callRecord.getSong().getSongId()+"的歌曲的点击量失败");
+			logger.log(Level.WARNING, "增加歌曲id为"+theResult.getSong().getSongId()+"的歌曲的点击量失败");
 		}
 		
 		return theResult;
