@@ -31,17 +31,7 @@ public class CallControllerImpl implements ICallController {
 	@ResponseBody
 	public Map<String, Object> queryCallForHomepage() {
 		ServiceResult result=callService.queryCallForHomepageService();
-		Map<String, Object> theResult;
-		if(result.isSuccessed()){
-			theResult=(Map<String, Object>) result.getResult();
-			theResult.put("successed", result.isSuccessed());
-		}
-		else{
-			theResult=new HashMap<String,Object>();
-			theResult.put("successed", result.isSuccessed());
-			theResult.put("errInfo", result.getErrInfo());
-		}
-		return theResult;
+		return result.toMap();
 	}
 
 	@Override

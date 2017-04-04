@@ -33,14 +33,12 @@ public class CallTest {
 	}
 	
 	@Test
-	public void queryAllCallService(){
+	public void queryAllSongService(){
 		Condition condition=new Condition();
 		condition.setPage(1);
-		CallRecord callRecord=new CallRecord();
 		Song song=new Song();
-		song.setSongName("A");
-		callRecord.setSong(song);
-		ServiceResult result=callService.queryAllCallService(condition, callRecord);
+		song.setSongName("");
+		ServiceResult result=callService.queryAllSongService(condition, song);
 		System.out.println(result);
 	}
 	
