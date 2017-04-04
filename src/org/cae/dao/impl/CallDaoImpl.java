@@ -74,7 +74,8 @@ public class CallDaoImpl implements ICallDao {
 		String sql="SELECT cr.call_id,s.song_cover,s.song_owner,s.song_name,cr.call_version "
 				+ "FROM call_record AS cr "
 				+ "LEFT JOIN song AS s "
-				+ "USING(song_id) "+sqlWithParams.getSql()
+				+ "USING(song_id) "
+				+sqlWithParams.getSql()
 				+ "ORDER BY s.song_last_modify_time DESC "
 				+ "LIMIT "+condition.getPageStart()+","+condition.getPageLimit();
 		Object[] params=sqlWithParams.getParams();
@@ -122,7 +123,8 @@ public class CallDaoImpl implements ICallDao {
 		String sql="SELECT COUNT(*) "
 				+ "FROM call_record AS cr "
 				+ "LEFT JOIN song AS s "
-				+ "USING(song_id) "+sqlWithParams.getSql();
+				+ "USING(song_id) "
+				+sqlWithParams.getSql();
 		Object[] params=sqlWithParams.getParams();
 		Integer theResult=template.queryForObject(sql, params, Integer.class);
 		return theResult;
@@ -134,8 +136,10 @@ public class CallDaoImpl implements ICallDao {
 				+ "FROM call_record AS cr "
 				+ "LEFT JOIN song AS s "
 				+ "USING(song_id) "
-				+ "WHERE cr.call_id = ?";
-		CallRecord theResult=template.queryForObject(sql, new Object[]{callRecord.getCallId()}, new RowMapper<CallRecord>(){
+				+ "WHERE s.song_id = ? "
+				+ "ORDER BY cr.call_version DESC "
+				+ "LIMIT 1";
+		CallRecord theResult=template.queryForObject(sql, new Object[]{callRecord.getSong().getSongId()}, new RowMapper<CallRecord>(){
 
 			@Override
 			public CallRecord mapRow(ResultSet rs, int row)
@@ -148,7 +152,7 @@ public class CallDaoImpl implements ICallDao {
 				song.setSongName(rs.getString("song_name"));
 				song.setSongOwner(rs.getString("song_owner"));
 				song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
-				song.setSongLastModifyTime(Util.time2String(rs.getTimestamp("song_last_modify_time")));
+				song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
 				song.setSongCover(rs.getString("song_cover"));
 				song.setSongId(rs.getString("song_id"));
 				callRecord.setSong(song);

@@ -9,6 +9,7 @@ import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
 import org.cae.controller.ICallController;
 import org.cae.entity.CallRecord;
+import org.cae.entity.Song;
 import org.cae.service.ICallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,9 +47,8 @@ public class CallControllerImpl implements ICallController {
 	@Override
 	@RequestMapping(value="/search",method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> queryAllCallController(Condition condition,
-			CallRecord callRecord) {
-		ServiceResult result=callService.queryAllCallService(condition, callRecord);
+	public Map<String, Object> queryAllSongController(Condition condition, Song song) {
+		ServiceResult result=callService.queryAllSongService(condition, song);
 		return result.toMap();
 	}
 

@@ -11,9 +11,11 @@ import org.cae.common.Condition;
 import org.cae.common.IConstant;
 import org.cae.common.ServiceResult;
 import org.cae.dao.ICallDao;
+import org.cae.dao.ISongDao;
 import org.cae.entity.CallRecord;
 import org.cae.entity.Song;
 import org.cae.service.ICallService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("callService")
@@ -25,6 +27,8 @@ public class CallServiceImpl implements ICallService {
 	private ICallDao callDao;
 	@Resource(name="callLucene")
 	private ICallDao callLucene;
+	@Autowired
+	private ISongDao songdao;
 
 	@Override
 	public ServiceResult queryCallForHomepageService() {
@@ -101,8 +105,29 @@ public class CallServiceImpl implements ICallService {
 
 	@Override
 	public ServiceResult queryAllSongService(Condition condition, Song song) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceResult result=null;
+		condition.setPageLimit(IConstant.CALL_SEARCH_LIMIT);
+		List<Song> songList=songdao.getAllSongDao(condition, song);
+		if(songList.size()==0){
+			result=new ServiceResult();
+			result.setSuccessed(false);
+			result.setErrInfo("查询结果为空");
+			return result;
+		}
+		
+		int totalPage=0;
+		int count=songdao.getSongCountDao(condition, song);
+		if(count%condition.getPageLimit()==0)
+			totalPage=count/condition.getPageLimit();
+		else
+			totalPage=(count/condition.getPageLimit())+1;
+		
+		result=new ServiceResult();
+		result.setSuccessed(true);
+		result.setResult(songList);
+		result.setNowPage(condition.getPage());
+		result.setTotalPage(totalPage);
+		return result;
 	}
 
 	@Override

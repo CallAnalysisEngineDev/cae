@@ -46,7 +46,9 @@ public class CallTest {
 	
 	@Test
 	public void queryCallService(){
-		CallRecord callRecord=new CallRecord("g");
+		CallRecord callRecord=new CallRecord();
+		Song song=new Song("gkgn");
+		callRecord.setSong(song);
 		ServiceResult result=callService.queryCallService(callRecord);
 		System.out.println(result);
 	}

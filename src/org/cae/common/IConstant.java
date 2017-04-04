@@ -9,5 +9,5 @@ public class IConstant {
 	public final static Integer HOMEPAGE_NEWEST_LIMIT = 4;
 	
 	//安卓端call表搜索页限制条数
-	public final static Integer CALL_SEARCH_LIMIT = 10;
+	public final static Integer CALL_SEARCH_LIMIT = 20;
 }
