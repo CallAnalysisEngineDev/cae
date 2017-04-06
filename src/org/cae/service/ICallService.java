@@ -9,21 +9,21 @@ import org.cae.entity.Song;
 
 public interface ICallService {
 
-	public ServiceResult querySongForHomepageService();
+	ServiceResult querySongForHomepageService();
 	
-	public ServiceResult queryAllCallService(Condition condition,CallRecord callRecord);
+	ServiceResult queryAllCallService(Condition condition,CallRecord callRecord);
 	
-	public ServiceResult queryCallService(CallRecord callRecord);
+	ServiceResult queryCallService(CallRecord callRecord);
 	
-	public ServiceResult addCallService(CallRecord callRecord);
+	ServiceResult addCallService(CallRecord callRecord);
 	
-	public ServiceResult removeCallService(CallRecord callRecord);
+	ServiceResult removeCallService(CallRecord callRecord);
 	
-	public ServiceResult removeCallService(List<CallRecord> callRecords);
+	ServiceResult removeCallService(List<CallRecord> callRecords);
 	
-	public ServiceResult queryAllSongService(Condition condition,Song song);
+	ServiceResult queryAllSongService(Condition condition,Song song);
 	
-	public ServiceResult addSongService(Song song);
+	ServiceResult addSongService(Song song);
 	
-	public ServiceResult removeSongService(Song song);
+	ServiceResult removeSongService(Song song);
 }

@@ -11,11 +11,11 @@ public interface ISongDao {
 
 	Map<String,Object> getSongForHomepageDao();
 	
-	public List<Song> getAllSongDao(Condition condition, Song song);
+	List<Song> getAllSongDao(Condition condition, Song song);
 	
-	public Integer getSongCountDao(Condition condition, Song song);
+	Integer getSongCountDao(Condition condition, Song song);
 	
-	public DaoResult saveSongDao(Song song);
+	DaoResult saveSongDao(Song song);
 	
-	public DaoResult deleteSongDao(Song song);
+	DaoResult deleteSongDao(Song song);
 }

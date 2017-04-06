@@ -8,16 +8,16 @@ import org.cae.entity.CallRecord;
 
 public interface ICallDao {
 	
-	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord);
+	List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord);
 	
-	public Integer getCallCountDao(Condition condition, CallRecord callRecord);
+	Integer getCallCountDao(Condition condition, CallRecord callRecord);
 	
-	public CallRecord getCallDao(CallRecord callRecord);
+	CallRecord getCallDao(CallRecord callRecord);
 	
-	public DaoResult saveCallDao(CallRecord callRecord);
+	DaoResult saveCallDao(CallRecord callRecord);
 	
-	public DaoResult deleteCallDao(CallRecord callRecord);
+	DaoResult deleteCallDao(CallRecord callRecord);
 	
-	public DaoResult deleteCallDao(List<CallRecord> callRecords);
+	DaoResult deleteCallDao(List<CallRecord> callRecords);
 	
 }

@@ -25,7 +25,7 @@ public class CallControllerImpl implements ICallController {
 	@Override
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> queryCallForHomepage() {
+	public Map<String, Object> querySongForHomepageController() {
 		ServiceResult result=callService.querySongForHomepageService();
 		return result.toMap();
 	}
