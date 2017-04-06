@@ -3,8 +3,8 @@ package org.cae.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.common.SqlWithParams;
@@ -20,16 +20,16 @@ import org.springframework.stereotype.Repository;
 public class SongDaoImpl implements ISongDao {
 
 	private Logger logger=Logger.getLogger(this.getClass().getName());
-	
 	@Autowired
 	private JdbcTemplate template;
 	
 	@Override
 	public List<Song> getAllSongDao(Condition condition, Song song) {
 		SqlWithParams sqlWithParams=getTheSqlForGetAll(song);
+		//获取所有的歌曲
 		String sql="SELECT song_id,song_cover,song_owner,song_name "
 				+ "FROM song "
-				+sqlWithParams.getSql()
+				+ sqlWithParams.getSql()
 				+"ORDER BY song_last_modify_time DESC "
 				+ "LIMIT "+condition.getPageStart()+","+condition.getPageLimit();
 		Object[] params=sqlWithParams.getParams();
@@ -49,6 +49,7 @@ public class SongDaoImpl implements ISongDao {
 		return theResult;
 	}
 	
+	//根据搜索条件解析成占位符的sql以及参数列表
 	private SqlWithParams getTheSqlForGetAll(Song song){
 		StringBuffer buffer=new StringBuffer();
 		int insertIndex;
@@ -71,9 +72,10 @@ public class SongDaoImpl implements ISongDao {
 	@Override
 	public Integer getSongCountDao(Condition condition, Song song) {
 		SqlWithParams sqlWithParams=getTheSqlForGetAll(song);
+		//获取一定条件下的数据条数,通常用于getAll的分页计算
 		String sql="SELECT COUNT(*) "
 				+ "FROM song "
-				+sqlWithParams.getSql();
+				+ sqlWithParams.getSql();
 		Object[] params=sqlWithParams.getParams();
 		Integer theResult=template.queryForObject(sql, params, Integer.class);
 		return theResult;

@@ -10,9 +10,16 @@ public class Song extends Entity{
 	private String songCreateTime;
 	private String songLastModifyTime;
 	private Integer songClick;
+	private Short songVideo;
 	public Song(){}
 	public Song(String songId){
 		this.songId=songId;
+	}
+	public Short getSongVideo() {
+		return songVideo;
+	}
+	public void setSongVideo(Short songVideo) {
+		this.songVideo = songVideo;
 	}
 	public String getSongId() {
 		return songId;

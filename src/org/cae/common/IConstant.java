@@ -10,4 +10,6 @@ public class IConstant {
 	
 	//安卓端call表搜索页限制条数
 	public final static Integer CALL_SEARCH_LIMIT = 20;
+	
+	public final static String LOG_PATH = "/WEB-INF/log/error.log";
 }
