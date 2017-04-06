@@ -13,6 +13,7 @@ import org.cae.dao.ICallDao;
 import org.cae.entity.CallRecord;
 import org.cae.entity.Song;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -38,36 +39,47 @@ public class CallDaoImpl implements ICallDao {
 
 	@Override
 	public CallRecord getCallDao(CallRecord callRecord) {
-		//根据歌曲id来获取该歌曲最新的call表记录
-		String sql="SELECT cr.call_id,s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id,s.song_video "
-				+ "FROM call_record AS cr "
-				+ "LEFT JOIN song AS s "
-				+ "USING(song_id) "
-				+ "WHERE s.song_id = ? "
-				+ "ORDER BY cr.call_version DESC "
-				+ "LIMIT 1";
-		CallRecord theResult=template.queryForObject(sql, new Object[]{callRecord.getSong().getSongId()}, new RowMapper<CallRecord>(){
+		String sql="";
+		CallRecord theResult=null;
+		try{
+			//根据歌曲id来获取该歌曲最新的call表记录
+			sql="SELECT s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id,s.song_video "
+					+ "FROM call_record AS cr "
+					+ "LEFT JOIN song AS s "
+					+ "USING(song_id) "
+					+ "WHERE s.song_id = ? "
+					+ "ORDER BY cr.call_version DESC "
+					+ "LIMIT 1";
+			theResult=template.queryForObject(sql, new Object[]{callRecord.getSong().getSongId()}, new RowMapper<CallRecord>(){
 
-			@Override
-			public CallRecord mapRow(ResultSet rs, int row)
-					throws SQLException {
-				CallRecord callRecord=new CallRecord();
-				callRecord.setCallId(rs.getString("call_id"));
-				callRecord.setCallSource(rs.getString("call_source"));
-				callRecord.setCallVersion(rs.getShort("call_version"));
-				Song song=new Song();
-				song.setSongName(rs.getString("song_name"));
-				song.setSongOwner(rs.getString("song_owner"));
-				song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
-				song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
-				song.setSongCover(rs.getString("song_cover"));
-				song.setSongId(rs.getString("song_id"));
-				song.setSongVideo(rs.getShort("song_video"));
-				callRecord.setSong(song);
-				return callRecord;
-			}
-			
-		});
+				@Override
+				public CallRecord mapRow(ResultSet rs, int row)
+						throws SQLException {
+					CallRecord callRecord=new CallRecord();
+					callRecord.setCallSource(rs.getString("call_source"));
+					callRecord.setCallVersion(rs.getShort("call_version"));
+					Song song=new Song();
+					song.setSongName(rs.getString("song_name"));
+					song.setSongOwner(rs.getString("song_owner"));
+					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
+					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
+					song.setSongCover(rs.getString("song_cover"));
+					song.setSongId(rs.getString("song_id"));
+					song.setSongVideo(rs.getShort("song_video"));
+					callRecord.setSong(song);
+					return callRecord;
+				}
+				
+			});
+		}catch(EmptyResultDataAccessException ex){
+			logger.info("当前歌曲"+callRecord.getSong().getSongId()+"不存在call表");
+			ex.printStackTrace();
+			return null;
+		}catch(Exception ex){
+			logger.error(ex.getMessage());
+			ex.printStackTrace();
+			return null;
+		}
 		try{
 			//该歌曲的点击量+1
 			sql="UPDATE song "

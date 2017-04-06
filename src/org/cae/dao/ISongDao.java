@@ -15,6 +15,8 @@ public interface ISongDao {
 	
 	Integer getSongCountDao(Condition condition, Song song);
 	
+	Song getSongDao(Song song);
+	
 	DaoResult saveSongDao(Song song);
 	
 	DaoResult deleteSongDao(Song song);

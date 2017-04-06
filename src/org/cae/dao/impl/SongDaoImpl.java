@@ -117,6 +117,37 @@ public class SongDaoImpl implements ISongDao {
 		Integer theResult=template.queryForObject(sql, params, Integer.class);
 		return theResult;
 	}
+	
+	@Override
+	public Song getSongDao(Song song) {
+		try{
+			String sql="SELECT song_name,song_owner,song_sell_time,song_last_modify_time,song_cover,song_id,song_video "
+					+ "FROM song "
+					+ "WHERE song_id = ?";
+			Song theResult=template.queryForObject(sql, new Object[]{song.getSongId()}, new RowMapper<Song>() {
+
+				@Override
+				public Song mapRow(ResultSet rs, int row)
+						throws SQLException {
+					Song song=new Song();
+					song.setSongName(rs.getString("song_name"));
+					song.setSongOwner(rs.getString("song_owner"));
+					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
+					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
+					song.setSongCover(rs.getString("song_cover"));
+					song.setSongId(rs.getString("song_id"));
+					song.setSongVideo(rs.getShort("song_video"));
+					return song;
+				}
+				
+			});
+			return theResult;
+		}catch(Exception ex){
+			logger.error(ex.getMessage());
+			ex.printStackTrace();
+			return null;
+		}
+	}
 
 	@Override
 	public DaoResult saveSongDao(Song song) {

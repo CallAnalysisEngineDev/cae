@@ -58,9 +58,16 @@ public class CallServiceImpl implements ICallService {
 		ServiceResult result=new ServiceResult();
 		CallRecord cr=callDao.getCallDao(callRecord);
 		if(cr==null){
-			result.setSuccessed(false);
-			result.setErrInfo("查询结果为空");
-			return result;
+			Song song=songDao.getSongDao(callRecord.getSong());
+			if(song==null){
+				result.setSuccessed(false);
+				result.setErrInfo("查询结果为空");
+				return result;
+			}
+			else{
+				cr=new CallRecord();
+				cr.setSong(song);
+			}
 		}
 		result.setSuccessed(true);
 		result.setResult(cr);
