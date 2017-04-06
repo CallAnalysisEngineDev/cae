@@ -9,7 +9,7 @@ import org.cae.entity.Song;
 
 public interface ICallService {
 
-	public ServiceResult queryCallForHomepageService();
+	public ServiceResult querySongForHomepageService();
 	
 	public ServiceResult queryAllCallService(Condition condition,CallRecord callRecord);
 	

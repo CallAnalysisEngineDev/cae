@@ -28,12 +28,12 @@ public class CallServiceImpl implements ICallService {
 	@Resource(name="callLucene")
 	private ICallDao callLucene;
 	@Autowired
-	private ISongDao songdao;
+	private ISongDao songDao;
 
 	@Override
-	public ServiceResult queryCallForHomepageService() {
+	public ServiceResult querySongForHomepageService() {
 		ServiceResult result=new ServiceResult();
-		Map<String,Object> map=callDao.getCallForHomepageDao();
+		Map<String,Object> map=songDao.getSongForHomepageDao();
 		if(((List)(map.get("red"))).size()==0||((List)(map.get("newest"))).size()==0){
 			logger.log(Level.SEVERE, "热门歌曲或最新修改歌曲为空!");
 			result.setSuccessed(false);
@@ -86,7 +86,7 @@ public class CallServiceImpl implements ICallService {
 	public ServiceResult queryAllSongService(Condition condition, Song song) {
 		ServiceResult result=null;
 		condition.setPageLimit(IConstant.CALL_SEARCH_LIMIT);
-		List<Song> songList=songdao.getAllSongDao(condition, song);
+		List<Song> songList=songDao.getAllSongDao(condition, song);
 		if(songList.size()==0){
 			result=new ServiceResult();
 			result.setSuccessed(false);
@@ -95,7 +95,7 @@ public class CallServiceImpl implements ICallService {
 		}
 		
 		int totalPage=0;
-		int count=songdao.getSongCountDao(condition, song);
+		int count=songDao.getSongCountDao(condition, song);
 		if(count%condition.getPageLimit()==0)
 			totalPage=count/condition.getPageLimit();
 		else

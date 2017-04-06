@@ -2,7 +2,6 @@ package org.cae.controller.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/call")
 public class CallControllerImpl implements ICallController {
-
-	private Logger logger=Logger.getLogger(this.getClass().getName());
 	
 	@Autowired
 	private ICallService callService;
@@ -29,7 +26,7 @@ public class CallControllerImpl implements ICallController {
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> queryCallForHomepage() {
-		ServiceResult result=callService.queryCallForHomepageService();
+		ServiceResult result=callService.querySongForHomepageService();
 		return result.toMap();
 	}
 

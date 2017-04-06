@@ -2,11 +2,14 @@ package org.cae.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
+import org.cae.common.IConstant;
 import org.cae.common.SqlWithParams;
 import org.cae.common.Util;
 import org.cae.dao.ISongDao;
@@ -22,6 +25,40 @@ public class SongDaoImpl implements ISongDao {
 	private Logger logger=Logger.getLogger(this.getClass().getName());
 	@Autowired
 	private JdbcTemplate template;
+
+	@Override
+	public Map<String, Object> getSongForHomepageDao() {
+		Map<String,Object> theResult=new HashMap<String,Object>();
+		logger.info("开始查询热点歌曲名单,当前的限制条数HOMEPAGE_RED_LIMIT="+IConstant.HOMEPAGE_RED_LIMIT);
+		String sql="SELECT song_id,song_name,song_cover,(song_click/timestampdiff(hour,song_create_time,'"+Util.getNowTime()+"')) AS clickrate "
+				+ "FROM song "
+				+ "ORDER BY clickrate DESC "
+				+ "LIMIT "+IConstant.HOMEPAGE_RED_LIMIT;
+		RowMapper<Map<String,Object>> rowMapper=new RowMapper<Map<String,Object>>() {
+			
+			@Override
+			public Map<String, Object> mapRow(ResultSet rs, int row)
+					throws SQLException {
+				Map<String, Object> map=new HashMap<String,Object>();
+				map.put("songId", rs.getString("song_id"));
+				map.put("songName", rs.getString("song_name"));
+				map.put("songCover", rs.getString("song_cover"));
+				return map;
+			}
+			
+		};
+		List<Map<String,Object>> redList=template.query(sql, rowMapper);
+		logger.info("开始查询最新修改歌曲名单,当前限制条数HOMEPAGE_NEWEST_LIMIT="+IConstant.HOMEPAGE_NEWEST_LIMIT);
+		sql="SELECT song_id,song_name,song_cover "
+			+ "FROM song "
+			+ "ORDER BY song_last_modify_time DESC "
+			+ "LIMIT "+IConstant.HOMEPAGE_NEWEST_LIMIT;
+		List<Map<String,Object>> newestList=template.query(sql, rowMapper);
+		logger.info("查询完毕,热点歌曲数有"+redList.size()+"条,最新修改歌曲数有"+newestList.size()+"条");
+		theResult.put("red", redList);
+		theResult.put("newest", newestList);
+		return theResult;
+	}
 	
 	@Override
 	public List<Song> getAllSongDao(Condition condition, Song song) {

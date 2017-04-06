@@ -27,9 +27,9 @@ public class CallTest {
 	}
 
 	@Test
-	public void queryCallForHomepageService(){
-		ServiceResult result=callService.queryCallForHomepageService();
-		System.out.println(result.getResult());
+	public void querySongForHomepageService(){
+		ServiceResult result=callService.querySongForHomepageService();
+		System.out.println(result);
 	}
 	
 	@Test

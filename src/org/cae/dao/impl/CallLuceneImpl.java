@@ -1,7 +1,6 @@
 package org.cae.dao.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -51,11 +50,6 @@ public class CallLuceneImpl implements ICallDao {
 		if(!daoResult.isResult())
 			daoResult.setErrInfo(errInfo.substring(0, errInfo.length()-2)+" has failed");
 		return daoResult;
-	}
-
-	@Override
-	public Map<String, Object> getCallForHomepageDao() {
-		return null;
 	}
 
 	@Override
