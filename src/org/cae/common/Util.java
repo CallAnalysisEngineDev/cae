@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import org.cae.entity.Entity;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
@@ -69,6 +71,9 @@ public class Util {
 				result=true;
 			else
 				result=false;
+		}
+		else if(object instanceof Entity){
+			result=(object!=null?true:false);
 		}
 		return result;
 	}

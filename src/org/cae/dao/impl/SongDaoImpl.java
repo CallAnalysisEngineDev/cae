@@ -51,7 +51,7 @@ public class SongDaoImpl implements ISongDao {
 		logger.info("开始查询最新修改歌曲名单,当前限制条数HOMEPAGE_NEWEST_LIMIT="+IConstant.HOMEPAGE_NEWEST_LIMIT);
 		sql="SELECT song_id,song_name,song_cover "
 			+ "FROM song "
-			+ "ORDER BY song_last_modify_time DESC "
+			+ "ORDER BY song_last_modify_time DESC,song_name ASC "
 			+ "LIMIT "+IConstant.HOMEPAGE_NEWEST_LIMIT;
 		List<Map<String,Object>> newestList=template.query(sql, rowMapper);
 		logger.info("查询完毕,热点歌曲数有"+redList.size()+"条,最新修改歌曲数有"+newestList.size()+"条");
@@ -67,7 +67,7 @@ public class SongDaoImpl implements ISongDao {
 		String sql="SELECT song_id,song_cover,song_owner,song_name "
 				+ "FROM song "
 				+ sqlWithParams.getSql()
-				+"ORDER BY song_last_modify_time DESC "
+				+"ORDER BY song_last_modify_time DESC,song_name ASC "
 				+ "LIMIT "+condition.getPageStart()+","+condition.getPageLimit();
 		Object[] params=sqlWithParams.getParams();
 		List<Song> theResult=template.query(sql, params, new RowMapper<Song>(){
