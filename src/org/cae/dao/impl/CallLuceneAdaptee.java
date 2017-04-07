@@ -3,8 +3,8 @@ package org.cae.dao.impl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.cae.common.DaoResult;
 import org.cae.entity.CallRecord;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository("callLuceneAdaptee")
 public class CallLuceneAdaptee {
 
-	private Logger logger=Logger.getLogger(this.getClass().getName());
+	private Logger logger=Logger.getLogger(this.getClass());
 	
 	//日文的unicode集合
 	private Set<Character.UnicodeBlock> japaneseUnicodeBlocks = new HashSet<Character.UnicodeBlock>(){{
@@ -52,5 +52,9 @@ public class CallLuceneAdaptee {
 			}
 		}
 		return result;
+	}
+	
+	public Logger getLogger(){
+		return logger;
 	}
 }

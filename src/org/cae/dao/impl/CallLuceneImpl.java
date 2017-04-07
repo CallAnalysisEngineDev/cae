@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.dao.ICallDao;
@@ -55,6 +56,11 @@ public class CallLuceneImpl implements ICallDao {
 	@Override
 	public Integer getCallCountDao(Condition condition, CallRecord callRecord) {
 		return null;
+	}
+
+	@Override
+	public Logger getLogger() {
+		return callLucene.getLogger();
 	}
 
 }

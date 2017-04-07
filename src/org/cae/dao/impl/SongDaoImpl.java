@@ -161,4 +161,9 @@ public class SongDaoImpl implements ISongDao {
 		return null;
 	}
 
+	@Override
+	public Logger getLogger() {
+		return logger;
+	}
+
 }

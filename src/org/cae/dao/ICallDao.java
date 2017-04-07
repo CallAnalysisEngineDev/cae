@@ -2,6 +2,7 @@ package org.cae.dao;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.entity.CallRecord;
@@ -19,5 +20,7 @@ public interface ICallDao {
 	DaoResult deleteCallDao(CallRecord callRecord);
 	
 	DaoResult deleteCallDao(List<CallRecord> callRecords);
+	
+	Logger getLogger();
 	
 }

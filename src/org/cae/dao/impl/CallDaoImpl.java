@@ -38,7 +38,8 @@ public class CallDaoImpl implements ICallDao {
 	}
 
 	@Override
-	public CallRecord getCallDao(CallRecord callRecord) {
+	public CallRecord getCallDao(CallRecord callRecord){
+		
 		String sql="";
 		CallRecord theResult=null;
 		try{
@@ -90,7 +91,6 @@ public class CallDaoImpl implements ICallDao {
 			ex.printStackTrace();
 			logger.warn("增加歌曲id为"+theResult.getSong().getSongId()+"的歌曲的点击量失败");
 		}
-		
 		return theResult;
 	}
 
@@ -150,6 +150,11 @@ public class CallDaoImpl implements ICallDao {
 			ex.printStackTrace();
 			return new DaoResult(false, "批删除失败");
 		}
+	}
+
+	@Override
+	public Logger getLogger() {
+		return logger;
 	}
 	
 }
