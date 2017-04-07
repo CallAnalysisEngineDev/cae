@@ -3,12 +3,11 @@ package org.cae.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.entity.Song;
 
-public interface ISongDao {
+public interface ISongDao extends IBaseDao{
 
 	Map<String,Object> getSongForHomepageDao();
 	
@@ -21,6 +20,4 @@ public interface ISongDao {
 	DaoResult saveSongDao(Song song);
 	
 	DaoResult deleteSongDao(Song song);
-	
-	Logger getLogger();
 }

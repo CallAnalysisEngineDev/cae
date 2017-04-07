@@ -5,8 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.cae.dao.ICallDao;
-import org.cae.dao.ISongDao;
+import org.cae.dao.IBaseDao;
 
 @Aspect
 public class CallAspect {
@@ -27,17 +26,10 @@ public class CallAspect {
 	 */
 	@AfterThrowing(throwing="ex",pointcut="execution(* org.cae.dao.impl.*.*(..))")
 	public void afterCallDaoException(JoinPoint jp,Exception ex){
-		Object dao=jp.getTarget();
-		Logger daoLogger=null;
-		if(dao instanceof ICallDao){
-			daoLogger=((ICallDao)dao).getLogger();
-		}
-		else if(dao instanceof ISongDao){
-			daoLogger=((ISongDao)dao).getLogger();
-		}
+		Logger daoLogger=((IBaseDao)jp.getTarget()).getLogger();
 		if(daoLogger!=null)
 			daoLogger.fatal(ex.getMessage());
 		else
-			logger.fatal("不存在"+dao.getClass().getName()+"的logger,使用切面本身的logger,严重消息为"+ex.getMessage());
+			logger.fatal("不存在"+jp.getTarget().getClass().getName()+"的logger,使用切面本身的logger,严重消息为"+ex.getMessage());
 	}
 }
