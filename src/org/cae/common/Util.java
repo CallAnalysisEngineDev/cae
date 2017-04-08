@@ -31,6 +31,10 @@ public class Util {
 		return timeSdf.format(date);
 	}
 
+	public static String getNowDate(){
+		return date2String(new Date());
+	}
+	
 	public static String getNowTime(){
 		return time2String(new Date());
 	}
