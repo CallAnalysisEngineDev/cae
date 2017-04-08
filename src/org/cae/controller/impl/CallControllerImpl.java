@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@Scope("session")
 @RequestMapping("/call")
 public class CallControllerImpl implements ICallController {
 	
