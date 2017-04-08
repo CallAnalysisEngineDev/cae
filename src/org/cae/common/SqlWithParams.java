@@ -2,7 +2,7 @@ package org.cae.common;
 
 public class SqlWithParams {
 
-	private String sql;
+	private String sql;//where子句
 	private Object[] params;
 	public SqlWithParams(){}
 	public SqlWithParams(String sql,Object[] params){

@@ -8,6 +8,7 @@ public class Entity {
 	public String toString(){
 		String result=null;
 		try {
+			//把具体的实体类转换成json
 			ObjectMapper mapper = new ObjectMapper();
 			result=mapper.writeValueAsString(this);
 		} catch (JsonProcessingException e) {
