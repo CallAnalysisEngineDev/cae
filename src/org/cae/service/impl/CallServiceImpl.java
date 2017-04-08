@@ -17,6 +17,7 @@ import org.cae.entity.Song;
 import org.cae.service.ICallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("callService")
 public class CallServiceImpl implements ICallService {
@@ -75,6 +76,7 @@ public class CallServiceImpl implements ICallService {
 	}
 	
 	@Override
+	@Transactional
 	public ServiceResult addCallService(CallRecord callRecord) {
 		return new ServiceResult(callDao.saveCallDao(callRecord));
 	}

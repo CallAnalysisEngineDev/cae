@@ -105,6 +105,11 @@ public class CallDaoImpl implements ICallDao {
 					callRecord.getCallSource(),
 					callRecord.getCallVersion());
 			logger.info("插入新的call表记录成功");
+			sql="UPDATE song "
+				+ "SET song_last_modify_time = ? "
+				+ "WHERE song_id = ?";
+			template.update(sql, Util.getNowDate(),callRecord.getSong().getSongId());
+			logger.info("更新歌曲最后修改时间成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
 			logger.error(ex.getMessage());
