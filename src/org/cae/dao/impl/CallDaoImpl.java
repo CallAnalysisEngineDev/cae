@@ -31,7 +31,7 @@ public class CallDaoImpl implements ICallDao {
 		String sql="";
 		List<CallRecord> theResult=null;
 		try{
-			sql="SELECT s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id,s.song_video "
+			sql="SELECT cr.call_id,cr.call_version "
 					+ "FROM call_record AS cr "
 					+ "LEFT JOIN song AS s "
 					+ "USING(song_id) "
@@ -43,17 +43,8 @@ public class CallDaoImpl implements ICallDao {
 				public CallRecord mapRow(ResultSet rs, int row)
 						throws SQLException {
 					CallRecord callRecord=new CallRecord();
-					callRecord.setCallSource(rs.getString("call_source"));
+					callRecord.setCallId(rs.getString("call_id"));
 					callRecord.setCallVersion(rs.getShort("call_version"));
-					Song song=new Song();
-					song.setSongName(rs.getString("song_name"));
-					song.setSongOwner(rs.getString("song_owner"));
-					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
-					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
-					song.setSongCover(rs.getString("song_cover"));
-					song.setSongId(rs.getString("song_id"));
-					song.setSongVideo(rs.getShort("song_video"));
-					callRecord.setSong(song);
 					return callRecord;
 				}
 			});
@@ -150,12 +141,12 @@ public class CallDaoImpl implements ICallDao {
 		else if(Util.isNotNull(callRecord.getCallId())){
 			//这是获取某个旧版本的call表的情况,即通过callId来获取
 			insertIndex=buffer.indexOf("WHERE")+5;
-			buffer.insert(insertIndex, " cr.call_id = ? AND ");//拼接where
+			buffer.insert(insertIndex, " cr.call_id = ? AND ");
 			preParams[paramsIndex]=callRecord.getCallId();
 			paramsIndex++;
 		}
 		
-		Object[] params=new Object[paramsIndex];//因为要传参数类型，所以用object[0]代替null
+		Object[] params=new Object[paramsIndex];
 		System.arraycopy(preParams, 0, params, 0, paramsIndex);
 		return new SqlWithParams(buffer.toString(),params);
 	}
