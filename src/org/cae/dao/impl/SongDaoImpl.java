@@ -93,7 +93,7 @@ public class SongDaoImpl implements ISongDao {
 		int paramsIndex=0;
 		buffer.append("WHERE 1=1 ");
 		
-		if(Util.isNull(song.getSongName())){//如果搜索的条件不是name
+		if(Util.isNotNull(song.getSongName())){//如果搜索的条件不是name
 			insertIndex=buffer.indexOf("WHERE")+5;
 			buffer.insert(insertIndex, " song_name LIKE ? AND ");//拼接where 
 			preParams[paramsIndex]="%"+song.getSongName()+"%";

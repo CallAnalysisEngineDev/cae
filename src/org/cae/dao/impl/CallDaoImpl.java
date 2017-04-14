@@ -140,13 +140,15 @@ public class CallDaoImpl implements ICallDao {
 		int paramsIndex=0;
 		buffer.append("WHERE 1=1 ");
 		
-		if(callRecord.getSong()!=null&&Util.isNull(callRecord.getSong().getSongId())){
+		if(callRecord.getSong()!=null&&Util.isNotNull(callRecord.getSong().getSongId())){
+			//这是获取最新的call表的情况,即通过songId来获取
 			insertIndex=buffer.indexOf("WHERE")+5;
 			buffer.insert(insertIndex, " s.song_id = ? AND ");//拼接where
 			preParams[paramsIndex]=callRecord.getSong().getSongId();
 			paramsIndex++;
 		}
-		else if(Util.isNull(callRecord.getCallId())){
+		else if(Util.isNotNull(callRecord.getCallId())){
+			//这是获取某个旧版本的call表的情况,即通过callId来获取
 			insertIndex=buffer.indexOf("WHERE")+5;
 			buffer.insert(insertIndex, " cr.call_id = ? AND ");//拼接where
 			preParams[paramsIndex]=callRecord.getCallId();

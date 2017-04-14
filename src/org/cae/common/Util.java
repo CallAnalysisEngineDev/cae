@@ -67,7 +67,7 @@ public class Util {
 		return (short) random.nextInt(randomRange);
 	}
 	
-	public static boolean isNull(Object object){
+	public static boolean isNotNull(Object object){
 		boolean result=false;
 		if(object instanceof String){
 			String temp=(String) object;
