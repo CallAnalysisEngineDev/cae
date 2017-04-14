@@ -21,4 +21,7 @@ public interface ICallController {
 	
 	Map<String,Object> removeCallController(List<CallRecord> callRecords);
 	
+	Map<String,Object> addSongController(Song song);
+	
+	Map<String,Object> removeSongController(Song song);
 }

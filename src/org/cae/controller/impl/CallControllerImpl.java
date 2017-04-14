@@ -70,4 +70,20 @@ public class CallControllerImpl implements ICallController {
 		ServiceResult result=callService.removeCallService(callRecords);
 		return result.toMap();
 	}
+
+	@Override
+	@RequestMapping(value="/add_song",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addSongController(Song song) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	@RequestMapping(value="/remove_song",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> removeSongController(Song song) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

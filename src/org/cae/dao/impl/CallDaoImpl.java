@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
+import org.cae.common.SqlWithParams;
 import org.cae.common.Util;
 import org.cae.dao.ICallDao;
 import org.cae.entity.CallRecord;
@@ -77,19 +78,19 @@ public class CallDaoImpl implements ICallDao {
 
 	@Override
 	public CallRecord getCallDao(CallRecord callRecord){
-		
 		String sql="";
 		CallRecord theResult=null;
+		SqlWithParams sqlWithParams=getTheSqlForGet(callRecord);
 		try{
 			//根据歌曲id来获取该歌曲最新的call表记录
 			sql="SELECT s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id,s.song_video "
 					+ "FROM call_record AS cr "
 					+ "LEFT JOIN song AS s "
 					+ "USING(song_id) "
-					+ "WHERE s.song_id = ? "
+					+ sqlWithParams.getSql()
 					+ "ORDER BY cr.call_version DESC "
 					+ "LIMIT 1";
-			theResult=template.queryForObject(sql, new Object[]{callRecord.getSong().getSongId()}, new RowMapper<CallRecord>(){
+			theResult=template.queryForObject(sql, sqlWithParams.getParams(), new RowMapper<CallRecord>(){
 
 				@Override
 				public CallRecord mapRow(ResultSet rs, int row)
@@ -130,6 +131,31 @@ public class CallDaoImpl implements ICallDao {
 			logger.warn("增加歌曲id为"+theResult.getSong().getSongId()+"的歌曲的点击量失败");
 		}
 		return theResult;
+	}
+	
+	private SqlWithParams getTheSqlForGet(CallRecord callRecord){
+		StringBuffer buffer=new StringBuffer();
+		int insertIndex;
+		Object[] preParams=new Object[1];
+		int paramsIndex=0;
+		buffer.append("WHERE 1=1 ");
+		
+		if(callRecord.getSong()!=null&&Util.isNull(callRecord.getSong().getSongId())){
+			insertIndex=buffer.indexOf("WHERE")+5;
+			buffer.insert(insertIndex, " s.song_id = ? AND ");//拼接where
+			preParams[paramsIndex]=callRecord.getSong().getSongId();
+			paramsIndex++;
+		}
+		else if(Util.isNull(callRecord.getCallId())){
+			insertIndex=buffer.indexOf("WHERE")+5;
+			buffer.insert(insertIndex, " cr.call_id = ? AND ");//拼接where
+			preParams[paramsIndex]=callRecord.getCallId();
+			paramsIndex++;
+		}
+		
+		Object[] params=new Object[paramsIndex];//因为要传参数类型，所以用object[0]代替null
+		System.arraycopy(preParams, 0, params, 0, paramsIndex);
+		return new SqlWithParams(buffer.toString(),params);
 	}
 
 	@Override
