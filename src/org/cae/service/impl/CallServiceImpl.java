@@ -139,14 +139,12 @@ public class CallServiceImpl implements ICallService {
 
 	@Override
 	public ServiceResult addSongService(Song song) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ServiceResult(songDao.saveSongDao(song));
 	}
 
 	@Override
 	public ServiceResult removeSongService(Song song) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ServiceResult(songDao.deleteSongDao(song));
 	}
 	
 }
