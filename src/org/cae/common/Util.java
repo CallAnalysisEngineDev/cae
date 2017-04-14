@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.cae.entity.Entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -80,5 +81,13 @@ public class Util {
 			result=(object!=null?true:false);
 		}
 		return result;
+	}
+	
+	public static void logStackTrace(Logger logger,StackTraceElement[] stackTrace){
+		String stackInfo="";
+		for(StackTraceElement element:stackTrace){
+			stackInfo+=element+"\n";
+		}
+		logger.error(stackInfo);
 	}
 }

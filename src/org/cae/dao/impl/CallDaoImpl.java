@@ -59,7 +59,7 @@ public class CallDaoImpl implements ICallDao {
 			});
 			return theResult;
 		}catch(Exception ex){
-			logger.error(ex.getMessage());
+			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return null;
 		}
@@ -116,7 +116,7 @@ public class CallDaoImpl implements ICallDao {
 			ex.printStackTrace();
 			return null;
 		}catch(Exception ex){
-			logger.error(ex.getMessage());
+			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return null;
 		}
@@ -178,7 +178,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("更新歌曲最后修改时间成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			logger.error(ex.getMessage());
+			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "插入失败");
 		}
@@ -194,7 +194,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("删除id为"+callRecord.getCallId()+"的call表记录成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			logger.error(ex.getMessage());
+			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "删除失败");
 		}
@@ -217,7 +217,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("批删除call表记录成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			logger.error(ex.getMessage());
+			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "批删除失败");
 		}

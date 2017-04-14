@@ -29,7 +29,12 @@ public class CallAspect {
 		Logger daoLogger=((IBaseDao)jp.getTarget()).getLogger();
 		if(daoLogger!=null)
 			daoLogger.fatal(ex.getMessage());
-		else
-			logger.fatal("不存在"+jp.getTarget().getClass().getName()+"的logger,使用切面本身的logger,严重消息为"+ex.getMessage());
+		else{
+			String stackInfo="";
+			for(StackTraceElement element:ex.getStackTrace()){
+				stackInfo+=element+"\n";
+			}
+			logger.fatal("不存在"+jp.getTarget().getClass().getName()+"的logger,使用切面本身的logger,严重消息为\n"+stackInfo);
+		}
 	}
 }
