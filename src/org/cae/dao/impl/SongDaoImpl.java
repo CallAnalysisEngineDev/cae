@@ -93,13 +93,13 @@ public class SongDaoImpl implements ISongDao {
 		int paramsIndex=0;
 		buffer.append("WHERE 1=1 ");
 		
-		if(Util.isNotNull(song.getSongName())){//如果搜索的条件不是name
+		if(Util.isNotNull(song.getSongName())){
 			insertIndex=buffer.indexOf("WHERE")+5;
-			buffer.insert(insertIndex, " song_name LIKE ? AND ");//拼接where 
+			buffer.insert(insertIndex, " song_name LIKE ? AND "); 
 			preParams[paramsIndex]="%"+song.getSongName()+"%";
 			paramsIndex++;
 		}
-		Object[] params=new Object[paramsIndex];//因为要传参数类型，所以用object[0]代替null
+		Object[] params=new Object[paramsIndex];
 		System.arraycopy(preParams, 0, params, 0, paramsIndex);
 		return new SqlWithParams(buffer.toString(),params);
 	}
@@ -149,15 +149,14 @@ public class SongDaoImpl implements ISongDao {
 	public DaoResult saveSongDao(Song song) {
 		try{
 			//添加一首歌曲的记录
-			String sql = "INSERT INTO song(song_id,song_name,song_sell_time,song_owner,song_cover,song_create_time,song_click,song_last_modify_time,song_video)"
-					+ "VALUES(?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO song(song_id,song_name,song_sell_time,song_owner,song_cover,song_create_time,song_last_modify_time,song_video)"
+					+ "VALUES(?,?,?,?,?,?,?,?)";
 			template.update(sql,song.getSongId(),
 					song.getSongName(),
 					song.getSongSellTime(),
 					song.getSongOwner(),
 					song.getSongCover(),
 					Util.getNowTime(),
-					0,
 					Util.getNowDate(),
 					song.getSongVideo());
 			logger.info("插入新的歌曲记录成功");
