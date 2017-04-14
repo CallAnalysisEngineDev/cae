@@ -81,27 +81,25 @@ public class SongDaoImpl implements ISongDao {
 				song.setSongName(rs.getString("song_name"));
 				return song;
 			}
-			
 		});
 		return theResult;
 	}
 	
 	//根据搜索条件解析成占位符的sql以及参数列表
-	private SqlWithParams getTheSqlForGetAll(Song song){
+	public SqlWithParams getTheSqlForGetAll(Song song){
 		StringBuffer buffer=new StringBuffer();
 		int insertIndex;
 		Object[] preParams=new Object[1];
 		int paramsIndex=0;
 		buffer.append("WHERE 1=1 ");
 		
-		if(Util.isNull(song.getSongName())){
+		if(Util.isNull(song.getSongName())){//如果搜索的条件不是name
 			insertIndex=buffer.indexOf("WHERE")+5;
-			buffer.insert(insertIndex, " song_name LIKE ? AND ");
+			buffer.insert(insertIndex, " song_name LIKE ? AND ");//拼接where 
 			preParams[paramsIndex]="%"+song.getSongName()+"%";
 			paramsIndex++;
 		}
-		
-		Object[] params=new Object[paramsIndex];
+		Object[] params=new Object[paramsIndex];//因为要传参数类型，所以用object[0]代替null
 		System.arraycopy(preParams, 0, params, 0, paramsIndex);
 		return new SqlWithParams(buffer.toString(),params);
 	}
@@ -125,7 +123,6 @@ public class SongDaoImpl implements ISongDao {
 					+ "FROM song "
 					+ "WHERE song_id = ?";
 			Song theResult=template.queryForObject(sql, new Object[]{song.getSongId()}, new RowMapper<Song>() {
-
 				@Override
 				public Song mapRow(ResultSet rs, int row)
 						throws SQLException {
@@ -139,7 +136,6 @@ public class SongDaoImpl implements ISongDao {
 					song.setSongVideo(rs.getShort("song_video"));
 					return song;
 				}
-				
 			});
 			return theResult;
 		}catch(Exception ex){
@@ -151,16 +147,42 @@ public class SongDaoImpl implements ISongDao {
 
 	@Override
 	public DaoResult saveSongDao(Song song) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			//添加一首歌曲的记录
+			String sql = "INSERT INTO song(song_id,song_name,song_sell_time,song_owner,song_cover,song_create_time,song_click,song_last_modify_time,song_video)"
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
+			template.update(sql,song.getSongId(),
+					song.getSongName(),
+					song.getSongSellTime(),
+					song.getSongOwner(),
+					song.getSongCover(),
+					Util.getNowTime(),
+					0,
+					Util.getNowDate(),
+					song.getSongVideo());
+			logger.info("插入新的歌曲记录成功");
+			return new DaoResult(true, null);
+		}catch(Exception ex){
+			logger.error(ex.getMessage());
+			ex.printStackTrace();
+			return new DaoResult(false, "删除失败");
+		}
 	}
-
 	@Override
 	public DaoResult deleteSongDao(Song song) {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			//删除一首歌曲的记录
+			String sql="DELETE FROM song "
+						+ "WHERE song_id = ?";
+			template.update(sql,song.getSongId());
+			logger.info("删除id为"+song.getSongId()+"的歌曲记录成功");
+			return new DaoResult(true, null);
+		}catch(Exception ex){
+			logger.error(ex.getMessage());
+			ex.printStackTrace();
+			return new DaoResult(false, "删除失败");
+		}
 	}
-
 	@Override
 	public Logger getLogger() {
 		return logger;

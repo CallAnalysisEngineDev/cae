@@ -27,14 +27,52 @@ public class CallDaoImpl implements ICallDao {
 	
 	@Override
 	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql="";
+		List<CallRecord> theResult=null;
+		try{
+			sql="SELECT s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id,s.song_video "
+					+ "FROM call_record AS cr "
+					+ "LEFT JOIN song AS s "
+					+ "USING(song_id) "
+					+ "WHERE s.song_id = ? "
+					+ "ORDER BY cr.call_version DESC "
+					+ "LIMIT "+condition.getPageStart()+","+condition.getPageLimit();
+			theResult=template.query(sql, new Object[]{callRecord.getSong().getSongId()}, new RowMapper<CallRecord>(){
+				@Override
+				public CallRecord mapRow(ResultSet rs, int row)
+						throws SQLException {
+					CallRecord callRecord=new CallRecord();
+					callRecord.setCallSource(rs.getString("call_source"));
+					callRecord.setCallVersion(rs.getShort("call_version"));
+					Song song=new Song();
+					song.setSongName(rs.getString("song_name"));
+					song.setSongOwner(rs.getString("song_owner"));
+					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
+					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
+					song.setSongCover(rs.getString("song_cover"));
+					song.setSongId(rs.getString("song_id"));
+					song.setSongVideo(rs.getShort("song_video"));
+					callRecord.setSong(song);
+					return callRecord;
+				}
+			});
+			return theResult;
+		}catch(Exception ex){
+			logger.error(ex.getMessage());
+			ex.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override
 	public Integer getCallCountDao(Condition condition, CallRecord callRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql="SELECT COUNT(*) "
+				+ "FROM call_record AS cr "
+				+ "LEFT JOIN song AS s "
+				+ "USING(song_id)"
+				+ "WHERE s.song_id = ? ";
+		Integer theResult=template.queryForObject(sql, new Object[]{callRecord.getSong().getSongId()}, Integer.class);
+		return theResult;
 	}
 
 	@Override
