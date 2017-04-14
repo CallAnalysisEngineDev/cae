@@ -30,6 +30,7 @@ public class CallTest {
 	public void querySongForHomepageService(){
 		ServiceResult result=callService.querySongForHomepageService();
 		System.out.println(result);
+		System.out.println(result);
 	}
 	
 	@Test
