@@ -3,9 +3,12 @@ package org.cae.controller.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
 import org.cae.controller.ICallController;
+import org.cae.dao.impl.SongDaoImpl;
 import org.cae.entity.CallRecord;
 import org.cae.entity.Song;
 import org.cae.service.ICallService;
@@ -74,15 +77,15 @@ public class CallControllerImpl implements ICallController {
 	@RequestMapping(value="/add_song",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> addSongController(Song song) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceResult result=callService.addSongService(song);
+		return result.toMap();
 	}
 
 	@Override
 	@RequestMapping(value="/remove_song",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> removeSongController(Song song) {
-		// TODO Auto-generated method stub
-		return null;
+		ServiceResult result=callService.removeSongService(song);
+		return result.toMap();
 	}
 }
