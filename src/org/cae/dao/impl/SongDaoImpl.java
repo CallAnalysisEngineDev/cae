@@ -29,7 +29,6 @@ public class SongDaoImpl implements ISongDao {
 	@Override
 	public Map<String, Object> getSongForHomepageDao() {
 		Map<String,Object> theResult=new HashMap<String,Object>();
-		logger.info("开始查询热点歌曲名单,当前的限制条数HOMEPAGE_RED_LIMIT="+IConstant.HOMEPAGE_RED_LIMIT);
 		String sql="SELECT song_id,song_name,song_cover,(song_click/timestampdiff(hour,song_create_time,'"+Util.getNowTime()+"')) AS clickrate "
 				+ "FROM song "
 				+ "ORDER BY clickrate DESC "
@@ -48,13 +47,11 @@ public class SongDaoImpl implements ISongDao {
 			
 		};
 		List<Map<String,Object>> redList=template.query(sql, rowMapper);
-		logger.info("开始查询最新修改歌曲名单,当前限制条数HOMEPAGE_NEWEST_LIMIT="+IConstant.HOMEPAGE_NEWEST_LIMIT);
 		sql="SELECT song_id,song_name,song_cover "
 			+ "FROM song "
 			+ "ORDER BY song_last_modify_time DESC,song_name ASC "
 			+ "LIMIT "+IConstant.HOMEPAGE_NEWEST_LIMIT;
 		List<Map<String,Object>> newestList=template.query(sql, rowMapper);
-		logger.info("查询完毕,热点歌曲数有"+redList.size()+"条,最新修改歌曲数有"+newestList.size()+"条");
 		theResult.put("red", redList);
 		theResult.put("newest", newestList);
 		return theResult;
@@ -62,12 +59,12 @@ public class SongDaoImpl implements ISongDao {
 	
 	@Override
 	public List<Song> getAllSongDao(Condition condition, Song song) {
-		SqlWithParams sqlWithParams=getTheSqlForGetAll(song);
+		SqlWithParams sqlWithParams=getTheSqlForGetAll(condition,song);
 		//获取所有的歌曲
 		String sql="SELECT song_id,song_cover,song_owner,song_name "
 				+ "FROM song "
-				+ sqlWithParams.getSql()
-				+"ORDER BY song_last_modify_time DESC,song_name ASC "
+				+ sqlWithParams.getWhere()
+				+ sqlWithParams.getOrder()
 				+ "LIMIT "+condition.getPageStart()+","+condition.getPageLimit();
 		Object[] params=sqlWithParams.getParams();
 		List<Song> theResult=template.query(sql, params, new RowMapper<Song>(){
@@ -86,31 +83,43 @@ public class SongDaoImpl implements ISongDao {
 	}
 	
 	//根据搜索条件解析成占位符的sql以及参数列表
-	public SqlWithParams getTheSqlForGetAll(Song song){
-		StringBuffer buffer=new StringBuffer();
+	public SqlWithParams getTheSqlForGetAll(Condition condition, Song song){
+		StringBuffer whereBuffer=new StringBuffer();
+		StringBuffer orderBuffer=new StringBuffer();;
 		int insertIndex;
 		Object[] preParams=new Object[1];
 		int paramsIndex=0;
-		buffer.append("WHERE 1=1 ");
+		whereBuffer.append("WHERE 1=1 ");
 		
-		if(Util.isNotNull(song.getSongName())){
-			insertIndex=buffer.indexOf("WHERE")+5;
-			buffer.insert(insertIndex, " song_name LIKE ? AND "); 
+		if(Util.isNotNull(song.getSongName())){//如果搜索的条件不是name
+			insertIndex=whereBuffer.indexOf("WHERE")+5;
+			whereBuffer.insert(insertIndex, " song_name LIKE ? AND ");//拼接where 
 			preParams[paramsIndex]="%"+song.getSongName()+"%";
 			paramsIndex++;
 		}
-		Object[] params=new Object[paramsIndex];
+		
+		if(Util.isNotNull(condition.getOrderBy())){
+			String orderDir=condition.getOrderDir();
+			orderBuffer.append("ORDER BY "+condition.getOrderBy()+" "+(orderDir!=null?orderDir:"DESC")+",song_name ASC ");
+		}
+		else{
+			orderBuffer.append("ORDER BY song_sell_time DESC,song_name ASC ");
+		}
+		Object[] params=new Object[paramsIndex];//因为要传参数类型，所以用object[0]代替null
 		System.arraycopy(preParams, 0, params, 0, paramsIndex);
-		return new SqlWithParams(buffer.toString(),params);
+		if(orderBuffer.length()>0)
+			return new SqlWithParams(whereBuffer.toString(),orderBuffer.toString(),params);
+		else
+			return new SqlWithParams(whereBuffer.toString(),params);
 	}
 	
 	@Override
 	public Integer getSongCountDao(Condition condition, Song song) {
-		SqlWithParams sqlWithParams=getTheSqlForGetAll(song);
+		SqlWithParams sqlWithParams=getTheSqlForGetAll(new Condition(),song);
 		//获取一定条件下的数据条数,通常用于getAll的分页计算
 		String sql="SELECT COUNT(*) "
 				+ "FROM song "
-				+ sqlWithParams.getSql();
+				+ sqlWithParams.getWhere();
 		Object[] params=sqlWithParams.getParams();
 		Integer theResult=template.queryForObject(sql, params, Integer.class);
 		return theResult;
@@ -149,14 +158,15 @@ public class SongDaoImpl implements ISongDao {
 	public DaoResult saveSongDao(Song song) {
 		try{
 			//添加一首歌曲的记录
-			String sql = "INSERT INTO song(song_id,song_name,song_sell_time,song_owner,song_cover,song_create_time,song_last_modify_time,song_video)"
-					+ "VALUES(?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO song(song_id,song_name,song_sell_time,song_owner,song_cover,song_create_time,song_click,song_last_modify_time,song_video)"
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			template.update(sql,song.getSongId(),
 					song.getSongName(),
 					song.getSongSellTime(),
 					song.getSongOwner(),
 					song.getSongCover(),
 					Util.getNowTime(),
+					0,
 					Util.getNowDate(),
 					song.getSongVideo());
 			logger.info("插入新的歌曲记录成功");

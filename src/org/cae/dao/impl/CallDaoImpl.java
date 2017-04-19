@@ -78,7 +78,7 @@ public class CallDaoImpl implements ICallDao {
 					+ "FROM call_record AS cr "
 					+ "LEFT JOIN song AS s "
 					+ "USING(song_id) "
-					+ sqlWithParams.getSql()
+					+ sqlWithParams.getWhere()
 					+ "ORDER BY cr.call_version DESC "
 					+ "LIMIT 1";
 			theResult=template.queryForObject(sql, sqlWithParams.getParams(), new RowMapper<CallRecord>(){

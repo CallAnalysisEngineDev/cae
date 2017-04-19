@@ -70,6 +70,8 @@ public class Util {
 	
 	public static boolean isNotNull(Object object){
 		boolean result=false;
+		if(object==null)
+			return result;
 		if(object instanceof String){
 			String temp=(String) object;
 			if(temp!=null&&!temp.equals(""))
