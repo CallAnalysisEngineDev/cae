@@ -10,4 +10,10 @@ public class IConstant {
 	
 	//安卓端call表搜索页限制条数
 	public final static Integer CALL_SEARCH_LIMIT = 20;
+	
+	//图片资源公共前缀
+	public final static String IMG_PREFIX = "http://www.liuyang-anime.cn/cae/resource/img";
+	
+	//call表资源(html文件)公共前缀
+	public final static String HTML_PREFIX = "http://www.liuyang-anime.cn/cae/resource/html";
 }
