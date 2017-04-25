@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						str+="<tr>"
 							 +"<td>"+list[i].songName+"</td>"
 							 +"<td>"+list[i].songOwner+"</td>"
-							 +"<td><img src='"+list[i].songCover+"'></img></td>"
+							 +"<td><img src='resource/img"+list[i].songCover+"'></img></td>"
 							 +"<td><button onclick=detail('"+list[i].songId+"')>²é¿´call±í</button></td>"
 							 +"</tr>";
 					}
