@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script type="text/javascript" src="resource/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="http://www.liuyang-anime.cn:81/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#page").val(1);
@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					<th>·âÃæ</th>
   					<th>²Ù×÷</th>
   				</tr>
-  			</tread>
+  			</thead>
   			<tbody id="body">
   			</tbody>
   		</table>
