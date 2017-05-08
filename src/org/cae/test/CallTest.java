@@ -52,7 +52,7 @@ public class CallTest {
 	@Test
 	public void addCallService(){
 		CallRecord callRecord=new CallRecord();
-		callRecord.setSong(new Song("1"));
+		callRecord.setSong(new Song("sj"));
 		callRecord.setCallSource("/test11");
 		callRecord.setCallVersion((short)11);
 		ServiceResult result=callService.addCallService(callRecord);
@@ -69,11 +69,9 @@ public class CallTest {
 	@Test
 	public void removeCallsService(){
 		List<CallRecord> callRecords=new ArrayList<CallRecord>();
-		CallRecord callRecord=new CallRecord("CR-7kXOjZd");
+		CallRecord callRecord=new CallRecord("CR-bGaS4yp");
 		callRecords.add(callRecord);
-		callRecord=new CallRecord("CR-dUfbpIk");
-		callRecords.add(callRecord);
-		callRecord=new CallRecord("CR-TBl3k6G");
+		callRecord=new CallRecord("CR-0NPVFFF");
 		callRecords.add(callRecord);
 		ServiceResult result=callService.removeCallService(callRecords);
 		System.out.println(result);

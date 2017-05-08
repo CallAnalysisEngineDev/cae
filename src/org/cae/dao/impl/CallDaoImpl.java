@@ -1,5 +1,6 @@
 package org.cae.dao.impl;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.cae.entity.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -193,19 +195,31 @@ public class CallDaoImpl implements ICallDao {
 	}
 
 	@Override
-	public DaoResult deleteCallDao(List<CallRecord> callRecords) {
+	public DaoResult deleteCallDao(final List<CallRecord> callRecords) {
 		try{
 			//删除多个call表的记录
 			String sql="DELETE FROM call_record "
-					+ "WHERE call_id = ?";
-			List<Object[]> batchArgs=new ArrayList<Object[]>();
+					+ "WHERE call_id IN (";
+			Object[] callRecordIds=new Object[callRecords.size()];
 			for(int i=0;i<callRecords.size();i++){
-				Object[] objectArray=new Object[1];
-				objectArray[0]=callRecords.get(i).getCallId();
-				batchArgs.add(objectArray);
+				callRecordIds[i]=callRecords.get(i).getCallId();
+				if(i==callRecords.size()-1){
+					sql+="?)";
+				}
+				else{
+					sql+="?,";
+				}
 			}
-			//使用batch来批处理,提高性能
-			template.batchUpdate(sql, batchArgs);
+			PreparedStatementSetter setter=new PreparedStatementSetter() {
+				
+				@Override
+				public void setValues(PreparedStatement ps) throws SQLException {
+					for(int i=1;i<=callRecords.size();i++){
+						ps.setString(i, callRecords.get(i-1).getCallId());
+					}
+				}
+			};
+			template.update(sql, setter);
 			logger.info("批删除call表记录成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
