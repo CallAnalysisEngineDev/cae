@@ -3,7 +3,6 @@ package org.cae.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -200,9 +199,7 @@ public class CallDaoImpl implements ICallDao {
 			//删除多个call表的记录
 			String sql="DELETE FROM call_record "
 					+ "WHERE call_id IN (";
-			Object[] callRecordIds=new Object[callRecords.size()];
 			for(int i=0;i<callRecords.size();i++){
-				callRecordIds[i]=callRecords.get(i).getCallId();
 				if(i==callRecords.size()-1){
 					sql+="?)";
 				}
