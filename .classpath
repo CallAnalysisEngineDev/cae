@@ -13,6 +13,9 @@
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="**"/>
+		</accessrules>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/cae_library"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>

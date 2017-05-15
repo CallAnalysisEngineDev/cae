@@ -52,9 +52,9 @@ public class CallTest {
 	@Test
 	public void addCallService(){
 		CallRecord callRecord=new CallRecord();
-		callRecord.setSong(new Song("sj"));
-		callRecord.setCallSource("/test11");
-		callRecord.setCallVersion((short)11);
+		callRecord.setSong(new Song("gugu"));
+		callRecord.setCallSource("/aqours/海岸通りで待ってるよ.html");
+		callRecord.setCallVersion((short)25);
 		ServiceResult result=callService.addCallService(callRecord);
 		System.out.println(result);
 	}

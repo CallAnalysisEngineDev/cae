@@ -41,7 +41,7 @@ public class SongDaoImpl implements ISongDao {
 				Map<String, Object> map=new HashMap<String,Object>();
 				map.put("songId", rs.getString("song_id"));
 				map.put("songName", rs.getString("song_name"));
-				map.put("songCover", IConstant.IMG_PREFIX+rs.getString("song_cover"));
+				map.put("songCover", IConstant.STATIC_PREFIX+rs.getString("song_cover"));
 				return map;
 			}
 			
@@ -73,7 +73,7 @@ public class SongDaoImpl implements ISongDao {
 			public Song mapRow(ResultSet rs, int row) throws SQLException {
 				Song song=new Song();
 				song.setSongId(rs.getString("song_id"));
-				song.setSongCover(IConstant.IMG_PREFIX+rs.getString("song_cover"));
+				song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
 				song.setSongOwner(rs.getString("song_owner"));
 				song.setSongName(rs.getString("song_name"));
 				return song;
@@ -140,7 +140,7 @@ public class SongDaoImpl implements ISongDao {
 					song.setSongOwner(rs.getString("song_owner"));
 					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
 					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
-					song.setSongCover(IConstant.IMG_PREFIX+rs.getString("song_cover"));
+					song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
 					song.setSongId(rs.getString("song_id"));
 					song.setSongVideo(rs.getShort("song_video"));
 					return song;

@@ -89,14 +89,14 @@ public class CallDaoImpl implements ICallDao {
 				public CallRecord mapRow(ResultSet rs, int row)
 						throws SQLException {
 					CallRecord callRecord=new CallRecord();
-					callRecord.setCallSource(IConstant.HTML_PREFIX+rs.getString("call_source"));
+					callRecord.setCallSource(IConstant.STATIC_PREFIX+rs.getString("call_source"));
 					callRecord.setCallVersion(rs.getShort("call_version"));
 					Song song=new Song();
 					song.setSongName(rs.getString("song_name"));
 					song.setSongOwner(rs.getString("song_owner"));
 					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
 					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
-					song.setSongCover(IConstant.IMG_PREFIX+rs.getString("song_cover"));
+					song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
 					song.setSongId(rs.getString("song_id"));
 					song.setSongVideo(rs.getShort("song_video"));
 					callRecord.setSong(song);

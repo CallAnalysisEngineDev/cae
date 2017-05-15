@@ -1,6 +1,7 @@
 *.class
 WebRoot/WEB-INF/classes/
 src/jdbc_remote.properties
+/.settings
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 

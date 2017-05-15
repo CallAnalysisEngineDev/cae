@@ -12,8 +12,5 @@ public class IConstant {
 	public final static Integer CALL_SEARCH_LIMIT = 20;
 	
 	//图片资源公共前缀
-	public final static String IMG_PREFIX = "http://www.liuyang-anime.cn/cae/resource/img";
-	
-	//call表资源(html文件)公共前缀
-	public final static String HTML_PREFIX = "http://www.liuyang-anime.cn/cae/resource/html";
+	public final static String STATIC_PREFIX = "http://www.liuyang-anime.cn:81/";
 }

@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script type="text/javascript" src="resource/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="http://localhost/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#page").val(1);
