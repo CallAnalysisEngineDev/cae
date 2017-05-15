@@ -1,11 +1,15 @@
 package org.cae.common;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.cae.entity.Entity;
+
+import sun.security.util.BigInt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -92,4 +96,15 @@ public class Util {
 		}
 		logger.error(stackInfo);
 	}
+	
+	public static String md5(String str){
+		try{
+			MessageDigest md=MessageDigest.getInstance("MD5");
+			md.update(str.getBytes());
+			return new BigInteger(1,md.digest()).toString(16);
+		}catch(Exception ex){
+			return null;
+		}
+	}
+	
 }
