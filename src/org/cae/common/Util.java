@@ -1,5 +1,6 @@
 package org.cae.common;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
@@ -9,7 +10,8 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 import org.cae.entity.Entity;
 
-import sun.security.util.BigInt;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -107,4 +109,18 @@ public class Util {
 		}
 	}
 	
+	public static String byte2base64(byte[] deStr) {
+		BASE64Encoder encoder=new BASE64Encoder();
+		return encoder.encode(deStr);
+	}
+
+	public static byte[] base642byte(String enStr){
+		try {
+			BASE64Decoder decoder=new BASE64Decoder();
+			return decoder.decodeBuffer(enStr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

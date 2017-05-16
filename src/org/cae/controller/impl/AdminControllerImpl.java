@@ -3,10 +3,10 @@ package org.cae.controller.impl;
 import java.util.Map;
 
 import org.cae.common.Condition;
-import org.cae.common.ShakeHand;
 import org.cae.controller.IAdminController;
 import org.cae.entity.Admin;
 import org.cae.entity.Song;
+import org.cae.security.ShakeHand;
 import org.cae.service.IAdminService;
 import org.cae.service.ICallService;
 import org.springframework.beans.factory.annotation.Autowired;

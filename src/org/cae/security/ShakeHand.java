@@ -1,4 +1,4 @@
-package org.cae.common;
+package org.cae.security;
 
 public class ShakeHand {
 
