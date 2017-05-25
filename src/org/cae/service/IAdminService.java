@@ -1,11 +1,15 @@
 package org.cae.service;
 
 import org.cae.common.ServiceResult;
-import org.cae.entity.Admin;
+import org.cae.security.ShakeHand;
 
 public interface IAdminService {
 
-	ServiceResult loginService(Admin admin);
+	ServiceResult loginService(ShakeHand shakeHand);
 	
-	void generateKey();
+	String getPublicKeyService();
+	
+	void setKeyService(Integer userId, ShakeHand shakeHand);
+	
+	void removeKeyService(Integer userId);
 }

@@ -6,6 +6,13 @@ public class Admin extends Entity {
 	private String adminUseraccount;
 	private String adminPassword;
 	private String adminUsername;
+	public Admin(Integer adminId){
+		this.adminId=adminId;
+	}
+	public Admin(String adminUseraccount,String adminPassword){
+		this.adminUseraccount=adminUseraccount;
+		this.adminPassword=adminPassword;
+	}
 	public Integer getAdminId() {
 		return adminId;
 	}
