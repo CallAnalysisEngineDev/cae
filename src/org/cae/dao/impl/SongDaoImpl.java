@@ -27,7 +27,7 @@ public class SongDaoImpl implements ISongDao {
 	private JdbcTemplate template;
 
 	@Override
-	public Map<String, Object> getSongForHomepageDao() {
+	public DaoResult getSongForHomepageDao() {
 		Map<String,Object> theResult=new HashMap<String,Object>();
 		String sql="SELECT song_id,song_name,song_cover,(song_click/timestampdiff(hour,song_create_time,'"+Util.getNowTime()+"')) AS clickrate "
 				+ "FROM song "
@@ -54,11 +54,11 @@ public class SongDaoImpl implements ISongDao {
 		List<Map<String,Object>> newestList=template.query(sql, rowMapper);
 		theResult.put("red", redList);
 		theResult.put("newest", newestList);
-		return theResult;
+		return new DaoResult(true, theResult);
 	}
 	
 	@Override
-	public List<Song> getAllSongDao(Condition condition, Song song) {
+	public DaoResult getAllSongDao(Condition condition, Song song) {
 		SqlWithParams sqlWithParams=getTheSqlForGetAll(condition,song);
 		//获取所有的歌曲
 		String sql="SELECT song_id,song_cover,song_owner,song_name "
@@ -79,7 +79,7 @@ public class SongDaoImpl implements ISongDao {
 				return song;
 			}
 		});
-		return theResult;
+		return new DaoResult(true, theResult);
 	}
 	
 	//根据搜索条件解析成占位符的sql以及参数列表
@@ -114,7 +114,7 @@ public class SongDaoImpl implements ISongDao {
 	}
 	
 	@Override
-	public Integer getSongCountDao(Condition condition, Song song) {
+	public DaoResult getSongCountDao(Condition condition, Song song) {
 		SqlWithParams sqlWithParams=getTheSqlForGetAll(new Condition(),song);
 		//获取一定条件下的数据条数,通常用于getAll的分页计算
 		String sql="SELECT COUNT(*) "
@@ -122,11 +122,11 @@ public class SongDaoImpl implements ISongDao {
 				+ sqlWithParams.getWhere();
 		Object[] params=sqlWithParams.getParams();
 		Integer theResult=template.queryForObject(sql, params, Integer.class);
-		return theResult;
+		return new DaoResult(true, theResult);
 	}
 	
 	@Override
-	public Song getSongDao(Song song) {
+	public DaoResult getSongDao(Song song) {
 		try{
 			String sql="SELECT song_name,song_owner,song_sell_time,song_last_modify_time,song_cover,song_id,song_video "
 					+ "FROM song "
@@ -146,11 +146,11 @@ public class SongDaoImpl implements ISongDao {
 					return song;
 				}
 			});
-			return theResult;
+			return new DaoResult(true, theResult);
 		}catch(Exception ex){
 			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
-			return null;
+			return new DaoResult(false, ex.getMessage());
 		}
 	}
 

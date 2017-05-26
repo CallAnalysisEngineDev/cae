@@ -1,7 +1,6 @@
 package org.cae.dao.impl;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -21,7 +20,7 @@ public class CallLuceneAdaptee {
 		add(Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS);
 	}};
 	
-	public List<CallRecord> getAllCallLucene(CallRecord callRecord) {
+	public DaoResult getAllCallLucene(CallRecord callRecord) {
 		// TODO Auto-generated method stub
 		return null;
 	}

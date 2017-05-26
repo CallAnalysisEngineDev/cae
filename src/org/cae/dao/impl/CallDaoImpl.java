@@ -29,7 +29,7 @@ public class CallDaoImpl implements ICallDao {
 	private JdbcTemplate template;
 	
 	@Override
-	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord) {
+	public DaoResult getAllCallDao(Condition condition, CallRecord callRecord) {
 		String sql="";
 		List<CallRecord> theResult=null;
 		try{
@@ -50,7 +50,7 @@ public class CallDaoImpl implements ICallDao {
 					return callRecord;
 				}
 			});
-			return theResult;
+			return new DaoResult(true, theResult);
 		}catch(Exception ex){
 			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
@@ -59,18 +59,18 @@ public class CallDaoImpl implements ICallDao {
 	}
 	
 	@Override
-	public Integer getCallCountDao(Condition condition, CallRecord callRecord) {
+	public DaoResult getCallCountDao(Condition condition, CallRecord callRecord) {
 		String sql="SELECT COUNT(*) "
 				+ "FROM call_record AS cr "
 				+ "LEFT JOIN song AS s "
 				+ "USING(song_id)"
 				+ "WHERE s.song_id = ? ";
 		Integer theResult=template.queryForObject(sql, new Object[]{callRecord.getSong().getSongId()}, Integer.class);
-		return theResult;
+		return new DaoResult(true, theResult);
 	}
 
 	@Override
-	public CallRecord getCallDao(CallRecord callRecord){
+	public DaoResult getCallDao(CallRecord callRecord){
 		String sql="";
 		CallRecord theResult=null;
 		SqlWithParams sqlWithParams=getTheSqlForGet(callRecord);
@@ -107,11 +107,11 @@ public class CallDaoImpl implements ICallDao {
 		}catch(EmptyResultDataAccessException ex){
 			logger.info("当前歌曲"+callRecord.getSong().getSongId()+"不存在call表");
 			ex.printStackTrace();
-			return null;
+			return new DaoResult(false, "当前歌曲"+callRecord.getSong().getSongId()+"不存在call表");
 		}catch(Exception ex){
 			Util.logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
-			return null;
+			return new DaoResult(false, ex.getMessage());
 		}
 		try{
 			//该歌曲的点击量+1
@@ -123,7 +123,7 @@ public class CallDaoImpl implements ICallDao {
 			ex.printStackTrace();
 			logger.warn("增加歌曲id为"+theResult.getSong().getSongId()+"的歌曲的点击量失败");
 		}
-		return theResult;
+		return new DaoResult(true, theResult);
 	}
 	
 	private SqlWithParams getTheSqlForGet(CallRecord callRecord){

@@ -18,12 +18,12 @@ public class CallLuceneImpl implements ICallDao {
 	private CallLuceneAdaptee callLucene;
 	
 	@Override
-	public List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord) {
+	public DaoResult getAllCallDao(Condition condition, CallRecord callRecord) {
 		return callLucene.getAllCallLucene(callRecord);
 	}
 
 	@Override
-	public CallRecord getCallDao(CallRecord callRecord) {
+	public DaoResult getCallDao(CallRecord callRecord) {
 		return null;
 	}
 
@@ -54,7 +54,7 @@ public class CallLuceneImpl implements ICallDao {
 	}
 
 	@Override
-	public Integer getCallCountDao(Condition condition, CallRecord callRecord) {
+	public DaoResult getCallCountDao(Condition condition, CallRecord callRecord) {
 		return null;
 	}
 

@@ -8,11 +8,11 @@ import org.cae.entity.CallRecord;
 
 public interface ICallDao extends IBaseDao{
 	
-	List<CallRecord> getAllCallDao(Condition condition, CallRecord callRecord);
+	DaoResult getAllCallDao(Condition condition, CallRecord callRecord);
 	
-	Integer getCallCountDao(Condition condition, CallRecord callRecord);
+	DaoResult getCallCountDao(Condition condition, CallRecord callRecord);
 	
-	CallRecord getCallDao(CallRecord callRecord);
+	DaoResult getCallDao(CallRecord callRecord);
 	
 	DaoResult saveCallDao(CallRecord callRecord);
 	

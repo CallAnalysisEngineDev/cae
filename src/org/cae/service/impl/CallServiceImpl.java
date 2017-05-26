@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 
 import org.cae.common.Condition;
+import org.cae.common.DaoResult;
 import org.cae.common.IConstant;
 import org.cae.common.ServiceResult;
 import org.cae.dao.ICallDao;
@@ -33,8 +34,14 @@ public class CallServiceImpl implements ICallService {
 
 	@Override
 	public ServiceResult querySongForHomepageService() {
-		ServiceResult result=new ServiceResult();
-		Map<String,Object> map=songDao.getSongForHomepageDao();
+		ServiceResult result;
+		DaoResult daoResult=songDao.getSongForHomepageDao();
+		if(!daoResult.isSuccessed()){
+			result=new ServiceResult(daoResult);
+			return result;
+		}
+		result=new ServiceResult();
+		Map<String,Object> map=(Map<String, Object>) daoResult.getResult();
 		if(((List)(map.get("red"))).size()==0||((List)(map.get("newest"))).size()==0){
 			logger.log(Level.SEVERE, "热门歌曲或最新修改歌曲为空!");
 			result.setSuccessed(false);
@@ -52,7 +59,12 @@ public class CallServiceImpl implements ICallService {
 			CallRecord callRecord) {
 		ServiceResult result=new ServiceResult();
 		condition.setPageLimit(IConstant.CALL_SEARCH_LIMIT);
-		List<CallRecord> callList =callDao.getAllCallDao(condition, callRecord);
+		DaoResult daoResult=callDao.getAllCallDao(condition, callRecord);
+		if(!daoResult.isSuccessed()){
+			result=new ServiceResult(daoResult);
+			return result;
+		}
+		List<CallRecord> callList =(List<CallRecord>) daoResult.getResult();
 		if(callList.size()==0){
 			result=new ServiceResult();
 			result.setSuccessed(false);
@@ -60,7 +72,8 @@ public class CallServiceImpl implements ICallService {
 			return result;
 		}
 		int totalPage=0;
-		int count=callDao.getCallCountDao(condition, callRecord);
+		daoResult=callDao.getCallCountDao(condition, callRecord);
+		int count=(int) daoResult.getResult();
 		if(count%condition.getPageLimit()==0)
 			totalPage=count/condition.getPageLimit();
 		else
@@ -76,9 +89,19 @@ public class CallServiceImpl implements ICallService {
 	@Override
 	public ServiceResult queryCallService(CallRecord callRecord) {
 		ServiceResult result=new ServiceResult();
-		CallRecord cr=callDao.getCallDao(callRecord);
+		DaoResult daoResult=callDao.getCallDao(callRecord);
+		if(!daoResult.isSuccessed()){
+			result=new ServiceResult(daoResult);
+			return result;
+		}
+		CallRecord cr=(CallRecord) daoResult.getResult();
 		if(cr==null){
-			Song song=songDao.getSongDao(callRecord.getSong());
+			daoResult=songDao.getSongDao(callRecord.getSong());
+			if(!daoResult.isSuccessed()){
+				result=new ServiceResult(daoResult);
+				return result;
+			}
+			Song song=(Song) daoResult.getResult();
 			if(song==null){
 				result.setSuccessed(false);
 				result.setErrInfo("查询结果为空");
@@ -114,7 +137,12 @@ public class CallServiceImpl implements ICallService {
 	public ServiceResult queryAllSongService(Condition condition, Song song) {
 		ServiceResult result=null;
 		condition.setPageLimit(IConstant.CALL_SEARCH_LIMIT);
-		List<Song> songList=songDao.getAllSongDao(condition, song);
+		DaoResult daoResult=songDao.getAllSongDao(condition, song);
+		if(!daoResult.isSuccessed()){
+			result=new ServiceResult(daoResult);
+			return result;
+		}
+		List<Song> songList=(List<Song>) daoResult.getResult();
 		if(songList.size()==0){
 			result=new ServiceResult();
 			result.setSuccessed(false);
@@ -123,7 +151,12 @@ public class CallServiceImpl implements ICallService {
 		}
 		
 		int totalPage=0;
-		int count=songDao.getSongCountDao(condition, song);
+		daoResult=songDao.getSongCountDao(condition, song);
+		if(!daoResult.isSuccessed()){
+			result=new ServiceResult(daoResult);
+			return result;
+		}
+		int count=(int) daoResult.getResult();
 		if(count%condition.getPageLimit()==0)
 			totalPage=count/condition.getPageLimit();
 		else
