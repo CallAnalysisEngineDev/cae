@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
 import org.cae.controller.IAdminController;
+import org.cae.entity.Admin;
 import org.cae.entity.Song;
 import org.cae.security.SecurityAlgorithm;
 import org.cae.security.ShakeHand;
@@ -40,16 +41,25 @@ public class AdminControllerImpl implements IAdminController {
 		else if(type==SecurityAlgorithm.ENCTYPT_KEY){
 			ServiceResult serviceResult=adminService.loginService(shakeHand);
 			if(serviceResult.isSuccessed()){
-				
+				Admin admin=(Admin) serviceResult.getResult();
+				session.setAttribute("adminId", admin.getAdminId());
 			}
+			theResult=serviceResult.toMap();
 		}
 		return theResult;
 	}
-
+	
 	@Override
-	public ModelAndView queryAllSongController(Condition condition, Song song) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value="/all")
+	public ModelAndView queryAllSongController(HttpSession session, Condition condition, Song song) {
+		Integer adminId=(Integer) session.getAttribute("adminId");
+		if(adminId==null){
+			ModelAndView mav=new ModelAndView();
+			mav.setViewName("login");
+		}
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("WEB-INF/index");
+		return mav;
 	}
 
 	@Override

@@ -6,8 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Resource;
 
+import org.cae.common.DaoResult;
 import org.cae.common.ServiceResult;
 import org.cae.dao.IAdminDao;
+import org.cae.entity.Admin;
+import org.cae.security.Desede;
 import org.cae.security.SecurityAlgorithm;
 import org.cae.security.ShakeHand;
 import org.cae.service.IAdminService;
@@ -19,28 +22,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service("adminService")
 public class AdminServiceImpl implements IAdminService {
 
-	private ConcurrentHashMap<String, String> keys=new ConcurrentHashMap<String, String>();
+	private ConcurrentHashMap<Integer, SecurityAlgorithm> keys=new ConcurrentHashMap<Integer, SecurityAlgorithm>();
 	@Autowired
 	private IAdminDao adminDao;
-	@Resource(name="3des")
-	private SecurityAlgorithm desede;
 	@Resource(name="rsa")
 	private SecurityAlgorithm rsa;
 
 	@Override
 	public ServiceResult loginService(ShakeHand shakeHand) {
+		ServiceResult theResult = null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			Map<String,Object> map=mapper.readValue(shakeHand.getMessage(), Map.class);
-			String key=rsa.decrypt((String)map.get("key"));
+			String key=rsa.decrypt((String)map.get("k"));
+			SecurityAlgorithm desede=new Desede(key);
 			desede.setKey(key);
-			String userAccount=desede.decrypt((String)map.get("useraccount"));
-			String password=desede.decrypt((String)map.get("password"));
-			System.out.println(userAccount+":"+password);
+			String userAccount=desede.decrypt((String)map.get("u"));
+			String password=desede.decrypt((String)map.get("p"));
+			DaoResult daoResult=adminDao.getAdminInfoDao(new Admin(userAccount, password));
+			if(daoResult.isSuccessed()){
+				Admin admin=(Admin) daoResult.getResult();
+				keys.put(admin.getAdminId(), desede);
+			}
+			theResult=new ServiceResult(daoResult);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return theResult;
 	}
 	
 	@Override

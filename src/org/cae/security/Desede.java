@@ -1,28 +1,21 @@
 package org.cae.security;
 
 import java.security.Key;
-import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
+import javax.crypto.spec.IvParameterSpec;
 
 import org.cae.common.Util;
-import org.springframework.stereotype.Component;
 
-@Component("3des")
-public class Desede implements SecurityAlgorithm {
+public class Desede extends AbstractAlgorithm {
 	
-	private Key key;
+	private String key;
+	private final static String iv = "12345678";
 	
-	public void setKey(String key){
-		try {   
-			//对比DES  
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");    
-            this.key = keyFactory.generateSecret(new DESedeKeySpec(key.getBytes("UTF-8")));    
-        } catch (Exception e) {
-        	e.printStackTrace();
-        } 
+	public Desede(String key){
+		this.key=key;
 	}
 	
 	@Override
@@ -30,28 +23,22 @@ public class Desede implements SecurityAlgorithm {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public String decrypt(String encryptInfo) {
-		byte[] temp=Util.base642byte(encryptInfo);
-		Cipher cipher;    
-        byte[] byteFina = null;    
-        try {
-        	cipher = Cipher.getInstance("DESede/ECB/PKCS5Padding");    
-            cipher.init(Cipher.DECRYPT_MODE, key,SecureRandom.getInstance("SHA1PRNG"));    
-            byteFina = cipher.doFinal(temp);   
-            return new String(byteFina,"UTF-8");
-        } catch (Exception e) {    
-            e.printStackTrace();   
-        } finally {    
-            cipher = null;    
-        } 
-        return null;
-	}
-
-	@Override
-	public String getPublicKey() {
-		// TODO Auto-generated method stub
+		try {
+			Key deskey = null;
+			DESedeKeySpec spec = new DESedeKeySpec(key.getBytes());
+			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
+			deskey = keyfactory.generateSecret(spec);
+			Cipher cipher = Cipher.getInstance("desede/CBC/NoPadding");
+			IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
+		    cipher.init(Cipher.DECRYPT_MODE, deskey,ips);
+		    byte[] decryptData = cipher.doFinal(Util.base642byte(encryptInfo));
+		    return new String(decryptData, "UTF-8").trim();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

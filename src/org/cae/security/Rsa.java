@@ -21,20 +21,14 @@ import org.cae.common.Util;
 import org.springframework.stereotype.Component;
 
 @Component("rsa")
-public class Rsa implements SecurityAlgorithm {
+public class Rsa extends AbstractAlgorithm {
 
 	private Logger logger=Logger.getLogger(getClass());
 	private KeyPair keyPair;
 	//公钥秘钥持久化的文件名
 	private final static String KEY_PATH = "rsa.key";
 	//密钥的长度,越长效率越低、安全性越高
-	private final static Integer KEY_LENGTH = 512;
-	
-	@Override
-	public String encrypt(String info) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private final static Integer KEY_LENGTH = 1024;
 
 	@Override
 	public String decrypt(String encryptInfo) {
@@ -64,8 +58,8 @@ public class Rsa implements SecurityAlgorithm {
 			keyPairGenerator.initialize(KEY_LENGTH, new SecureRandom());
 			keyPair=keyPairGenerator.generateKeyPair();
 			logger.info("公钥/秘钥生成成功");
-			logger.info("当前的公钥是:"+Util.byte2base64(keyPair.getPublic().getEncoded()));
-			logger.info("当前的秘钥是:"+Util.byte2base64(keyPair.getPrivate().getEncoded()));
+			logger.info("当前的公钥是:\n"+Util.byte2base64(keyPair.getPublic().getEncoded()));
+			logger.info("当前的秘钥是:\n"+Util.byte2base64(keyPair.getPrivate().getEncoded()));
 			saveKeyPair();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -77,8 +71,8 @@ public class Rsa implements SecurityAlgorithm {
 			FileInputStream fis=new FileInputStream(KEY_PATH);
 			ObjectInputStream oos = new ObjectInputStream(fis);
 			keyPair = (KeyPair) oos.readObject();
-			logger.info("当前的公钥是:"+Util.byte2base64(keyPair.getPublic().getEncoded()));
-			logger.info("当前的秘钥是:"+Util.byte2base64(keyPair.getPrivate().getEncoded()));
+			logger.info("当前的公钥是:\n"+Util.byte2base64(keyPair.getPublic().getEncoded()));
+			logger.info("当前的秘钥是:\n"+Util.byte2base64(keyPair.getPrivate().getEncoded()));
 	        oos.close();
 	        fis.close();
 		} catch (IOException | ClassNotFoundException e) {
@@ -102,11 +96,5 @@ public class Rsa implements SecurityAlgorithm {
 
 	public String getPublicKey(){
 		return Util.byte2base64(keyPair.getPublic().getEncoded());
-	}
-
-	@Override
-	public void setKey(String key) {
-		// TODO Auto-generated method stub
-		
 	}
 }

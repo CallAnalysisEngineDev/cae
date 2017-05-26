@@ -43,12 +43,12 @@ public class CallLuceneImpl implements ICallDao {
 		String errInfo = null;
 		for(CallRecord callRecord:callRecords){
 			DaoResult result=callLucene.deleteCallLucene(callRecord);
-			if(!result.isResult()){
-				daoResult.setResult(false);
+			if(!result.isSuccessed()){
+				daoResult.setSuccessed(false);;
 				errInfo+=callRecord.getCallId()+",";
 			}
 		}
-		if(!daoResult.isResult())
+		if(!daoResult.isSuccessed())
 			daoResult.setErrInfo(errInfo.substring(0, errInfo.length()-2)+" has failed");
 		return daoResult;
 	}

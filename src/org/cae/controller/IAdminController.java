@@ -13,7 +13,7 @@ public interface IAdminController {
 
 	Map<String,Object> shakeHand(HttpSession session,ShakeHand shakeHand);
 	
-	ModelAndView queryAllSongController(Condition condition, Song song);
+	ModelAndView queryAllSongController(HttpSession session, Condition condition, Song song);
 	
 	ModelAndView removeKeyController(HttpSession session);
 }

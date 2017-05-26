@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
@@ -87,6 +88,13 @@ public class Util {
 		}
 		else if(object instanceof Entity){
 			result=(object!=null?true:false);
+		}
+		else if(object instanceof List){
+			List list=(List) object;
+			if(list.size()>0)
+				result=true;
+			else
+				result=false;
 		}
 		return result;
 	}
