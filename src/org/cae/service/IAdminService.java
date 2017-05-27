@@ -9,7 +9,5 @@ public interface IAdminService {
 	
 	String getPublicKeyService();
 	
-	void setKeyService(Integer userId, ShakeHand shakeHand);
-	
 	void removeKeyService(Integer userId);
 }

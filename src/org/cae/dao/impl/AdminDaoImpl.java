@@ -39,6 +39,7 @@ public class AdminDaoImpl implements IAdminDao {
 			+ "FROM admin "
 			+ "WHERE admin_useraccount = ? "
 			+ "AND admin_password = ?";
+		//密码要进行md5处理后才和数据库的对比
 		List<Admin> theResult=template.query(sql, new Object[]{admin.getAdminUseraccount(),Util.md5(admin.getAdminPassword())}, new RowMapper<Admin>() {
 			
 			@Override
