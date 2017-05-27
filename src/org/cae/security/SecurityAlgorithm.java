@@ -4,7 +4,7 @@ public interface SecurityAlgorithm {
 
 	final static Integer ASK_PUBKEY = 1;
 	
-	final static Integer ENCTYPT_KEY = 2;
+	final static Integer ENCTYPT_DATA = 2;
 	
 	String encrypt(String info);
 	

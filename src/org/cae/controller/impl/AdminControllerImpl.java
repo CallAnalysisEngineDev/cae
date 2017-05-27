@@ -38,7 +38,7 @@ public class AdminControllerImpl implements IAdminController {
 		if(type==SecurityAlgorithm.ASK_PUBKEY){
 			theResult.put("publicKey", adminService.getPublicKeyService());
 		}
-		else if(type==SecurityAlgorithm.ENCTYPT_KEY){
+		else if(type==SecurityAlgorithm.ENCTYPT_DATA){
 			ServiceResult serviceResult=adminService.loginService(shakeHand);
 			if(serviceResult.isSuccessed()){
 				Admin admin=(Admin) serviceResult.getResult();
