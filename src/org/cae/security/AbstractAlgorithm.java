@@ -16,8 +16,6 @@ public abstract class AbstractAlgorithm implements SecurityAlgorithm {
 	}
 
 	@Override
-	public void setKey(String key) {
-		
-	}
+	public void setKey(String key) {}
 
 }

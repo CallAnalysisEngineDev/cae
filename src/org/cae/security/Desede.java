@@ -12,6 +12,7 @@ import org.cae.common.Util;
 public class Desede extends AbstractAlgorithm {
 	
 	private String key;
+	//加解密向量,不要改
 	private final static String iv = "12345678";
 	
 	public Desede(String key){
@@ -31,6 +32,7 @@ public class Desede extends AbstractAlgorithm {
 			DESedeKeySpec spec = new DESedeKeySpec(key.getBytes());
 			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
 			deskey = keyfactory.generateSecret(spec);
+			//为了和前端js对应,这里的算法模式一定要选desede/CBC/NoPadding
 			Cipher cipher = Cipher.getInstance("desede/CBC/NoPadding");
 			IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
 		    cipher.init(Cipher.DECRYPT_MODE, deskey,ips);

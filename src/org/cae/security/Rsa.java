@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 public class Rsa extends AbstractAlgorithm {
 
 	private Logger logger=Logger.getLogger(getClass());
+	//公钥私钥对
 	private KeyPair keyPair;
 	//公钥秘钥持久化的文件名
 	private final static String KEY_PATH = "rsa.key";
@@ -35,13 +36,14 @@ public class Rsa extends AbstractAlgorithm {
 		logger.info("收到密文,密文内容为:"+encryptInfo);
 		try {
 			Security.addProvider(new BouncyCastleProvider());
+			//为了和前端js对应,cipher选择的算法模式必须是RSA/None/PKCS1Padding,后面的BC是指BouncyCastleProvider,也是不可以改变的
             Cipher cipher = Cipher.getInstance("RSA/None/PKCS1Padding", "BC");
             cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
             byte[] plainText = cipher.doFinal(Util.base642byte(encryptInfo));
             return new String(plainText);
-        } catch (Exception e) {  
+        } catch (Exception e) {
         	e.printStackTrace();
-        } 
+        }
 		return null;
 	}
 
@@ -66,6 +68,7 @@ public class Rsa extends AbstractAlgorithm {
 		}
 	}
 	
+	//读取本地的共钥私钥对文件
 	private void readKeyPair(){
 		try {
 			FileInputStream fis=new FileInputStream(KEY_PATH);
@@ -81,6 +84,7 @@ public class Rsa extends AbstractAlgorithm {
 		
 	}
 	
+	//将公钥私钥对持久化到本地文件
 	private void saveKeyPair() {
 		try {
 			FileOutputStream fos=new FileOutputStream(KEY_PATH);
@@ -94,6 +98,7 @@ public class Rsa extends AbstractAlgorithm {
 		
 	}
 
+	//获取公钥,使用base64进行编码
 	public String getPublicKey(){
 		return Util.byte2base64(keyPair.getPublic().getEncoded());
 	}
