@@ -102,4 +102,5 @@ public class Rsa extends AbstractAlgorithm {
 	public String getPublicKey(){
 		return Util.byte2base64(keyPair.getPublic().getEncoded());
 	}
+
 }

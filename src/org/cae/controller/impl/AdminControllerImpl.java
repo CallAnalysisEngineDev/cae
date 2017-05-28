@@ -1,8 +1,12 @@
 package org.cae.controller.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.cae.common.Condition;
@@ -28,6 +32,16 @@ public class AdminControllerImpl implements IAdminController {
 	private IAdminService adminService;
 	@Autowired
 	private ICallService callService;
+	
+	@Override
+	@RequestMapping("/login")
+	public void adminLoginView(HttpServletRequest request, HttpServletResponse response){
+		try {
+			request.getRequestDispatcher("/WEB-INF/login.html").forward(request, response);
+		} catch (ServletException | IOException e) {
+			e.printStackTrace();
+		};
+	}
 	
 	/**
 	 * 管理员登录过程的服务器端握手方法
