@@ -23,7 +23,7 @@ public class CallControllerImpl implements ICallController {
 	private ICallService callService;
 
 	@Override
-	@RequestMapping(value="/",method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> querySongForHomepageController() {
 		ServiceResult result=callService.querySongForHomepageService();
