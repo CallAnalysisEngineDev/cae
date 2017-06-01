@@ -40,4 +40,12 @@
     	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
         <property name="dataSource" ref="dataSource" />  
     </bean>
+    
+    <bean id="serviceExporter" class="org.springframework.remoting.rmi.RmiServiceExporter">
+    	<property name="serviceName" value="monitor"/>
+        <property name="service" ref="monitor"/>
+        <property name="serviceInterface" value="org.cae.controller.IMonitorController"/>
+        <property name="registryPort" value="8001"/>
+    </bean>
+    <bean id="monitor" class="org.cae.controller.impl.MonitorControllerImpl"/>
 </beans>
