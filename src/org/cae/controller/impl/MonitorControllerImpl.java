@@ -25,8 +25,7 @@ public class MonitorControllerImpl implements IMonitorController {
 
 	@Override
 	public boolean heartbeatController() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
