@@ -12,11 +12,6 @@ public class CallAspect {
 	
 	private Logger logger=Logger.getLogger(this.getClass());
 	
-	@Before("execution(* org.cae.*.*.*.*(..))")
-	public void beforeCallDao(JoinPoint jp){
-		logger.info("执行["+jp.getTarget().getClass().getSimpleName()+"."+jp.getSignature().getName()+"]方法");
-	}
-	
 	/**
 	 * 一般来说dao层已经把预想到的异常全部处理了,但是也有可能发生未能预想到的异常
 	 * 这里是把dao层没有处理到的异常都拦截下来并进行最高级别FATAL的日志记录

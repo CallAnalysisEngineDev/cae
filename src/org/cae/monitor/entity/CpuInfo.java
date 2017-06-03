@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.cae.entity.Entity;
 
-public class CpuInfo extends Entity {
+public class CpuInfo extends Entity{
 
 	private String time;
 	private List<Cpu> cpus;
 	private double cpuTotalUseRate;
 	
-	class Cpu{
+	public static class Cpu{
 		private String cpuType;
 		private double useRate;
 		public String getCpuType() {
@@ -27,6 +27,11 @@ public class CpuInfo extends Entity {
 		}
 	}
 
+	public CpuInfo(){}
+	public CpuInfo(String time){
+		this.time=time;
+	}
+	
 	public String getTime() {
 		return time;
 	}

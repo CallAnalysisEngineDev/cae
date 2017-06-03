@@ -1,14 +1,7 @@
 package org.cae.controller.impl;
 
-import java.util.Map;
-
+import org.cae.common.Util;
 import org.cae.controller.IMonitorController;
-import org.cae.monitor.entity.CpuInfo;
-import org.cae.monitor.entity.JVMClassLoad;
-import org.cae.monitor.entity.JVMMemory;
-import org.cae.monitor.entity.JVMThread;
-import org.cae.monitor.entity.MemoryInfo;
-import org.cae.monitor.entity.ProcessInfo;
 import org.cae.service.IMonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,7 +11,7 @@ public class MonitorControllerImpl implements IMonitorController {
 	private IMonitorService monitorService;
 	
 	@Override
-	public Map<String, Object> queryForHomepageController() {
+	public String queryForHomepageController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -29,37 +22,36 @@ public class MonitorControllerImpl implements IMonitorController {
 	}
 
 	@Override
-	public CpuInfo queryCpuController() {
+	public String queryCpuController() {
+		return Util.toJson(monitorService.queryCpuService());
+	}
+
+	@Override
+	public String queryMemoryController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public MemoryInfo queryMemoryController() {
+	public String queryProcessController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ProcessInfo queryProcessController() {
+	public String queryJvmMemoryController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public JVMMemory queryJvmMemoryController() {
+	public String queryJvmThreadController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public JVMThread queryJvmThreadController() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JVMClassLoad queryJvmClassController() {
+	public String queryJvmClassController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
