@@ -22,8 +22,7 @@ public class UserControllerImpl implements IUserController {
 	@RequestMapping(value="/advice",method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> adviceController(MailMessage mailMessage) {
-		// TODO Auto-generated method stub
-		return null;
+		return userService.adviceService(mailMessage).toMap();
 	}
 
 }

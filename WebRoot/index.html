@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="/">
+    <base href="/cae/">
     
     <title>My JSP 'index.jsp' starting page</title>
     
@@ -18,5 +18,11 @@
   
   <body>
     下载的二维码:
+    <form action="user/advice" method="post">
+    	<input type="hidden" name="type" value=1 />
+    	题目:<input type="text" name="mail.title"/>
+    	内容:<input type="text" name="mail.content"/>
+    	<input type="submit" value="提交"/> 
+    </form>
   </body>
 </html>
