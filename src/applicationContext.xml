@@ -48,4 +48,22 @@
         <property name="registryPort" value="8001"/>
     </bean>
     <bean id="monitor" class="org.cae.controller.impl.MonitorControllerImpl"/>
+    
+    <bean id="jmsFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">  
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">  
+                <property name="brokerURL">
+                    <value>tcp://127.0.0.1:61616</value>  
+                </property>  
+            </bean>  
+        </property>  
+        <property name="maxConnections" value="100"></property>  
+    </bean>
+    <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">  
+        <constructor-arg index="0" value="MailQueue"></constructor-arg>
+    </bean>
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsFactory"></property> 
+        <property name="defaultDestination" ref="destination" />  
+    </bean>
 </beans>
