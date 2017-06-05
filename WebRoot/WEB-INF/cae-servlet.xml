@@ -16,11 +16,27 @@
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/"
 		p:suffix=".jsp"/>
-	<mvc:annotation-driven>
+	<mvc:annotation-driven validator="validator">
 	    <mvc:message-converters>
 	        <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
 	        <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
 	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 	    </mvc:message-converters>
 	</mvc:annotation-driven>
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">  
+	    <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+	    <property name="validationMessageSource" ref="messageSource"/>  
+	</bean>  
+	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
+	    <property name="basenames">  
+	        <list>
+	            <value>classpath:validation_message</value>  
+	            <value>classpath:org/hibernate/validator/ValidationMessages</value>  
+	        </list>
+	    </property>
+	    <property name="useCodeAsDefaultMessage" value="false"/>  
+	    <property name="defaultEncoding" value="UTF-8"/>  
+	    <property name="cacheSeconds" value="60"/>  
+	</bean> 
 </beans>

@@ -1,8 +1,14 @@
 package org.cae.mail.entity;
 
-public class MailMessage {
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
+public class MailMessage {
+	
+	@NotNull(message="{mailMessage.type.null}")
 	private Integer type;
+	@Valid
+	@NotNull(message="{mailMessage.mail.null}")
 	private Mail mail;
 	public Integer getType() {
 		return type;

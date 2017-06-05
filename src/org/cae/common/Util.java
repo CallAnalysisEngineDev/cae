@@ -10,6 +10,8 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.cae.entity.Entity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -130,5 +132,14 @@ public class Util {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String getFieldErrors(BindingResult bindingResult){
+		String result="";
+		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+		for(FieldError fieldError:fieldErrors){
+			result+=fieldError.getDefaultMessage()+"\n";
+		}
+		return result;
 	}
 }
