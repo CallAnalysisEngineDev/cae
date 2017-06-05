@@ -6,10 +6,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Mail {
 
 	@NotEmpty(message="{mail.title.empty}")
-	@Length(max=10,message="{mail.title.max}")
+	@Length(max=20,message="{mail.title.max}")
 	private String title;
 	@NotEmpty(message="{mail.content.empty}")
-	@Length(max=100,message="{mail.content.max}")
+	@Length(max=150,message="{mail.content.max}")
 	private String content;
 	public String getTitle() {
 		return title;

@@ -27,8 +27,6 @@ public class CallServiceImpl implements ICallService {
 	
 	@Resource(name="callDao")
 	private ICallDao callDao;
-	@Resource(name="callLucene")
-	private ICallDao callLucene;
 	@Autowired
 	private ISongDao songDao;
 
