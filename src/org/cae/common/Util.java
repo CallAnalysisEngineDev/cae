@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -135,11 +136,11 @@ public class Util {
 	}
 	
 	public static String getFieldErrors(BindingResult bindingResult){
-		String result="";
+		List<String> list=new ArrayList<String>();
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		for(FieldError fieldError:fieldErrors){
-			result+=fieldError.getDefaultMessage()+"\n";
+			list.add(fieldError.getDefaultMessage());
 		}
-		return result;
+		return toJson(list);
 	}
 }

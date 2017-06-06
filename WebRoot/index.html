@@ -3,26 +3,31 @@
   <head>
     <base href="/cae/">
     
-    <title>My JSP 'index.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
+    <title>欢迎下载caller</title>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+	<script type="text/javascript" src="http://liuyang-anime.cn:81/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+		function test(){
+			$.ajax({
+				url:"user/advice",
+				type:"post",
+				data:{
+					"type":1,
+					"mail.title":"asdasd",
+					"mail.content":"asdasdasd"
+				},
+				success:function(){
+					alert("success");
+				}
+			});
+		}
+	</script>
   </head>
   
   <body>
     下载的二维码:
-    <form action="user/advice" method="post">
-    	<input type="hidden" name="type" value=1 />
-    	题目:<input type="text" name="mail.title"/>
-    	内容:<input type="text" name="mail.content"/>
-    	<input type="submit" value="提交"/> 
-    </form>
+    <button onclick="test()">aaa</button>
   </body>
 </html>
