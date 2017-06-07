@@ -1,5 +1,9 @@
 package org.cae.controller.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.cae.common.ServiceResult;
 import org.cae.common.Util;
 import org.cae.controller.IMonitorController;
 import org.cae.service.IMonitorService;
@@ -12,8 +16,18 @@ public class MonitorControllerImpl implements IMonitorController {
 	
 	@Override
 	public String queryForHomepageController() {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String,Object> theResult=new HashMap<String,Object>();
+		ServiceResult serviceResult=monitorService.queryStaticInfoService();
+		if(serviceResult.isSuccessed()){
+			theResult=(Map<String, Object>) serviceResult.getResult();
+			theResult.put("cpu", monitorService.queryCpuService());
+			theResult.put("memory", monitorService.queryMemoryService());
+			theResult.put("process", monitorService.queryProcessService());
+			theResult.put("jvmMemory", monitorService.queryJvmMemoryService());
+			theResult.put("jvmThread", monitorService.queryJvmThreadService());
+			theResult.put("jvmClassLoad", monitorService.queryJvmClassService());
+		}
+		return Util.toJson(theResult);
 	}
 
 	@Override
@@ -28,32 +42,27 @@ public class MonitorControllerImpl implements IMonitorController {
 
 	@Override
 	public String queryMemoryController() {
-		// TODO Auto-generated method stub
-		return null;
+		return Util.toJson(monitorService.queryMemoryService());
 	}
 
 	@Override
 	public String queryProcessController() {
-		// TODO Auto-generated method stub
-		return null;
+		return Util.toJson(monitorService.queryProcessService());
 	}
 
 	@Override
 	public String queryJvmMemoryController() {
-		// TODO Auto-generated method stub
-		return null;
+		return Util.toJson(monitorService.queryJvmMemoryService());
 	}
 
 	@Override
 	public String queryJvmThreadController() {
-		// TODO Auto-generated method stub
-		return null;
+		return Util.toJson(monitorService.queryJvmThreadService());
 	}
 
 	@Override
 	public String queryJvmClassController() {
-		// TODO Auto-generated method stub
-		return null;
+		return Util.toJson(monitorService.queryJvmClassService());
 	}
 
 }
