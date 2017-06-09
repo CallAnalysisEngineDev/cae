@@ -1,5 +1,7 @@
 package org.cae.service;
 
+import java.util.List;
+
 import org.cae.common.ServiceResult;
 import org.cae.monitor.entity.CpuInfo;
 import org.cae.monitor.entity.JVMClassLoad;
@@ -16,7 +18,7 @@ public interface IMonitorService {
 	
 	MemoryInfo queryMemoryService();
 	
-	ProcessInfo queryProcessService();
+	List<ProcessInfo> queryProcessService();
 	
 	JVMMemory queryJvmMemoryService();
 	

@@ -1,5 +1,8 @@
 package org.cae.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.cae.common.ServiceResult;
 import org.cae.monitor.entity.CpuInfo;
 import org.cae.monitor.entity.JVMClassLoad;
@@ -32,7 +35,7 @@ public class MonitorServiceImpl implements IMonitorService {
 	}
 
 	@Override
-	public ProcessInfo queryProcessService() {
+	public List<ProcessInfo> queryProcessService() {
 		// TODO Auto-generated method stub
 		return null;
 	}
