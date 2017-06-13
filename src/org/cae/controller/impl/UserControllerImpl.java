@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 
 import org.cae.common.Util;
 import org.cae.controller.IUserController;
@@ -24,15 +25,31 @@ public class UserControllerImpl implements IUserController {
 	private IUserService userService;
 	
 	@Override
+	@RequestMapping(value="/token",method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> getTokenController(HttpSession session) {
+		Map<String,String> theResult=new HashMap<String,String>();
+		String token=Util.getCharId(10);
+		theResult.put("token", token);
+		session.setAttribute("token", token);
+		return theResult;
+	}
+	
+	@Override
 	@RequestMapping(value="/advice",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> adviceController(@Valid MailMessage mailMessage, BindingResult bindingResult) {
+	public Map<String, Object> adviceController(@Valid MailMessage mailMessage, BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()){
 			Map<String,Object> result=new HashMap<String,Object>();
 			result.put("errInfo", Util.getFieldErrors(bindingResult));
 			return result;
 		}
+		String token=(String) session.getAttribute("token");
+		if(!mailMessage.getToken().equals(token)){
+			Map<String,Object> result=new HashMap<String,Object>();
+			result.put("errInfo", "token令牌错误");
+			return result;
+		}
 		return userService.adviceService(mailMessage).toMap();
 	}
-
 }

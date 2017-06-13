@@ -5,11 +5,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Mail {
 
-	@NotEmpty(message="{mail.title.empty}")
-	@Length(max=20,message="{mail.title.max}")
+	@NotEmpty(message="反馈标题不能为空")
+	@Length(max=20,message="反馈标题超过20个字")
 	private String title;
-	@NotEmpty(message="{mail.content.empty}")
-	@Length(max=150,message="{mail.content.max}")
+	@NotEmpty(message="反馈内容不能为空")
+	@Length(max=150,message="反馈内容超过150个字")
 	private String content;
 	public String getTitle() {
 		return title;

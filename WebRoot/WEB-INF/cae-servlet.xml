@@ -26,12 +26,11 @@
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">  
 	    <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
 	    <property name="validationMessageSource" ref="messageSource"/>  
-	</bean>  
+	</bean>
 	
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">  
 	    <property name="basenames">  
 	        <list>
-	            <value>classpath:validation_message</value>  
 	            <value>classpath:org/hibernate/validator/ValidationMessages</value>  
 	        </list>
 	    </property>
