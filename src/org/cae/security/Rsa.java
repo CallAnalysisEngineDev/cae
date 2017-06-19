@@ -17,7 +17,8 @@ import javax.crypto.Cipher;
 
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.cae.common.Util;
+import static org.cae.common.Util.base642byte;
+import static org.cae.common.Util.byte2base64;
 import org.springframework.stereotype.Component;
 
 @Component("rsa")
@@ -39,7 +40,7 @@ public class Rsa extends AbstractAlgorithm {
 			//为了和前端js对应,cipher选择的算法模式必须是RSA/None/PKCS1Padding,后面的BC是指BouncyCastleProvider,也是不可以改变的
             Cipher cipher = Cipher.getInstance("RSA/None/PKCS1Padding", "BC");
             cipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
-            byte[] plainText = cipher.doFinal(Util.base642byte(encryptInfo));
+            byte[] plainText = cipher.doFinal(base642byte(encryptInfo));
             return new String(plainText);
         } catch (Exception e) {
         	e.printStackTrace();
@@ -60,8 +61,8 @@ public class Rsa extends AbstractAlgorithm {
 			keyPairGenerator.initialize(KEY_LENGTH, new SecureRandom());
 			keyPair=keyPairGenerator.generateKeyPair();
 			logger.info("公钥/秘钥生成成功");
-			logger.info("当前的公钥是:\n"+Util.byte2base64(keyPair.getPublic().getEncoded()));
-			logger.info("当前的秘钥是:\n"+Util.byte2base64(keyPair.getPrivate().getEncoded()));
+			logger.info("当前的公钥是:\n"+byte2base64(keyPair.getPublic().getEncoded()));
+			logger.info("当前的秘钥是:\n"+byte2base64(keyPair.getPrivate().getEncoded()));
 			saveKeyPair();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -74,8 +75,8 @@ public class Rsa extends AbstractAlgorithm {
 			FileInputStream fis=new FileInputStream(KEY_PATH);
 			ObjectInputStream oos = new ObjectInputStream(fis);
 			keyPair = (KeyPair) oos.readObject();
-			logger.info("当前的公钥是:\n"+Util.byte2base64(keyPair.getPublic().getEncoded()));
-			logger.info("当前的秘钥是:\n"+Util.byte2base64(keyPair.getPrivate().getEncoded()));
+			logger.info("当前的公钥是:\n"+byte2base64(keyPair.getPublic().getEncoded()));
+			logger.info("当前的秘钥是:\n"+byte2base64(keyPair.getPrivate().getEncoded()));
 	        oos.close();
 	        fis.close();
 		} catch (IOException | ClassNotFoundException e) {
@@ -100,7 +101,7 @@ public class Rsa extends AbstractAlgorithm {
 
 	//获取公钥,使用base64进行编码
 	public String getPublicKey(){
-		return Util.byte2base64(keyPair.getPublic().getEncoded());
+		return byte2base64(keyPair.getPublic().getEncoded());
 	}
 
 }

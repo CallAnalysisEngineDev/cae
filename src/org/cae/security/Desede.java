@@ -7,7 +7,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
-import org.cae.common.Util;
+import static org.cae.common.Util.base642byte;;
 
 public class Desede extends AbstractAlgorithm {
 	
@@ -36,7 +36,7 @@ public class Desede extends AbstractAlgorithm {
 			Cipher cipher = Cipher.getInstance("desede/CBC/NoPadding");
 			IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
 		    cipher.init(Cipher.DECRYPT_MODE, deskey,ips);
-		    byte[] decryptData = cipher.doFinal(Util.base642byte(encryptInfo));
+		    byte[] decryptData = cipher.doFinal(base642byte(encryptInfo));
 		    return new String(decryptData, "UTF-8").trim();
 		} catch (Exception e) {
 			e.printStackTrace();

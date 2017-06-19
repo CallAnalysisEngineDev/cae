@@ -11,7 +11,7 @@ import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.common.IConstant;
 import org.cae.common.SqlWithParams;
-import org.cae.common.Util;
+import static org.cae.common.Util.*;
 import org.cae.dao.ISongDao;
 import org.cae.entity.Song;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class SongDaoImpl implements ISongDao {
 	@Override
 	public DaoResult getSongForHomepageDao() {
 		Map<String,Object> theResult=new HashMap<String,Object>();
-		String sql="SELECT song_id,song_name,song_cover,(song_click/timestampdiff(hour,song_create_time,'"+Util.getNowTime()+"')) AS clickrate "
+		String sql="SELECT song_id,song_name,song_cover,(song_click/timestampdiff(hour,song_create_time,'"+getNowTime()+"')) AS clickrate "
 				+ "FROM song "
 				+ "ORDER BY clickrate DESC "
 				+ "LIMIT "+IConstant.HOMEPAGE_RED_LIMIT;
@@ -91,14 +91,14 @@ public class SongDaoImpl implements ISongDao {
 		int paramsIndex=0;
 		whereBuffer.append("WHERE 1=1 ");
 		
-		if(Util.isNotNull(song.getSongName())){//如果搜索的条件不是name
+		if(isNotNull(song.getSongName())){//如果搜索的条件不是name
 			insertIndex=whereBuffer.indexOf("WHERE")+5;
 			whereBuffer.insert(insertIndex, " song_name LIKE ? AND ");//拼接where 
 			preParams[paramsIndex]="%"+song.getSongName()+"%";
 			paramsIndex++;
 		}
 		
-		if(Util.isNotNull(condition.getOrderBy())){
+		if(isNotNull(condition.getOrderBy())){
 			String orderDir=condition.getOrderDir();
 			orderBuffer.append("ORDER BY "+condition.getOrderBy()+" "+(orderDir!=null?orderDir:"DESC")+",song_name ASC ");
 		}
@@ -138,8 +138,8 @@ public class SongDaoImpl implements ISongDao {
 					Song song=new Song();
 					song.setSongName(rs.getString("song_name"));
 					song.setSongOwner(rs.getString("song_owner"));
-					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
-					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
+					song.setSongSellTime(date2String(rs.getDate("song_sell_time")));
+					song.setSongLastModifyTime(date2String(rs.getDate("song_last_modify_time")));
 					song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
 					song.setSongId(rs.getString("song_id"));
 					song.setSongVideo(rs.getShort("song_video"));
@@ -148,7 +148,7 @@ public class SongDaoImpl implements ISongDao {
 			});
 			return new DaoResult(true, theResult);
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, ex.getMessage());
 		}
@@ -165,14 +165,14 @@ public class SongDaoImpl implements ISongDao {
 					song.getSongSellTime(),
 					song.getSongOwner(),
 					song.getSongCover(),
-					Util.getNowTime(),
+					getNowTime(),
 					0,
-					Util.getNowDate(),
+					getNowDate(),
 					song.getSongVideo());
 			logger.info("插入新的歌曲记录成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "删除失败");
 		}
@@ -187,7 +187,7 @@ public class SongDaoImpl implements ISongDao {
 			logger.info("删除id为"+song.getSongId()+"的歌曲记录成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "删除失败");
 		}

@@ -10,7 +10,7 @@ import org.cae.common.Condition;
 import org.cae.common.DaoResult;
 import org.cae.common.IConstant;
 import org.cae.common.SqlWithParams;
-import org.cae.common.Util;
+import static org.cae.common.Util.*;
 import org.cae.dao.ICallDao;
 import org.cae.entity.CallRecord;
 import org.cae.entity.Song;
@@ -52,7 +52,7 @@ public class CallDaoImpl implements ICallDao {
 			});
 			return new DaoResult(true, theResult);
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return null;
 		}
@@ -94,8 +94,8 @@ public class CallDaoImpl implements ICallDao {
 					Song song=new Song();
 					song.setSongName(rs.getString("song_name"));
 					song.setSongOwner(rs.getString("song_owner"));
-					song.setSongSellTime(Util.date2String(rs.getDate("song_sell_time")));
-					song.setSongLastModifyTime(Util.date2String(rs.getDate("song_last_modify_time")));
+					song.setSongSellTime(date2String(rs.getDate("song_sell_time")));
+					song.setSongLastModifyTime(date2String(rs.getDate("song_last_modify_time")));
 					song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
 					song.setSongId(rs.getString("song_id"));
 					song.setSongVideo(rs.getShort("song_video"));
@@ -109,7 +109,7 @@ public class CallDaoImpl implements ICallDao {
 			ex.printStackTrace();
 			return new DaoResult(false, "当前歌曲"+callRecord.getSong().getSongId()+"不存在call表");
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, ex.getMessage());
 		}
@@ -133,14 +133,14 @@ public class CallDaoImpl implements ICallDao {
 		int paramsIndex=0;
 		buffer.append("WHERE 1=1 ");
 		
-		if(callRecord.getSong()!=null&&Util.isNotNull(callRecord.getSong().getSongId())){
+		if(callRecord.getSong()!=null&&isNotNull(callRecord.getSong().getSongId())){
 			//这是获取最新的call表的情况,即通过songId来获取
 			insertIndex=buffer.indexOf("WHERE")+5;
 			buffer.insert(insertIndex, " s.song_id = ? AND ");//拼接where
 			preParams[paramsIndex]=callRecord.getSong().getSongId();
 			paramsIndex++;
 		}
-		else if(Util.isNotNull(callRecord.getCallId())){
+		else if(isNotNull(callRecord.getCallId())){
 			//这是获取某个旧版本的call表的情况,即通过callId来获取
 			insertIndex=buffer.indexOf("WHERE")+5;
 			buffer.insert(insertIndex, " cr.call_id = ? AND ");
@@ -159,7 +159,7 @@ public class CallDaoImpl implements ICallDao {
 			//添加一个call表的记录
 			String sql="INSERT INTO call_record(call_id,song_id,call_source,call_version) "
 					+ "VALUES(?,?,?,?)";
-			template.update(sql, Util.getCharId("CR-", 10),
+			template.update(sql, getCharId("CR-", 10),
 					callRecord.getSong().getSongId(),
 					callRecord.getCallSource(),
 					callRecord.getCallVersion());
@@ -167,11 +167,11 @@ public class CallDaoImpl implements ICallDao {
 			sql="UPDATE song "
 				+ "SET song_last_modify_time = ? "
 				+ "WHERE song_id = ?";
-			template.update(sql, Util.getNowDate(),callRecord.getSong().getSongId());
+			template.update(sql, getNowDate(),callRecord.getSong().getSongId());
 			logger.info("更新歌曲最后修改时间成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "插入失败");
 		}
@@ -187,7 +187,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("删除id为"+callRecord.getCallId()+"的call表记录成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "删除失败");
 		}
@@ -220,7 +220,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("批删除call表记录成功");
 			return new DaoResult(true, null);
 		}catch(Exception ex){
-			Util.logStackTrace(logger, ex.getStackTrace());
+			logStackTrace(logger, ex.getStackTrace());
 			ex.printStackTrace();
 			return new DaoResult(false, "批删除失败");
 		}

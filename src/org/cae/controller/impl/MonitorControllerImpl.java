@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.cae.common.ServiceResult;
-import org.cae.common.Util;
+import static org.cae.common.Util.toJson;
 import org.cae.controller.IMonitorController;
 import org.cae.service.IMonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class MonitorControllerImpl implements IMonitorController {
 			theResult.put("jvmThread", monitorService.queryJvmThreadService());
 			theResult.put("jvmClassLoad", monitorService.queryJvmClassService());
 		}
-		return Util.toJson(theResult);
+		return toJson(theResult);
 	}
 
 	@Override
@@ -37,32 +37,32 @@ public class MonitorControllerImpl implements IMonitorController {
 
 	@Override
 	public String queryCpuController() {
-		return Util.toJson(monitorService.queryCpuService());
+		return toJson(monitorService.queryCpuService());
 	}
 
 	@Override
 	public String queryMemoryController() {
-		return Util.toJson(monitorService.queryMemoryService());
+		return toJson(monitorService.queryMemoryService());
 	}
 
 	@Override
 	public String queryProcessController() {
-		return Util.toJson(monitorService.queryProcessService());
+		return toJson(monitorService.queryProcessService());
 	}
 
 	@Override
 	public String queryJvmMemoryController() {
-		return Util.toJson(monitorService.queryJvmMemoryService());
+		return toJson(monitorService.queryJvmMemoryService());
 	}
 
 	@Override
 	public String queryJvmThreadController() {
-		return Util.toJson(monitorService.queryJvmThreadService());
+		return toJson(monitorService.queryJvmThreadService());
 	}
 
 	@Override
 	public String queryJvmClassController() {
-		return Util.toJson(monitorService.queryJvmClassService());
+		return toJson(monitorService.queryJvmClassService());
 	}
 
 }

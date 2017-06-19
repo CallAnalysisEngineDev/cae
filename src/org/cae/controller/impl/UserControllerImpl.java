@@ -6,7 +6,8 @@ import java.util.Map;
 import javax.validation.Valid;
 import javax.servlet.http.HttpSession;
 
-import org.cae.common.Util;
+import static org.cae.common.Util.getFieldErrors;
+import static org.cae.common.Util.getCharId;
 import org.cae.controller.IUserController;
 import org.cae.mail.entity.MailMessage;
 import org.cae.service.IUserService;
@@ -29,7 +30,7 @@ public class UserControllerImpl implements IUserController {
 	@ResponseBody
 	public Map<String, String> getTokenController(HttpSession session) {
 		Map<String,String> theResult=new HashMap<String,String>();
-		String token=Util.getCharId(10);
+		String token=getCharId(10);
 		theResult.put("token", token);
 		session.setAttribute("token", token);
 		return theResult;
@@ -41,7 +42,7 @@ public class UserControllerImpl implements IUserController {
 	public Map<String, Object> adviceController(@Valid MailMessage mailMessage, BindingResult bindingResult, HttpSession session) {
 		if(bindingResult.hasErrors()){
 			Map<String,Object> result=new HashMap<String,Object>();
-			result.put("errInfo", Util.getFieldErrors(bindingResult));
+			result.put("errInfo", getFieldErrors(bindingResult));
 			return result;
 		}
 		String token=(String) session.getAttribute("token");

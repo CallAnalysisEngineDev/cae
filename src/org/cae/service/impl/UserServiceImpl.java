@@ -5,7 +5,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 
 import org.cae.common.ServiceResult;
-import org.cae.common.Util;
+import static org.cae.common.Util.toJson;
 import org.cae.mail.entity.MailMessage;
 import org.cae.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements IUserService{
 
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				return session.createTextMessage(Util.toJson(mailMessage));
+				return session.createTextMessage(toJson(mailMessage));
 			}
 			
 		});

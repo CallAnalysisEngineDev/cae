@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.cae.common.DaoResult;
-import org.cae.common.Util;
+import static org.cae.common.Util.*;
 import org.cae.dao.IAdminDao;
 import org.cae.entity.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class AdminDaoImpl implements IAdminDao {
 			+ "WHERE admin_useraccount = ? "
 			+ "AND admin_password = ?";
 		//密码要进行md5处理后才和数据库的对比
-		List<Admin> theResult=template.query(sql, new Object[]{admin.getAdminUseraccount(),Util.md5(admin.getAdminPassword())}, new RowMapper<Admin>() {
+		List<Admin> theResult=template.query(sql, new Object[]{admin.getAdminUseraccount(),md5(admin.getAdminPassword())}, new RowMapper<Admin>() {
 			
 			@Override
 			public Admin mapRow(ResultSet rs, int row) throws SQLException {
@@ -48,7 +48,7 @@ public class AdminDaoImpl implements IAdminDao {
 			}
 			
 		});
-		if(Util.isNotNull(theResult)){
+		if(isNotNull(theResult)){
 			return new DaoResult(true,theResult.get(0));
 		}
 		else{
