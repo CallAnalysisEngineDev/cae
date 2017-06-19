@@ -1,7 +1,5 @@
 package org.cae.test;
 
-import static org.junit.Assert.*;
-
 import org.cae.mail.entity.Mail;
 import org.cae.mail.entity.MailMessage;
 import org.cae.service.IUserService;

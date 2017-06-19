@@ -7,7 +7,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
-import static org.cae.common.Util.base642byte;;
+import static org.cae.common.Util.base642byte;
 
 public class Desede extends AbstractAlgorithm {
 	
