@@ -37,7 +37,7 @@ public class AdminControllerImpl implements IAdminController {
 	@RequestMapping("/login")
 	public void adminLoginView(HttpServletRequest request, HttpServletResponse response){
 		try {
-			request.getRequestDispatcher("/WEB-INF/login.html").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 		} catch (ServletException | IOException e) {
 			e.printStackTrace();
 		};

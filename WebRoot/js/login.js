@@ -131,7 +131,8 @@ var Login = (function(){
 		}
 		else{
 			//如果登录失败,则把原因打印出来
-			alert(data.errInfo);
+			$("#errInfo").html(data.errInfo);
+			$("#error").show();
 		}
 	};
 	
