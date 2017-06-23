@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Resource;
 
 import org.cae.common.DaoResult;
+import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.dao.IAdminDao;
 import org.cae.entity.Admin;
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service("adminService")
 public class AdminServiceImpl implements IAdminService {
 
-	private ConcurrentHashMap<Integer, SecurityAlgorithm> keys=new ConcurrentHashMap<Integer, SecurityAlgorithm>();
+	private ConcurrentHashMap<Integer, SecurityAlgorithm> keys=Generator.concurrentHashMap();
 	@Autowired
 	private IAdminDao adminDao;
 	@Resource(name="rsa")

@@ -1,7 +1,6 @@
 package org.cae.controller.impl;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.cae.common.Condition;
+import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.controller.IAdminController;
 import org.cae.entity.Admin;
@@ -50,7 +50,7 @@ public class AdminControllerImpl implements IAdminController {
 	@RequestMapping("/shakeHand")
 	@ResponseBody
 	public Map<String, Object> shakeHand(HttpSession session,ShakeHand shakeHand) {
-		Map<String,Object> theResult=new HashMap<String,Object>();
+		Map<String,Object> theResult=Generator.hashMap();
 		//因为握手分多个阶段,每个阶段附带的信息内容、含义以及处理逻辑都不同,所以需要根据类型(即ShakeHand的type)来进行不同的处理
 		Integer type=shakeHand.getType();
 		if(type==SecurityAlgorithm.ASK_PUBKEY){

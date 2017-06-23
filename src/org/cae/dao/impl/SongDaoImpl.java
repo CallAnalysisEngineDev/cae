@@ -2,16 +2,18 @@ package org.cae.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
+import org.cae.common.Generator;
 import org.cae.common.IConstant;
 import org.cae.common.SqlWithParams;
+
 import static org.cae.common.Util.*;
+
 import org.cae.dao.ISongDao;
 import org.cae.entity.Song;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class SongDaoImpl implements ISongDao {
 
 	@Override
 	public DaoResult getSongForHomepageDao() {
-		Map<String,Object> theResult=new HashMap<String,Object>();
+		Map<String,Object> theResult=Generator.hashMap();
 		String sql="SELECT song_id,song_name,song_cover,(song_click/timestampdiff(hour,song_create_time,'"+getNowTime()+"')) AS clickrate "
 				+ "FROM song "
 				+ "ORDER BY clickrate DESC "
@@ -38,7 +40,7 @@ public class SongDaoImpl implements ISongDao {
 			@Override
 			public Map<String, Object> mapRow(ResultSet rs, int row)
 					throws SQLException {
-				Map<String, Object> map=new HashMap<String,Object>();
+				Map<String, Object> map=Generator.hashMap();
 				map.put("songId", rs.getString("song_id"));
 				map.put("songName", rs.getString("song_name"));
 				map.put("songCover", IConstant.STATIC_PREFIX+rs.getString("song_cover"));
