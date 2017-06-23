@@ -44,7 +44,9 @@ public class AdminDaoImpl implements IAdminDao {
 			
 			@Override
 			public Admin mapRow(ResultSet rs, int row) throws SQLException {
-				return new Admin(rs.getInt("admin_id"));
+				return new Admin.Builder()
+							.adminId(rs.getInt("admin_id"))
+							.build();
 			}
 			
 		});

@@ -71,12 +71,12 @@ public class SongDaoImpl implements ISongDao {
 
 			@Override
 			public Song mapRow(ResultSet rs, int row) throws SQLException {
-				Song song=new Song();
-				song.setSongId(rs.getString("song_id"));
-				song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
-				song.setSongOwner(rs.getString("song_owner"));
-				song.setSongName(rs.getString("song_name"));
-				return song;
+				return new Song.Builder()
+							.songId(rs.getString("song_id"))
+							.songCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"))
+							.songOwner(rs.getString("song_owner"))
+							.songName(rs.getString("song_name"))
+							.build();
 			}
 		});
 		return new DaoResult(true, theResult);
@@ -135,15 +135,15 @@ public class SongDaoImpl implements ISongDao {
 				@Override
 				public Song mapRow(ResultSet rs, int row)
 						throws SQLException {
-					Song song=new Song();
-					song.setSongName(rs.getString("song_name"));
-					song.setSongOwner(rs.getString("song_owner"));
-					song.setSongSellTime(date2String(rs.getDate("song_sell_time")));
-					song.setSongLastModifyTime(date2String(rs.getDate("song_last_modify_time")));
-					song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
-					song.setSongId(rs.getString("song_id"));
-					song.setSongVideo(rs.getShort("song_video"));
-					return song;
+					return new Song.Builder()
+								.songName(rs.getString("song_name"))
+								.songOwner(rs.getString("song_owner"))
+								.songSellTime(date2String(rs.getDate("song_sell_time")))
+								.songLastModifyTime(date2String(rs.getDate("song_last_modify_time")))
+								.songCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"))
+								.songId(rs.getString("song_id"))
+								.songVideo(rs.getShort("song_video"))
+								.build();
 				}
 			});
 			return new DaoResult(true, theResult);

@@ -47,7 +47,10 @@ public class AdminServiceImpl implements IAdminService {
 			//使用3des对密码进行解密,得到真实的密码
 			String password=desede.decrypt((String)map.get("p"));
 			//调用dao层方法,判断是否登录成功
-			DaoResult daoResult=adminDao.getAdminInfoDao(new Admin(userAccount, password));
+			DaoResult daoResult=adminDao.getAdminInfoDao(new Admin.Builder()
+																.adminUseraccount(userAccount)
+																.adminPassword(password)
+																.build());
 			//如果登录成功,则把上面已经实例化出来的3des对象放入keys中,这样之后的通信都可以根据管理员id来获取对称秘钥了
 			if(daoResult.isSuccessed()){
 				Admin admin=(Admin) daoResult.getResult();

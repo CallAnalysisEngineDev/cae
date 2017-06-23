@@ -44,9 +44,10 @@ public class CallDaoImpl implements ICallDao {
 				@Override
 				public CallRecord mapRow(ResultSet rs, int row)
 						throws SQLException {
-					CallRecord callRecord=new CallRecord();
-					callRecord.setCallId(rs.getString("call_id"));
-					callRecord.setCallVersion(rs.getShort("call_version"));
+					CallRecord callRecord=new CallRecord.Builder()
+												.callId(rs.getString("call_id"))
+												.callVersion(rs.getShort("call_version"))
+												.build();
 					return callRecord;
 				}
 			});
@@ -88,18 +89,20 @@ public class CallDaoImpl implements ICallDao {
 				@Override
 				public CallRecord mapRow(ResultSet rs, int row)
 						throws SQLException {
-					CallRecord callRecord=new CallRecord();
-					callRecord.setCallSource(IConstant.STATIC_PREFIX+rs.getString("call_source"));
-					callRecord.setCallVersion(rs.getShort("call_version"));
-					Song song=new Song();
-					song.setSongName(rs.getString("song_name"));
-					song.setSongOwner(rs.getString("song_owner"));
-					song.setSongSellTime(date2String(rs.getDate("song_sell_time")));
-					song.setSongLastModifyTime(date2String(rs.getDate("song_last_modify_time")));
-					song.setSongCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"));
-					song.setSongId(rs.getString("song_id"));
-					song.setSongVideo(rs.getShort("song_video"));
-					callRecord.setSong(song);
+					Song song=new Song.Builder()
+								.songName(rs.getString("song_name"))
+								.songOwner(rs.getString("song_owner"))
+								.songSellTime(date2String(rs.getDate("song_sell_time")))
+								.songLastModifyTime(date2String(rs.getDate("song_last_modify_time")))
+								.songCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"))
+								.songId(rs.getString("song_id"))
+								.songVideo(rs.getShort("song_video"))
+								.build();
+					CallRecord callRecord=new CallRecord.Builder()
+												.callSource(IConstant.STATIC_PREFIX+rs.getString("call_source"))
+												.callVersion(rs.getShort("call_version"))
+												.song(song)
+												.build();
 					return callRecord;
 				}
 				

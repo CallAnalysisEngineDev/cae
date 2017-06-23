@@ -34,34 +34,41 @@ public class CallTest {
 	public void queryAllSongService(){
 		Condition condition=new Condition();
 		condition.setPage(1);
-		Song song=new Song();
-		song.setSongName("");
+		Song song=new Song.Builder()
+					.songName("")
+					.build();
 		ServiceResult result=callService.queryAllSongService(condition, song);
 		System.out.println(result);
 	}
 	
 	@Test
 	public void queryCallService(){
-		CallRecord callRecord=new CallRecord();
-		Song song=new Song("gkgn");
-		callRecord.setSong(song);
+		Song song=new Song.Builder()
+						.songName("gkgn")
+						.build();
+		CallRecord callRecord=new CallRecord.Builder()
+									.song(song)
+									.build();
 		ServiceResult result=callService.queryCallService(callRecord);
 		System.out.println(result);
 	}
 	
 	@Test
 	public void addCallService(){
-		CallRecord callRecord=new CallRecord();
-		callRecord.setSong(new Song("gugu"));
-		callRecord.setCallSource("/aqours/海岸通りで待ってるよ.html");
-		callRecord.setCallVersion((short)25);
+		CallRecord callRecord=new CallRecord.Builder()
+								.song(new Song.Builder().songName("gugu").build())
+								.callSource("/aqours/海岸通りで待ってるよ.html")
+								.callVersion((short)25)
+								.build();
 		ServiceResult result=callService.addCallService(callRecord);
 		System.out.println(result);
 	}
 	
 	@Test
 	public void removeCallService(){
-		CallRecord callRecord=new CallRecord("CR-gq5UvSY");
+		CallRecord callRecord=new CallRecord.Builder()
+								.callId("CR-gq5UvSY")
+								.build();
 		ServiceResult result=callService.removeCallService(callRecord);
 		System.out.println(result);
 	}
@@ -69,9 +76,13 @@ public class CallTest {
 	@Test
 	public void removeCallsService(){
 		List<CallRecord> callRecords=new ArrayList<CallRecord>();
-		CallRecord callRecord=new CallRecord("CR-bGaS4yp");
+		CallRecord callRecord=new CallRecord.Builder()
+									.callId("CR-bGaS4yp")
+									.build();
 		callRecords.add(callRecord);
-		callRecord=new CallRecord("CR-0NPVFFF");
+		callRecord=new CallRecord.Builder()
+									.callId("CR-0NPVFFF")
+									.build();
 		callRecords.add(callRecord);
 		ServiceResult result=callService.removeCallService(callRecords);
 		System.out.println(result);

@@ -6,33 +6,54 @@ public class CallRecord extends Entity{
 	private String callId;
 	private String callSource;
 	private Short callVersion;
-	public CallRecord(){}
-	public CallRecord(String callId){
-		this.callId=callId;
+
+	private CallRecord(Builder builder){
+		this.song=builder.song;
+		this.callId=builder.callId;
+		this.callSource=builder.callSource;
+		this.callVersion=builder.callVersion;
 	}
+	
+	public static class Builder implements IBuilder<CallRecord>{
+		private Song song;
+		private String callId;
+		private String callSource;
+		private Short callVersion;
+		public Builder(){}
+		public Builder song(Song song){
+			this.song=song;
+			return this;
+		}
+		public Builder callId(String callId){
+			this.callId=callId;
+			return this;
+		}
+		public Builder callSource(String callSource){
+			this.callSource=callSource;
+			return this;
+		}
+		public Builder callVersion(Short callVersion){
+			this.callVersion=callVersion;
+			return this;
+		}
+		@Override
+		public CallRecord build() {
+			return new CallRecord(this);
+		}
+		
+	}
+	
 	public Song getSong() {
 		return song;
-	}
-	public void setSong(Song song) {
-		this.song = song;
 	}
 	public String getCallId() {
 		return callId;
 	}
-	public void setCallId(String callId) {
-		this.callId = callId;
-	}
 	public String getCallSource() {
 		return callSource;
 	}
-	public void setCallSource(String callSource) {
-		this.callSource = callSource;
-	}
 	public Short getCallVersion() {
 		return callVersion;
-	}
-	public void setCallVersion(Short callVersion) {
-		this.callVersion = callVersion;
 	}
 	
 }

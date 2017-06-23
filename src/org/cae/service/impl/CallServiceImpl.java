@@ -106,8 +106,9 @@ public class CallServiceImpl implements ICallService {
 				return result;
 			}
 			else{
-				cr=new CallRecord();
-				cr.setSong(song);
+				cr=new CallRecord.Builder()
+						.song(song)
+						.build();
 			}
 		}
 		result.setSuccessed(true);
