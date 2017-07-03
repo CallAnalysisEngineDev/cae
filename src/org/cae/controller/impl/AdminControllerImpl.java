@@ -58,7 +58,7 @@ public class AdminControllerImpl implements IAdminController {
 			//获取服务器自己的公钥和MD5加密后的公钥并返回
 			String publicKey=adminService.getPublicKeyService().replaceAll("\r|\n", "");
 			theResult.put("publicKey", publicKey);
-			theResult.put("extra",md5(publicKey) );
+			theResult.put("summary",md5(publicKey) );
 		}
 		else if(type==SecurityAlgorithm.ENCTYPT_DATA){
 			//这个分支就代表客户端已经把账号、密码和对称秘钥都发过来了
