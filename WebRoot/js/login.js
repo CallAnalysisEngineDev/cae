@@ -92,13 +92,15 @@ var Login = (function(){
 		Common.ajax("admin/shakeHand", "get", data, login_2);
 	}
 	
-	//客户端登录握手第二步
 	function login_2(data){
 		//data即从服务器中拿到的公钥
 		//如果确实拿到了公钥,则将其set进encrypt成员中,以便之后的对称加密
-		if(data.publicKey!=null){
-	        encrypt.setPublicKey(data.publicKey);
+		if(data.publicKey!=null&&data.summary!=null){
+	        	encrypt.setPublicKey(data.publicKey);
+
 		}
+		//对数据完整性做检查
+	if(encrypt.encrypt_MD5(data.publicKey)==data.summary){
 		//使用公钥对对称秘钥进行非对称加密加密
 		var encryptKey=encrypt.encrypt_RSA(Common.key.value);
 		//使用3DES对管理员账号进行加密
@@ -112,12 +114,19 @@ var Login = (function(){
 			"p":encryptAdminUserPassword,
 			"k":encryptKey
 		};
+		//将formData转换成字符串后进行MD5加密以用于后续服务器校验数据完整性 
+		var encryptCheckEncode=encrypt.encrypt_MD5(JSON.stringify(formData));
 		//将formData转换成字符串后放入一个新的json中,这个json就是用来传给服务器的了
 		var data={
 			"type":Common.ENCTYPT_DATA,//这个type标志证明这个请求时包含了账号、密码和对称秘钥的信息
-			"message":JSON.stringify(formData)
+			"message":JSON.stringify(formData),
+			"summary":encryptCheckEncode
 		};
 		Common.ajax("admin/shakeHand", "post", data, login_3);
+		}else{
+			$("#errInfo").html("登陆失败，请刷新后重试");
+			$("#error").show();
+		}
 	};
 	
 	//客户端登录握手第三步
