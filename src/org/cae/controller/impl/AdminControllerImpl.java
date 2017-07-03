@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.cae.common.Condition;
 import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
+import org.cae.common.Util;
 import org.cae.controller.IAdminController;
 import org.cae.entity.Admin;
 import org.cae.entity.Song;
@@ -54,8 +55,10 @@ public class AdminControllerImpl implements IAdminController {
 		//因为握手分多个阶段,每个阶段附带的信息内容、含义以及处理逻辑都不同,所以需要根据类型(即ShakeHand的type)来进行不同的处理
 		Integer type=shakeHand.getType();
 		if(type==SecurityAlgorithm.ASK_PUBKEY){
-			//获取服务器自己的公钥并返回
-			theResult.put("publicKey", adminService.getPublicKeyService());
+			//获取服务器自己的公钥和MD5加密后的公钥并返回
+			String publicKey=adminService.getPublicKeyService().replaceAll("\r|\n", "");
+			theResult.put("publicKey", publicKey);
+			theResult.put("summary",Util.md5(publicKey) );
 		}
 		else if(type==SecurityAlgorithm.ENCTYPT_DATA){
 			//这个分支就代表客户端已经把账号、密码和对称秘钥都发过来了
