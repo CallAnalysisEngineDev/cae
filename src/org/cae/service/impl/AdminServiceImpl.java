@@ -11,6 +11,7 @@ import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.dao.IAdminDao;
 import org.cae.entity.Admin;
+import static org.cae.common.Util.*;
 import org.cae.security.Desede;
 import org.cae.security.SecurityAlgorithm;
 import org.cae.security.ShakeHand;
@@ -36,7 +37,9 @@ public class AdminServiceImpl implements IAdminService {
 	public ServiceResult loginService(ShakeHand shakeHand) {
 		ServiceResult theResult = null;
 		ObjectMapper mapper = new ObjectMapper();
+		
 		try {
+		if(shakeHand.getExtra().equals(md5(shakeHand.getMessage()))){
 			//先把客户端传来的json字符串转换为java的map
 			Map<String,Object> map=mapper.readValue(shakeHand.getMessage(), Map.class);
 			//获取经过加密的对称秘钥并使用rsa的秘钥解密,得到真实的对称秘钥
@@ -58,6 +61,9 @@ public class AdminServiceImpl implements IAdminService {
 				keys.put(admin.getAdminId(), desede);
 			}
 			theResult=new ServiceResult(daoResult);
+			}else{
+				theResult=new ServiceResult(new DaoResult(false, "数据校验失败"));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
