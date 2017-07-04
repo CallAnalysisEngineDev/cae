@@ -143,4 +143,14 @@ public class Util {
 		}
 		return toJson(list);
 	}
+	
+	public static <T> T toObject(String json,Class<T> clazz){
+		ObjectMapper mapper=new ObjectMapper();
+		try {
+			return mapper.readValue(json, clazz);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

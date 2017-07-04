@@ -44,7 +44,7 @@ public class CallTest {
 	@Test
 	public void queryCallService(){
 		Song song=new Song.Builder()
-						.songName("gkgn")
+						.songId("yisui")
 						.build();
 		CallRecord callRecord=new CallRecord.Builder()
 									.song(song)

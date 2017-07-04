@@ -82,7 +82,6 @@ public class Rsa extends AbstractAlgorithm {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	//将公钥私钥对持久化到本地文件
@@ -96,7 +95,6 @@ public class Rsa extends AbstractAlgorithm {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	//获取公钥,使用base64进行编码

@@ -96,33 +96,32 @@ var Login = (function(){
 		//data即从服务器中拿到的公钥
 		//如果确实拿到了公钥,则将其set进encrypt成员中,以便之后的对称加密
 		if(data.publicKey!=null&&data.summary!=null){
-	        	encrypt.setPublicKey(data.publicKey);
-
+	        encrypt.setPublicKey(data.publicKey);
 		}
 		//对数据完整性做检查
 		if(encrypt.encrypt_MD5(data.publicKey)==data.summary){
-		//使用公钥对对称秘钥进行非对称加密加密
-		var encryptKey=encrypt.encrypt_RSA(Common.key.value);
-		//使用3DES对管理员账号进行加密
-		var encryptAdminUserAccount=encrypt.encrypt_3DES($("#useraccount").val());
-		//使用3DES对管理员密码进行加密
-		var encryptAdminUserPassword=encrypt.encrypt_3DES($("#password").val());
-		//将以上三项加密后的数据都放入一个json里面
-		//下面的键值为了安全都使用了简写,"u"表示useraccount,"p"表示password,"k"表示key(对称秘钥)
-		var formData={
-			"u":encryptAdminUserAccount,
-			"p":encryptAdminUserPassword,
-			"k":encryptKey
-		};
-		//将formData转换成字符串后进行MD5加密以用于后续服务器校验数据完整性 
-		var encryptCheckEncode=encrypt.encrypt_MD5(JSON.stringify(formData));
-		//将formData转换成字符串后放入一个新的json中,这个json就是用来传给服务器的了
-		var data={
-			"type":Common.ENCTYPT_DATA,//这个type标志证明这个请求时包含了账号、密码和对称秘钥的信息
-			"message":JSON.stringify(formData),
-			"summary":encryptCheckEncode
-		};
-		Common.ajax("admin/shakeHand", "post", data, login_3);
+			//使用公钥对对称秘钥进行非对称加密加密
+			var encryptKey=encrypt.encrypt_RSA(Common.key.value);
+			//使用3DES对管理员账号进行加密
+			var encryptAdminUserAccount=encrypt.encrypt_3DES($("#useraccount").val());
+			//使用3DES对管理员密码进行加密
+			var encryptAdminUserPassword=encrypt.encrypt_3DES($("#password").val());
+			//将以上三项加密后的数据都放入一个json里面
+			//下面的键值为了安全都使用了简写,"u"表示useraccount,"p"表示password,"k"表示key(对称秘钥)
+			var formData={
+				"u":encryptAdminUserAccount,
+				"p":encryptAdminUserPassword,
+				"k":encryptKey
+			};
+			//将formData转换成字符串后进行MD5加密以用于后续服务器校验数据完整性 
+			var encryptCheckEncode=encrypt.encrypt_MD5(JSON.stringify(formData));
+			//将formData转换成字符串后放入一个新的json中,这个json就是用来传给服务器的了
+			var data={
+				"type":Common.ENCTYPT_DATA,//这个type标志证明这个请求时包含了账号、密码和对称秘钥的信息
+				"message":JSON.stringify(formData),
+				"summary":encryptCheckEncode
+			};
+			Common.ajax("admin/shakeHand", "post", data, login_3);
 		}else{
 			$("#errInfo").html("登陆失败，请刷新后重试");
 			$("#error").show();
@@ -171,9 +170,9 @@ var Encrypt = (function(){
 	Encrypt.prototype.encrypt_3DES = function(text){
 		return DES3.encrypt(Common.key.value,text);
 	};
-	//MD5加密函数，实际上就是调用了第三方库进行加密
+	//MD5摘要函数，实际上就是调用了第三方库进行摘要
 	Encrypt.prototype.encrypt_MD5 = function(text){
 		return $.md5(text);
-	}
+	};
 	return Encrypt;
 }());
