@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
-import org.cae.common.IConstant;
 import org.cae.common.ServiceResult;
 import org.cae.dao.ICallDao;
 import org.cae.dao.ISongDao;
@@ -19,6 +18,8 @@ import org.cae.service.ICallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.cae.common.IConstant.*;
 
 @Service("callService")
 public class CallServiceImpl implements ICallService {
@@ -56,7 +57,7 @@ public class CallServiceImpl implements ICallService {
 	public ServiceResult queryAllCallService(Condition condition,
 			CallRecord callRecord) {
 		ServiceResult result=new ServiceResult();
-		condition.setPageLimit(IConstant.CALL_SEARCH_LIMIT);
+		condition.setPageLimit(CALL_SEARCH_LIMIT);
 		DaoResult daoResult=callDao.getAllCallDao(condition, callRecord);
 		if(!daoResult.isSuccessed()){
 			result=new ServiceResult(daoResult);
@@ -135,7 +136,7 @@ public class CallServiceImpl implements ICallService {
 	@Override
 	public ServiceResult queryAllSongService(Condition condition, Song song) {
 		ServiceResult result=null;
-		condition.setPageLimit(IConstant.CALL_SEARCH_LIMIT);
+		condition.setPageLimit(CALL_SEARCH_LIMIT);
 		DaoResult daoResult=songDao.getAllSongDao(condition, song);
 		if(!daoResult.isSuccessed()){
 			result=new ServiceResult(daoResult);

@@ -13,6 +13,7 @@ import org.cae.common.IConstant;
 import org.cae.common.SqlWithParams;
 
 import static org.cae.common.Util.*;
+import static org.cae.common.IConstant.*;
 
 import org.cae.dao.ISongDao;
 import org.cae.entity.Song;
@@ -34,7 +35,7 @@ public class SongDaoImpl implements ISongDao {
 		String sql="SELECT song_id,song_name,song_cover,(song_click/timestampdiff(hour,song_create_time,'"+getNowTime()+"')) AS clickrate "
 				+ "FROM song "
 				+ "ORDER BY clickrate DESC "
-				+ "LIMIT "+IConstant.HOMEPAGE_RED_LIMIT;
+				+ "LIMIT "+HOMEPAGE_RED_LIMIT;
 		RowMapper<Map<String,Object>> rowMapper=new RowMapper<Map<String,Object>>() {
 			
 			@Override
@@ -52,7 +53,7 @@ public class SongDaoImpl implements ISongDao {
 		sql="SELECT song_id,song_name,song_cover "
 			+ "FROM song "
 			+ "ORDER BY song_last_modify_time DESC,song_name ASC "
-			+ "LIMIT "+IConstant.HOMEPAGE_NEWEST_LIMIT;
+			+ "LIMIT "+HOMEPAGE_NEWEST_LIMIT;
 		List<Map<String,Object>> newestList=template.query(sql, rowMapper);
 		theResult.put("red", redList);
 		theResult.put("newest", newestList);

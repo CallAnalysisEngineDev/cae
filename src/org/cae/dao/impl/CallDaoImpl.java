@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
-import org.cae.common.IConstant;
 import org.cae.common.SqlWithParams;
 import static org.cae.common.Util.*;
 import org.cae.dao.ICallDao;
@@ -20,6 +19,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import static org.cae.common.IConstant.*;
 
 @Repository("callDao")
 public class CallDaoImpl implements ICallDao {
@@ -94,12 +95,12 @@ public class CallDaoImpl implements ICallDao {
 								.songOwner(rs.getString("song_owner"))
 								.songSellTime(date2String(rs.getDate("song_sell_time")))
 								.songLastModifyTime(date2String(rs.getDate("song_last_modify_time")))
-								.songCover(IConstant.STATIC_PREFIX+rs.getString("song_cover"))
+								.songCover(STATIC_PREFIX+rs.getString("song_cover"))
 								.songId(rs.getString("song_id"))
 								.songVideo(rs.getShort("song_video"))
 								.build();
 					CallRecord callRecord=new CallRecord.Builder()
-												.callSource(IConstant.STATIC_PREFIX+rs.getString("call_source"))
+												.callSource(STATIC_PREFIX+rs.getString("call_source"))
 												.callVersion(rs.getShort("call_version"))
 												.song(song)
 												.build();
