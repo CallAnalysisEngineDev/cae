@@ -57,4 +57,10 @@ public class MonitorServiceImpl implements IMonitorService {
 		return null;
 	}
 
+	@Override
+	public ServiceResult gcService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

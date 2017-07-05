@@ -67,4 +67,9 @@ public class MonitorControllerImpl implements IMonitorController {
 		return toJson(monitorService.queryJvmClassService());
 	}
 
+	@Override
+	public String gcController() {
+		return toJson(monitorService.gcService());
+	}
+
 }

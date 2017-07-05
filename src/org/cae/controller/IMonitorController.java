@@ -17,4 +17,6 @@ public interface IMonitorController {
 	String queryJvmThreadController();
 	
 	String queryJvmClassController();
+	
+	String gcController();
 }

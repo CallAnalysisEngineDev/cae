@@ -25,4 +25,6 @@ public interface IMonitorService {
 	JVMThread queryJvmThreadService();
 	
 	JVMClassLoad queryJvmClassService();
+	
+	ServiceResult gcService();
 }
