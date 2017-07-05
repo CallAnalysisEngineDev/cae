@@ -1,6 +1,5 @@
 package org.cae.monitor.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cae.common.Generator;

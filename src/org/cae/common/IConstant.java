@@ -11,6 +11,6 @@ public class IConstant {
 	//安卓端call表搜索页限制条数
 	public final static Integer CALL_SEARCH_LIMIT = 20;
 	
-	//图片资源公共前缀
-	public final static String STATIC_PREFIX = "http://www.liuyang-anime.cn:81/";
+	//静态资源公共前缀
+	public final static String STATIC_PREFIX = "http://123.207.27.244:81/";
 }
