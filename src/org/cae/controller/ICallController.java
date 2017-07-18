@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.cae.common.Condition;
-import org.cae.entity.CallRecord;
-import org.cae.entity.Song;
+import org.cae.vo.CallRecord;
+import org.cae.vo.Song;
 
 public interface ICallController {
 

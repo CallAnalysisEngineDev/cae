@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.cae.common.Condition;
-import org.cae.entity.Song;
+import org.cae.vo.Song;
 import org.cae.security.ShakeHand;
 import org.springframework.web.servlet.ModelAndView;
 

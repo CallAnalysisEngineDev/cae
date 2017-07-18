@@ -13,7 +13,7 @@ import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.controller.IAdminController;
 import org.cae.entity.Admin;
-import org.cae.entity.Song;
+import org.cae.vo.Song;
 import static org.cae.common.Util.*;
 import org.cae.security.SecurityAlgorithm;
 import org.cae.security.ShakeHand;
