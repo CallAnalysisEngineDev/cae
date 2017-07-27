@@ -15,19 +15,20 @@ public class MonitorControllerImpl implements IMonitorController {
 
 	@Autowired
 	private IMonitorService monitorService;
-	
+
 	@Override
 	public String queryForHomepageController() {
-		Map<String,Object> theResult=Generator.hashMap();
-		ServiceResult serviceResult=monitorService.queryStaticInfoService();
-		if(serviceResult.isSuccessed()){
-			theResult=(Map<String, Object>) serviceResult.getResult();
+		Map<String, Object> theResult = Generator.hashMap();
+		ServiceResult serviceResult = monitorService.queryStaticInfoService();
+		if (serviceResult.isSuccessed()) {
+			theResult = (Map<String, Object>) serviceResult.getResult();
 			theResult.put("cpu", monitorService.queryCpuService());
 			theResult.put("memory", monitorService.queryMemoryService());
 			theResult.put("process", monitorService.queryProcessService());
 			theResult.put("jvmMemory", monitorService.queryJvmMemoryService());
 			theResult.put("jvmThread", monitorService.queryJvmThreadService());
-			theResult.put("jvmClassLoad", monitorService.queryJvmClassService());
+			theResult
+					.put("jvmClassLoad", monitorService.queryJvmClassService());
 		}
 		return toJson(theResult);
 	}

@@ -6,13 +6,16 @@ public class JVMClassLoad extends Entity {
 
 	private String time;
 	private Integer jvmClassLoadedCount;
-	public JVMClassLoad(String time,Integer jvmClassLoadedCount){
-		this.time=time;
-		this.jvmClassLoadedCount=jvmClassLoadedCount;
+
+	public JVMClassLoad(String time, Integer jvmClassLoadedCount) {
+		this.time = time;
+		this.jvmClassLoadedCount = jvmClassLoadedCount;
 	}
+
 	public String getTime() {
 		return time;
 	}
+
 	public Integer getJvmClassLoadedCount() {
 		return jvmClassLoadedCount;
 	}

@@ -4,7 +4,7 @@ import static org.cae.common.Util.toJson;
 
 public class Entity {
 
-	public String toString(){
+	public String toString() {
 		return toJson(this);
 	}
 }

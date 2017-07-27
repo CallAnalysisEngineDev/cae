@@ -25,30 +25,31 @@ public class UserControllerImpl implements IUserController {
 
 	@Autowired
 	private IUserService userService;
-	
+
 	@Override
-	@RequestMapping(value="/token",method=RequestMethod.GET)
+	@RequestMapping(value = "/token", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, String> getTokenController(HttpSession session) {
-		Map<String,String> theResult=Generator.hashMap();
-		String token=getCharId(10);
+		Map<String, String> theResult = Generator.hashMap();
+		String token = getCharId(10);
 		theResult.put("token", token);
 		session.setAttribute("token", token);
 		return theResult;
 	}
-	
+
 	@Override
-	@RequestMapping(value="/advice",method=RequestMethod.POST)
+	@RequestMapping(value = "/advice", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> adviceController(@Valid MailMessage mailMessage, BindingResult bindingResult, HttpSession session) {
-		if(bindingResult.hasErrors()){
-			Map<String,Object> result=Generator.hashMap();
+	public Map<String, Object> adviceController(@Valid MailMessage mailMessage,
+			BindingResult bindingResult, HttpSession session) {
+		if (bindingResult.hasErrors()) {
+			Map<String, Object> result = Generator.hashMap();
 			result.put("errInfo", getFieldErrors(bindingResult));
 			return result;
 		}
-		String token=(String) session.getAttribute("token");
-		if(!mailMessage.getToken().equals(token)){
-			Map<String,Object> result=Generator.hashMap();
+		String token = (String) session.getAttribute("token");
+		if (!mailMessage.getToken().equals(token)) {
+			Map<String, Object> result = Generator.hashMap();
 			result.put("errInfo", "token令牌错误");
 			return result;
 		}

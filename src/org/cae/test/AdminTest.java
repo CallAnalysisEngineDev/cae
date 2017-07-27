@@ -11,14 +11,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class AdminTest {
 
 	private IAdminService adminService;
-	
+
 	@SuppressWarnings("resource")
 	@Before
-	public void init(){
-		ApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
-		adminService=(IAdminService) ctx.getBean("adminService");
+	public void init() {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"applicationContext.xml");
+		adminService = (IAdminService) ctx.getBean("adminService");
 	}
-	
+
 	@Test
 	public void test() {
 		fail("Not yet implemented");

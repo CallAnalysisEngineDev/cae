@@ -14,22 +14,22 @@ import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 @Service("userService")
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	
+
 	@Override
 	public ServiceResult adviceService(final MailMessage mailMessage) {
-		jmsTemplate.send(new MessageCreator(){
+		jmsTemplate.send(new MessageCreator() {
 
 			@Override
 			public Message createMessage(Session session) throws JMSException {
 				return session.createTextMessage(toJson(mailMessage));
 			}
-			
+
 		});
-		ServiceResult result=new ServiceResult();
+		ServiceResult result = new ServiceResult();
 		result.setSuccessed(true);
 		return result;
 	}

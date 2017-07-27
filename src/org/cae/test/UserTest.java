@@ -11,18 +11,19 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class UserTest {
 
 	private IUserService service;
-	
+
 	@Before
-	public void init(){
-		ApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
-		service=(IUserService) ctx.getBean("userService");
+	public void init() {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"applicationContext.xml");
+		service = (IUserService) ctx.getBean("userService");
 	}
-	
+
 	@Test
 	public void adviceService() {
-		MailMessage mailMessage=new MailMessage();
+		MailMessage mailMessage = new MailMessage();
 		mailMessage.setType(1);
-		Mail mail=new Mail();
+		Mail mail = new Mail();
 		mail.setTitle("测试邮件主题111");
 		mail.setContent("测试邮件内容111");
 		mailMessage.setMail(mail);

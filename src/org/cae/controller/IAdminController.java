@@ -14,10 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 public interface IAdminController {
 
 	void adminLoginView(HttpServletRequest request, HttpServletResponse response);
-	
-	Map<String,Object> shakeHand(HttpSession session,ShakeHand shakeHand);
-	
-	ModelAndView queryAllSongController(HttpSession session, Condition condition, Song song);
-	
+
+	Map<String, Object> shakeHand(HttpSession session, ShakeHand shakeHand);
+
+	ModelAndView queryAllSongController(HttpSession session,
+			Condition condition, Song song);
+
 	ModelAndView removeKeyController(HttpSession session);
 }

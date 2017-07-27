@@ -13,18 +13,18 @@ import org.cae.monitor.entity.ProcessInfo;
 public interface IMonitorService {
 
 	ServiceResult queryStaticInfoService();
-	
+
 	CpuInfo queryCpuService();
-	
+
 	MemoryInfo queryMemoryService();
-	
+
 	List<ProcessInfo> queryProcessService();
-	
+
 	JVMMemory queryJvmMemoryService();
-	
+
 	JVMThread queryJvmThreadService();
-	
+
 	JVMClassLoad queryJvmClassService();
-	
+
 	ServiceResult gcService();
 }
