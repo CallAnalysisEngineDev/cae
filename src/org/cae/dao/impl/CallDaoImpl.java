@@ -137,14 +137,13 @@ public class CallDaoImpl implements ICallDao {
 	}
 
 	private SqlWithParams getTheSqlForGet(CallRecord callRecord) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		int insertIndex;
 		Object[] preParams = new Object[1];
 		int paramsIndex = 0;
 		buffer.append("WHERE 1=1 ");
 
-		if (callRecord.getSong() != null
-				&& isNotNull(callRecord.getSong().getSongId())) {
+		if (isNotNull(callRecord.getSong().getSongId())) {
 			// 这是获取最新的call表的情况,即通过songId来获取
 			insertIndex = buffer.indexOf("WHERE") + 5;
 			buffer.insert(insertIndex, " s.song_id = ? AND ");// 拼接where

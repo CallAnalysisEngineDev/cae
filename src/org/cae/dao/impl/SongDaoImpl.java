@@ -90,8 +90,8 @@ public class SongDaoImpl implements ISongDao {
 
 	// 根据搜索条件解析成占位符的sql以及参数列表
 	public SqlWithParams getTheSqlForGetAll(Condition condition, Song song) {
-		StringBuffer whereBuffer = new StringBuffer();
-		StringBuffer orderBuffer = new StringBuffer();
+		StringBuilder whereBuffer = new StringBuilder();
+		StringBuilder orderBuffer = new StringBuilder();
 		int insertIndex;
 		Object[] preParams = new Object[1];
 		int paramsIndex = 0;

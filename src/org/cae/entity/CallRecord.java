@@ -1,5 +1,7 @@
 package org.cae.entity;
 
+import org.cae.common.Generator;
+
 public class CallRecord extends Entity {
 
 	private Song song;
@@ -51,6 +53,8 @@ public class CallRecord extends Entity {
 	}
 
 	public Song getSong() {
+		if(song==null)
+			return Generator.song();
 		return song;
 	}
 
