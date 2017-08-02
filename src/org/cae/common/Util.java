@@ -21,16 +21,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
 
+	private static Logger logger = Logger.getLogger(Util.class);
 	private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat timeSdf = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 
+	//私有构造器防止外部创建新的Util对象
+	private Util(){}
+	
 	public static String toJson(Object target) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			return mapper.writeValueAsString(target);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(),ex);
 		}
 		return null;
 	}
@@ -101,22 +105,14 @@ public class Util {
 		return result;
 	}
 
-	public static void logStackTrace(Logger logger,
-			StackTraceElement[] stackTrace) {
-		String stackInfo = "";
-		for (StackTraceElement element : stackTrace) {
-			stackInfo += element + "\n";
-		}
-		logger.error(stackInfo);
-	}
-
 	public static String md5(String str) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(str.getBytes());
 			return new BigInteger(1, md.digest()).toString(16);
 		} catch (Exception ex) {
-			return null;
+			logger.error(ex.getMessage(),ex);
+			return "";
 		}
 	}
 
@@ -130,9 +126,9 @@ public class Util {
 			BASE64Decoder decoder = new BASE64Decoder();
 			return decoder.decodeBuffer(enStr);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 		}
-		return null;
+		return new byte[0];
 	}
 
 	public static String getFieldErrors(BindingResult bindingResult) {
@@ -149,8 +145,8 @@ public class Util {
 		try {
 			return mapper.readValue(json, clazz);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 		}
-		return null;
+		return (T) new Object();
 	}
 }

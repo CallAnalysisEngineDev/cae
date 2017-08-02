@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.cae.common.Condition;
 import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.controller.IAdminController;
 import org.cae.entity.Admin;
 import org.cae.vo.Song;
+
 import static org.cae.common.Util.*;
+
 import org.cae.security.SecurityAlgorithm;
 import org.cae.security.ShakeHand;
 import org.cae.service.IAdminService;
@@ -29,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 public class AdminControllerImpl implements IAdminController {
 
+	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private IAdminService adminService;
 	@Autowired
@@ -41,10 +45,11 @@ public class AdminControllerImpl implements IAdminController {
 		try {
 			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request,
 					response);
-		} catch (ServletException | IOException e) {
-			e.printStackTrace();
+		} catch (ServletException e) {
+			logger.error(e.getMessage(), e);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
 		}
-		;
 	}
 
 	/**

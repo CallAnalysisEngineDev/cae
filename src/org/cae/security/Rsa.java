@@ -17,8 +17,10 @@ import javax.crypto.Cipher;
 
 import org.apache.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import static org.cae.common.Util.base642byte;
 import static org.cae.common.Util.byte2base64;
+
 import org.springframework.stereotype.Component;
 
 @Component("rsa")
@@ -43,7 +45,7 @@ public class Rsa extends AbstractAlgorithm {
 			byte[] plainText = cipher.doFinal(base642byte(encryptInfo));
 			return new String(plainText);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -68,7 +70,7 @@ public class Rsa extends AbstractAlgorithm {
 					+ byte2base64(keyPair.getPrivate().getEncoded()));
 			saveKeyPair();
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -84,8 +86,10 @@ public class Rsa extends AbstractAlgorithm {
 					+ byte2base64(keyPair.getPrivate().getEncoded()));
 			oos.close();
 			fis.close();
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		} catch (ClassNotFoundException e) {
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -98,7 +102,7 @@ public class Rsa extends AbstractAlgorithm {
 			oos.close();
 			fos.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 

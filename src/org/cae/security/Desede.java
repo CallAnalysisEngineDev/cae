@@ -7,10 +7,13 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
+import org.apache.log4j.Logger;
+
 import static org.cae.common.Util.base642byte;
 
 public class Desede extends AbstractAlgorithm {
 
+	private Logger logger = Logger.getLogger(this.getClass());
 	private String key;
 	// 加解密向量,不要改
 	private final static String iv = "12345678";
@@ -40,8 +43,8 @@ public class Desede extends AbstractAlgorithm {
 			byte[] decryptData = cipher.doFinal(base642byte(encryptInfo));
 			return new String(decryptData, "UTF-8").trim();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
-		return null;
+		return "";
 	}
 }

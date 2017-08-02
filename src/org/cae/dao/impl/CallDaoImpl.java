@@ -52,9 +52,8 @@ public class CallDaoImpl implements ICallDao {
 			});
 			return new DaoResult(true, theResult);
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
-			return null;
+			logger.error(ex.getMessage(), ex);
+			return new DaoResult(false, ex.getMessage());
 		}
 	}
 
@@ -114,13 +113,12 @@ public class CallDaoImpl implements ICallDao {
 
 					});
 		} catch (EmptyResultDataAccessException ex) {
-			logger.info("当前歌曲" + callRecord.getSong().getSongId() + "不存在call表");
-			ex.printStackTrace();
+			logger.info("当前歌曲" + callRecord.getSong().getSongId() + "不存在call表",
+					ex);
 			return new DaoResult(false, "当前歌曲"
 					+ callRecord.getSong().getSongId() + "不存在call表");
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, ex.getMessage());
 		}
 		try {
@@ -129,9 +127,8 @@ public class CallDaoImpl implements ICallDao {
 					+ "WHERE song_id = ?";
 			template.update(sql, theResult.getSong().getSongId());
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			logger.warn("增加歌曲id为" + theResult.getSong().getSongId()
-					+ "的歌曲的点击量失败");
+					+ "的歌曲的点击量失败", ex);
 		}
 		return new DaoResult(true, theResult);
 	}
@@ -178,8 +175,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("更新歌曲最后修改时间成功");
 			return new DaoResult(true, null);
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, "插入失败");
 		}
 	}
@@ -193,8 +189,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("删除id为" + callRecord.getCallId() + "的call表记录成功");
 			return new DaoResult(true, null);
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, "删除失败");
 		}
 	}
@@ -224,8 +219,7 @@ public class CallDaoImpl implements ICallDao {
 			logger.info("批删除call表记录成功");
 			return new DaoResult(true, null);
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, "批删除失败");
 		}
 	}

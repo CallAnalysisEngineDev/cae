@@ -22,14 +22,14 @@ public class CallAspect {
 	public void afterCallDaoException(JoinPoint jp, Exception ex) {
 		Logger daoLogger = ((IBaseDao) jp.getTarget()).getLogger();
 		if (daoLogger != null)
-			daoLogger.fatal(ex.getMessage());
+			daoLogger.fatal(ex.getMessage(), ex);
 		else {
 			String stackInfo = "";
 			for (StackTraceElement element : ex.getStackTrace()) {
 				stackInfo += element + "\n";
 			}
 			logger.fatal("不存在" + jp.getTarget().getClass().getName()
-					+ "的logger,使用切面本身的logger,严重消息为\n" + stackInfo);
+					+ "的logger,使用切面本身的logger,严重消息为\n" + stackInfo, ex);
 		}
 	}
 }

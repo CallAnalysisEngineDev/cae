@@ -161,8 +161,7 @@ public class SongDaoImpl implements ISongDao {
 					});
 			return new DaoResult(true, theResult);
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, ex.getMessage());
 		}
 	}
@@ -180,8 +179,7 @@ public class SongDaoImpl implements ISongDao {
 			logger.info("插入新的歌曲记录成功");
 			return new DaoResult(true, null);
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, "删除失败");
 		}
 	}
@@ -195,8 +193,7 @@ public class SongDaoImpl implements ISongDao {
 			logger.info("删除id为" + song.getSongId() + "的歌曲记录成功");
 			return new DaoResult(true, null);
 		} catch (Exception ex) {
-			logStackTrace(logger, ex.getStackTrace());
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, "删除失败");
 		}
 	}
