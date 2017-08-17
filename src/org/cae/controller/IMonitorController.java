@@ -6,17 +6,7 @@ public interface IMonitorController {
 
 	boolean heartbeatController();
 
-	String queryCpuController();
-
-	String queryMemoryController();
-
-	String queryProcessController();
-
-	String queryJvmMemoryController();
-
-	String queryJvmThreadController();
-
-	String queryJvmClassController();
+	String getMachineInfo();
 
 	String gcController();
 }

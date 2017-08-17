@@ -36,7 +36,7 @@ public class Util {
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(),ex);
 		}
-		return null;
+		return "";
 	}
 
 	public static String date2String(Date date) {

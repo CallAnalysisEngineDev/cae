@@ -15,20 +15,10 @@ public class CpuInfo extends Entity {
 	public static class Builder implements IBuilder<CpuInfo> {
 
 		private String time;
-		private List<Cpu> cpus;
 		private double cpuTotalUseRate;
-
-		public Builder() {
-			cpus = Generator.arrayList();
-		}
 
 		public Builder time(String time) {
 			this.time = time;
-			return this;
-		}
-
-		public Builder cpu(Cpu cpu) {
-			this.cpus.add(cpu);
 			return this;
 		}
 
@@ -43,10 +33,10 @@ public class CpuInfo extends Entity {
 		}
 	}
 
-	class Cpu {
+	public class Cpu {
 		private String cpuType;
 		private double useRate;
-
+		
 		public Cpu(String cpuType, double useRate) {
 			this.cpuType = cpuType;
 			this.useRate = useRate;
@@ -63,7 +53,7 @@ public class CpuInfo extends Entity {
 
 	private CpuInfo(Builder builder) {
 		this.time = builder.time;
-		this.cpus = builder.cpus;
+		this.cpus = Generator.arrayList();
 		this.cpuTotalUseRate = builder.cpuTotalUseRate;
 	}
 
@@ -79,4 +69,7 @@ public class CpuInfo extends Entity {
 		return cpuTotalUseRate;
 	}
 
+	public void addCpu(Cpu cpu) {
+		cpus.add(cpu);
+	}
 }

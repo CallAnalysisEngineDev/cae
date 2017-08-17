@@ -39,33 +39,20 @@ public class MonitorControllerImpl implements IMonitorController {
 	}
 
 	@Override
-	public String queryCpuController() {
-		return toJson(monitorService.queryCpuService());
-	}
-
-	@Override
-	public String queryMemoryController() {
-		return toJson(monitorService.queryMemoryService());
-	}
-
-	@Override
-	public String queryProcessController() {
-		return toJson(monitorService.queryProcessService());
-	}
-
-	@Override
-	public String queryJvmMemoryController() {
-		return toJson(monitorService.queryJvmMemoryService());
-	}
-
-	@Override
-	public String queryJvmThreadController() {
-		return toJson(monitorService.queryJvmThreadService());
-	}
-
-	@Override
-	public String queryJvmClassController() {
-		return toJson(monitorService.queryJvmClassService());
+	public String getMachineInfo() {
+		Map<String, Object> theResult = Generator.hashMap();
+		ServiceResult serviceResult = monitorService.queryStaticInfoService();
+		if (serviceResult.isSuccessed()) {
+			theResult = (Map<String, Object>) serviceResult.getResult();
+			theResult.put("cpu", monitorService.queryCpuService());
+			theResult.put("memory", monitorService.queryMemoryService());
+			theResult.put("process", monitorService.queryProcessService());
+			theResult.put("jvmMemory", monitorService.queryJvmMemoryService());
+			theResult.put("jvmThread", monitorService.queryJvmThreadService());
+			theResult
+					.put("jvmClassLoad", monitorService.queryJvmClassService());
+		}
+		return toJson(theResult);
 	}
 
 	@Override
