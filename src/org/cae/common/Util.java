@@ -21,126 +21,132 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
 
-	private static SimpleDateFormat dateSdf=new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat timeSdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static Logger logger = Logger.getLogger(Util.class);
+	private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat timeSdf = new SimpleDateFormat(
+			"yyyy-MM-dd HH:mm:ss");
+
+	//私有构造器防止外部创建新的Util对象
+	private Util(){}
 	
-	public static String toJson(Object target){
-		ObjectMapper mapper=new ObjectMapper();
-		try{
+	public static String toJson(Object target) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
 			return mapper.writeValueAsString(target);
-		}catch(Exception ex){
-			ex.printStackTrace();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(),ex);
 		}
-		return null;
+		return "";
 	}
-	
-	public static String date2String(Date date){
+
+	public static String date2String(Date date) {
 		return dateSdf.format(date);
 	}
-	
-	public static String time2String(Date date){
+
+	public static String time2String(Date date) {
 		return timeSdf.format(date);
 	}
 
-	public static String getNowDate(){
+	public static String getNowDate() {
 		return date2String(new Date());
 	}
-	
-	public static String getNowTime(){
+
+	public static String getNowTime() {
 		return time2String(new Date());
 	}
-	
-	public static String getBefore(long time){
-		return time2String(new Date(System.currentTimeMillis()-time));
+
+	public static String getBefore(long time) {
+		return time2String(new Date(System.currentTimeMillis() - time));
 	}
-	
-	public static String getCharId(){
+
+	public static String getCharId() {
 		return getCharId(new String(), 10);
 	}
-	
-	public static String getCharId(int size){
-		return getCharId(new String(),size);
+
+	public static String getCharId(int size) {
+		return getCharId(new String(), size);
 	}
-	
-	public static String getCharId(String pre,int size){
-		StringBuffer theResult=new StringBuffer();
+
+	public static String getCharId(String pre, int size) {
+		StringBuffer theResult = new StringBuffer();
 		theResult.append(pre);
 		String a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		for(int i=0;i<size-pre.length();i++){
-			int rand =(int)(Math.random() * a.length());
+		for (int i = 0; i < size - pre.length(); i++) {
+			int rand = (int) (Math.random() * a.length());
 			theResult.append(a.charAt(rand));
 		}
 		return theResult.toString();
 	}
-	
-	public static short getRandom(int randomRange){
-		Random random=new Random();
+
+	public static short getRandom(int randomRange) {
+		Random random = new Random();
 		return (short) random.nextInt(randomRange);
 	}
-	
-	public static boolean isNotNull(Object object){
-		boolean result=false;
-		if(object==null)
+
+	public static boolean isNotNull(Object object) {
+		boolean result = false;
+		if (object == null)
 			return result;
-		if(object instanceof String){
-			String temp=(String) object;
-			if(temp!=null&&!temp.equals(""))
-				result=true;
+		if (object instanceof String) {
+			String temp = (String) object;
+			if (temp != null && !temp.equals(""))
+				result = true;
 			else
-				result=false;
-		}
-		else if(object instanceof Entity){
-			result=(object!=null?true:false);
-		}
-		else if(object instanceof List){
-			List list=(List) object;
-			if(list.size()>0)
-				result=true;
+				result = false;
+		} else if (object instanceof Entity) {
+			result = (object != null ? true : false);
+		} else if (object instanceof List) {
+			List list = (List) object;
+			if (list.size() > 0)
+				result = true;
 			else
-				result=false;
+				result = false;
 		}
 		return result;
 	}
-	
-	public static void logStackTrace(Logger logger,StackTraceElement[] stackTrace){
-		String stackInfo="";
-		for(StackTraceElement element:stackTrace){
-			stackInfo+=element+"\n";
-		}
-		logger.error(stackInfo);
-	}
-	
-	public static String md5(String str){
-		try{
-			MessageDigest md=MessageDigest.getInstance("MD5");
+
+	public static String md5(String str) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(str.getBytes());
-			return new BigInteger(1,md.digest()).toString(16);
-		}catch(Exception ex){
-			return null;
+			return new BigInteger(1, md.digest()).toString(16);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(),ex);
+			return "";
 		}
 	}
-	
+
 	public static String byte2base64(byte[] deStr) {
-		BASE64Encoder encoder=new BASE64Encoder();
+		BASE64Encoder encoder = new BASE64Encoder();
 		return encoder.encode(deStr);
 	}
 
-	public static byte[] base642byte(String enStr){
+	public static byte[] base642byte(String enStr) {
 		try {
-			BASE64Decoder decoder=new BASE64Decoder();
+			BASE64Decoder decoder = new BASE64Decoder();
 			return decoder.decodeBuffer(enStr);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 		}
-		return null;
+		return new byte[0];
 	}
-	
-	public static String getFieldErrors(BindingResult bindingResult){
-		List<String> list=new ArrayList<String>();
+
+	public static String getFieldErrors(BindingResult bindingResult) {
+		List<String> list = new ArrayList<String>();
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-		for(FieldError fieldError:fieldErrors){
+		for (FieldError fieldError : fieldErrors) {
 			list.add(fieldError.getDefaultMessage());
 		}
 		return toJson(list);
+	}
+
+	public static <T> T toObject(String json, Class<T> clazz) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.readValue(json, clazz);
+		} catch (IOException e) {
+			logger.error(e.getMessage(),e);
+		}
+		return (T) new Object();
 	}
 }

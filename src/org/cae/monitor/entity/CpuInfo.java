@@ -2,58 +2,74 @@ package org.cae.monitor.entity;
 
 import java.util.List;
 
+import org.cae.common.Generator;
 import org.cae.entity.Entity;
+import org.cae.entity.IBuilder;
 
-public class CpuInfo extends Entity{
+public class CpuInfo extends Entity {
 
 	private String time;
 	private List<Cpu> cpus;
 	private double cpuTotalUseRate;
-	
-	public static class Cpu{
+
+	public static class Builder implements IBuilder<CpuInfo> {
+
+		private String time;
+		private double cpuTotalUseRate;
+
+		public Builder time(String time) {
+			this.time = time;
+			return this;
+		}
+
+		public Builder cpuTotalUseRate(double cpuTotalUseRate) {
+			this.cpuTotalUseRate = cpuTotalUseRate;
+			return this;
+		}
+
+		@Override
+		public CpuInfo build() {
+			return new CpuInfo(this);
+		}
+	}
+
+	public class Cpu {
 		private String cpuType;
 		private double useRate;
+		
+		public Cpu(String cpuType, double useRate) {
+			this.cpuType = cpuType;
+			this.useRate = useRate;
+		}
+
 		public String getCpuType() {
 			return cpuType;
 		}
-		public void setCpuType(String cpuType) {
-			this.cpuType = cpuType;
-		}
+
 		public double getUseRate() {
 			return useRate;
 		}
-		public void setUseRate(double useRate) {
-			this.useRate = useRate;
-		}
 	}
 
-	public CpuInfo(){}
-	public CpuInfo(String time){
-		this.time=time;
+	private CpuInfo(Builder builder) {
+		this.time = builder.time;
+		this.cpus = Generator.arrayList();
+		this.cpuTotalUseRate = builder.cpuTotalUseRate;
 	}
-	
+
 	public String getTime() {
 		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
 	}
 
 	public List<Cpu> getCpus() {
 		return cpus;
 	}
 
-	public void setCpus(List<Cpu> cpus) {
-		this.cpus = cpus;
-	}
-
 	public double getCpuTotalUseRate() {
 		return cpuTotalUseRate;
 	}
 
-	public void setCpuTotalUseRate(double cpuTotalUseRate) {
-		this.cpuTotalUseRate = cpuTotalUseRate;
+	public void addCpu(Cpu cpu) {
+		cpus.add(cpu);
 	}
-	
 }

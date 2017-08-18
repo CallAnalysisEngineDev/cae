@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
@@ -18,5 +13,59 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/cae_library"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/activation.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/activemq-client-5.14.5.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/activemq-jms-pool-5.14.5.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/activemq-pool-5.14.5.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/activemq-spring-5.14.5.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/activemq-web-5.14.5.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/ant.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/aopalliance.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/aspectjweaver.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/bcprov-ext-jdk15on-157.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/bcprov-jdk15on-157.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/classmate-1.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/commons-fileupload-1.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/commons-pool2-2.4.2.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/geronimo-j2ee-management_1.1_spec-1.0.1.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/geronimo-jms_1.1_spec-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/hawtbuf-1.11.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/hibernate-validator-5.4.1.Final.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/jackson-annotations-2.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/jackson-core-2.6.1.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/jackson-databind-2.4.3.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/javax.jms.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/jboss-logging-3.3.0.Final.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/json.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/jstl.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/junrar-0.7.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/lucene-analyzers-common-5.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/lucene-analyzers-kuromoji-5.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/lucene-core-5.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/lucene-queryparser-5.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/mail.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/mysql-connector-java-5.1.25-bin.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/org-apache-zip-1.9.4.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/sigar.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/slf4j-api-1.7.13.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-aop-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-beans-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-context-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-context-support-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-core-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-expression-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-jdbc-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-jms-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-remoting-2.0.8.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-tx-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-web-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/spring-webmvc-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/standard.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat9/shared/validation-api-1.1.0.Final.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

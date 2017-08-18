@@ -39,6 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<form action="all" method="post" id="admin_login_form"></form>
   </body>
   <script type="text/javascript" src="http://liuyang-anime.cn:81/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="http://liuyang-anime.cn:81/jquery.md5.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script type="text/javascript" src="http://liuyang-anime.cn:81/browser-storage.js"></script>
   <script type="text/javascript" src="http://liuyang-anime.cn:81/DES3.js"></script>

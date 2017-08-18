@@ -20,7 +20,7 @@ public class MonitorServiceImpl implements IMonitorService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public CpuInfo queryCpuService() {
 		// TODO Auto-generated method stub
@@ -53,6 +53,12 @@ public class MonitorServiceImpl implements IMonitorService {
 
 	@Override
 	public JVMClassLoad queryJvmClassService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResult gcService() {
 		// TODO Auto-generated method stub
 		return null;
 	}
