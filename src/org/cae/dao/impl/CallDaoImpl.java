@@ -1,8 +1,5 @@
 package org.cae.dao.impl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,8 +13,6 @@ import org.cae.entity.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import static org.cae.common.IConstant.*;
@@ -34,22 +29,12 @@ public class CallDaoImpl implements ICallDao {
 		String sql = "";
 		List<CallRecord> theResult = null;
 		try {
-			sql = "SELECT cr.call_id,cr.call_version "
-					+ "FROM call_record AS cr " + "LEFT JOIN song AS s "
-					+ "USING(song_id) " + "WHERE s.song_id = ? "
-					+ "ORDER BY cr.call_version DESC " + "LIMIT "
+			sql = "SELECT cr.call_id,cr.call_version " + "FROM call_record AS cr " + "LEFT JOIN song AS s "
+					+ "USING(song_id) " + "WHERE s.song_id = ? " + "ORDER BY cr.call_version DESC " + "LIMIT "
 					+ condition.getPageStart() + "," + condition.getPageLimit();
-			theResult = template.query(sql, new Object[] { callRecord.getSong()
-					.getSongId() }, new RowMapper<CallRecord>() {
-				@Override
-				public CallRecord mapRow(ResultSet rs, int row)
-						throws SQLException {
-					CallRecord callRecord = new CallRecord.Builder()
-							.callId(rs.getString("call_id"))
-							.callVersion(rs.getShort("call_version")).build();
-					return callRecord;
-				}
-			});
+			theResult = template.query(sql, new Object[] { callRecord.getSong().getSongId() },
+					(rs, row) -> new CallRecord.Builder().callId(rs.getString("call_id"))
+							.callVersion(rs.getShort("call_version")).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -59,11 +44,9 @@ public class CallDaoImpl implements ICallDao {
 
 	@Override
 	public DaoResult getCallCountDao(Condition condition, CallRecord callRecord) {
-		String sql = "SELECT COUNT(*) " + "FROM call_record AS cr "
-				+ "LEFT JOIN song AS s " + "USING(song_id)"
+		String sql = "SELECT COUNT(*) " + "FROM call_record AS cr " + "LEFT JOIN song AS s " + "USING(song_id)"
 				+ "WHERE s.song_id = ? ";
-		Integer theResult = template.queryForObject(sql,
-				new Object[] { callRecord.getSong().getSongId() },
+		Integer theResult = template.queryForObject(sql, new Object[] { callRecord.getSong().getSongId() },
 				Integer.class);
 		return new DaoResult(true, theResult);
 	}
@@ -76,59 +59,29 @@ public class CallDaoImpl implements ICallDao {
 		try {
 			// 根据歌曲id来获取该歌曲最新的call表记录
 			sql = "SELECT s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id,s.song_video "
-					+ "FROM call_record AS cr "
-					+ "LEFT JOIN song AS s "
-					+ "USING(song_id) "
-					+ sqlWithParams.getWhere()
+					+ "FROM call_record AS cr " + "LEFT JOIN song AS s " + "USING(song_id) " + sqlWithParams.getWhere()
 					+ "ORDER BY cr.call_version DESC " + "LIMIT 1";
-			theResult = template.queryForObject(sql, sqlWithParams.getParams(),
-					new RowMapper<CallRecord>() {
-
-						@Override
-						public CallRecord mapRow(ResultSet rs, int row)
-								throws SQLException {
-							Song song = new Song.Builder()
-									.songName(rs.getString("song_name"))
-									.songOwner(rs.getString("song_owner"))
-									.songSellTime(
-											date2String(rs
-													.getDate("song_sell_time")))
-									.songLastModifyTime(
-											date2String(rs
-													.getDate("song_last_modify_time")))
-									.songCover(
-											STATIC_PREFIX
-													+ rs.getString("song_cover"))
-									.songId(rs.getString("song_id"))
-									.songVideo(rs.getShort("song_video"))
-									.build();
-							CallRecord callRecord = new CallRecord.Builder()
-									.callSource(
-											STATIC_PREFIX
-													+ rs.getString("call_source"))
-									.callVersion(rs.getShort("call_version"))
-									.song(song).build();
-							return callRecord;
-						}
-
-					});
+			theResult = template.queryForObject(sql, sqlWithParams.getParams(), (rs, row) -> new CallRecord.Builder()
+					.callSource(STATIC_PREFIX + rs.getString("call_source")).callVersion(rs.getShort("call_version"))
+					.song(new Song.Builder().songName(rs.getString("song_name")).songOwner(rs.getString("song_owner"))
+							.songSellTime(date2String(rs.getDate("song_sell_time")))
+							.songLastModifyTime(date2String(rs.getDate("song_last_modify_time")))
+							.songCover(STATIC_PREFIX + rs.getString("song_cover")).songId(rs.getString("song_id"))
+							.songVideo(rs.getShort("song_video")).build())
+					.build());
 		} catch (EmptyResultDataAccessException ex) {
-			logger.info("当前歌曲" + callRecord.getSong().getSongId() + "不存在call表",
-					ex);
-			return new DaoResult(false, "当前歌曲"
-					+ callRecord.getSong().getSongId() + "不存在call表");
+			logger.info("当前歌曲" + callRecord.getSong().getSongId() + "不存在call表", ex);
+			return new DaoResult(false, "当前歌曲" + callRecord.getSong().getSongId() + "不存在call表");
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, ex.getMessage());
 		}
 		try {
 			// 该歌曲的点击量+1
-			sql = "UPDATE song " + "SET song_click = song_click + 1 "
-					+ "WHERE song_id = ?";
+			sql = "UPDATE song " + "SET song_click = song_click + 1 " + "WHERE song_id = ?";
 			template.update(sql, theResult.getSong().getSongId());
 		} catch (Exception ex) {
-			logger.warn("增加歌曲id为" + theResult.getSong().getSongId()
-					+ "的歌曲的点击量失败", ex);
+			logger.warn("增加歌曲id为" + theResult.getSong().getSongId() + "的歌曲的点击量失败", ex);
 		}
 		return new DaoResult(true, theResult);
 	}
@@ -163,14 +116,11 @@ public class CallDaoImpl implements ICallDao {
 	public DaoResult saveCallDao(CallRecord callRecord) {
 		try {
 			// 添加一个call表的记录
-			String sql = "INSERT INTO call_record(call_id,song_id,call_source,call_version) "
-					+ "VALUES(?,?,?,?)";
-			template.update(sql, getCharId("CR-", 10), callRecord.getSong()
-					.getSongId(), callRecord.getCallSource(), callRecord
-					.getCallVersion());
+			String sql = "INSERT INTO call_record(call_id,song_id,call_source,call_version) " + "VALUES(?,?,?,?)";
+			template.update(sql, getCharId("CR-", 10), callRecord.getSong().getSongId(), callRecord.getCallSource(),
+					callRecord.getCallVersion());
 			logger.info("插入新的call表记录成功");
-			sql = "UPDATE song " + "SET song_last_modify_time = ? "
-					+ "WHERE song_id = ?";
+			sql = "UPDATE song " + "SET song_last_modify_time = ? " + "WHERE song_id = ?";
 			template.update(sql, getNowDate(), callRecord.getSong().getSongId());
 			logger.info("更新歌曲最后修改时间成功");
 			return new DaoResult(true, null);
@@ -206,16 +156,11 @@ public class CallDaoImpl implements ICallDao {
 					sql += "?,";
 				}
 			}
-			PreparedStatementSetter setter = new PreparedStatementSetter() {
-
-				@Override
-				public void setValues(PreparedStatement ps) throws SQLException {
-					for (int i = 1; i <= callRecords.size(); i++) {
-						ps.setString(i, callRecords.get(i - 1).getCallId());
-					}
+			template.update(sql, (ps) -> {
+				for (int i = 1; i <= callRecords.size(); i++) {
+					ps.setString(i, callRecords.get(i - 1).getCallId());
 				}
-			};
-			template.update(sql, setter);
+			});
 			logger.info("批删除call表记录成功");
 			return new DaoResult(true, null);
 		} catch (Exception ex) {

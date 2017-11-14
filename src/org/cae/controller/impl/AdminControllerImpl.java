@@ -21,7 +21,6 @@ import static org.cae.common.Util.*;
 import org.cae.security.SecurityAlgorithm;
 import org.cae.security.ShakeHand;
 import org.cae.service.IAdminService;
-import org.cae.service.ICallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +34,6 @@ public class AdminControllerImpl implements IAdminController {
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private IAdminService adminService;
-	@Autowired
-	private ICallService callService;
 
 	@Override
 	@RequestMapping("/login")

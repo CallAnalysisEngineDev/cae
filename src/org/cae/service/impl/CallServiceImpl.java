@@ -41,8 +41,7 @@ public class CallServiceImpl implements ICallService {
 		}
 		result = new ServiceResult();
 		Map<String, Object> map = (Map<String, Object>) daoResult.getResult();
-		if (((List) (map.get("red"))).size() == 0
-				|| ((List) (map.get("newest"))).size() == 0) {
+		if (((List) (map.get("red"))).size() == 0 || ((List) (map.get("newest"))).size() == 0) {
 			logger.log(Level.SEVERE, "热门歌曲或最新修改歌曲为空!");
 			result.setSuccessed(false);
 			result.setErrInfo("结果为空");
@@ -54,8 +53,7 @@ public class CallServiceImpl implements ICallService {
 	}
 
 	@Override
-	public ServiceResult queryAllCallService(Condition condition,
-			CallRecord callRecord) {
+	public ServiceResult queryAllCallService(Condition condition, CallRecord callRecord) {
 		ServiceResult result = new ServiceResult();
 		condition.setPageLimit(CALL_SEARCH_LIMIT);
 		DaoResult daoResult = callDao.getAllCallDao(condition, callRecord);
