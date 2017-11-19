@@ -135,7 +135,7 @@ public class SongDaoImpl implements ISongDao {
 			return new DaoResult(true, null);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
-			return new DaoResult(false, "删除失败");
+			return new DaoResult(false, "添加失败");
 		}
 	}
 

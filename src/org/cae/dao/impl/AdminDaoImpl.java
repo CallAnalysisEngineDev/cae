@@ -35,14 +35,18 @@ public class AdminDaoImpl implements IAdminDao {
 		}
 		sql = "SELECT admin_id " + "FROM admin " + "WHERE admin_useraccount = ? " + "AND admin_password = ?";
 		// 密码要进行md5处理后才和数据库的对比
-		List<Admin> theResult = template.query(sql,
-				new Object[] { admin.getAdminUseraccount(), md5(admin.getAdminPassword()) },
-				(rs, row) -> Generator.admin(rs.getInt("admin_id")));
-		if (isNotNull(theResult)) {
-			return new DaoResult(true, theResult.get(0));
-		} else {
-			return new DaoResult(false, "密码错误");
+		try {
+			Admin theResult = template.queryForObject(sql,
+					new Object[] { admin.getAdminUseraccount(), md5(admin.getAdminPassword()) },
+					(rs, row) -> Generator.admin(rs.getInt("admin_id")));
+			if (isNotNull(theResult)) {
+				return new DaoResult(true, theResult);
+			}
+		} catch (Exception e) {
+			logger.error("有两个相同的管理员账号!", e);
+			return new DaoResult(false, e.getMessage());
 		}
+		return new DaoResult(false, "密码错误");
 	}
 
 }
