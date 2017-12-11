@@ -12,9 +12,6 @@ public class MailMessage {
 	@Valid
 	@NotNull(message = "邮件对象不能为空")
 	private Mail mail;
-	@NotNull(message = "token令牌对象为空")
-	@NotEmpty(message = "token令牌为空")
-	private String token;
 
 	public Integer getType() {
 		return type;
@@ -30,13 +27,5 @@ public class MailMessage {
 
 	public void setMail(Mail mail) {
 		this.mail = mail;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 }

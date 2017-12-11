@@ -15,7 +15,7 @@ public class UserServiceImpl implements IUserService {
 	private JmsTemplate jmsTemplate;
 
 	@Override
-	public ServiceResult adviceService(final MailMessage mailMessage) {
+	public ServiceResult adviceService(MailMessage mailMessage) {
 		jmsTemplate.send(session -> session.createTextMessage(toJson(mailMessage)));
 		ServiceResult result = new ServiceResult();
 		result.setSuccessed(true);
