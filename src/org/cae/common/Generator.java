@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.cae.entity.Admin;
-import org.cae.entity.CallRecord;
-import org.cae.entity.Song;
+import org.cae.object.dto.Admin;
+import org.cae.object.dto.CallRecord;
+import org.cae.object.dto.Song;
 
 public class Generator {
 

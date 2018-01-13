@@ -1,9 +1,9 @@
 package org.cae.monitor.entity;
 
-import org.cae.entity.Entity;
-import org.cae.entity.IBuilder;
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
 
-public class JVMStatic extends Entity {
+public class JVMStatic implements Entity {
 
 	private String jvmName;
 	private String jvmVersion;

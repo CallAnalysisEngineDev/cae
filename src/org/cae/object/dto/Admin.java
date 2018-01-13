@@ -1,6 +1,9 @@
-package org.cae.entity;
+package org.cae.object.dto;
 
-public class Admin extends Entity {
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
+
+public class Admin implements Entity {
 
 	private Integer adminId;
 	private String adminUseraccount;

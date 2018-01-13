@@ -1,8 +1,8 @@
 package org.cae.monitor.entity;
 
-import org.cae.entity.Entity;
+import top.starrysea.kql.entity.Entity;
 
-public class JVMClassLoad extends Entity {
+public class JVMClassLoad implements Entity {
 
 	private String time;
 	private Integer jvmClassLoadedCount;

@@ -1,9 +1,9 @@
 package org.cae.monitor.entity;
 
-import org.cae.entity.Entity;
-import org.cae.entity.IBuilder;
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
 
-public class DBStatic extends Entity {
+public class DBStatic implements Entity {
 
 	private String dbName;
 	private String dbVersion;

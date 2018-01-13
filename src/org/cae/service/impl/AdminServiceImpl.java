@@ -9,7 +9,7 @@ import org.cae.common.DaoResult;
 import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.dao.IAdminDao;
-import org.cae.entity.Admin;
+import org.cae.object.dto.Admin;
 
 import static org.cae.common.Util.*;
 

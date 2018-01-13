@@ -2,7 +2,7 @@ package org.cae.dao;
 
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
-import org.cae.entity.Song;
+import org.cae.object.dto.Song;
 
 public interface ISongDao extends IBaseDao {
 

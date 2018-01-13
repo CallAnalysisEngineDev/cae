@@ -8,12 +8,21 @@ import org.cae.common.DaoResult;
 import org.cae.common.SqlWithParams;
 import static org.cae.common.Util.*;
 import org.cae.dao.ICallDao;
-import org.cae.entity.CallRecord;
-import org.cae.entity.Song;
+import org.cae.object.dto.CallRecord;
+import org.cae.object.dto.Song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import top.starrysea.kql.clause.OrderByType;
+import top.starrysea.kql.clause.SelectClause;
+import top.starrysea.kql.clause.UpdateSetType;
+import top.starrysea.kql.clause.WhereType;
+import top.starrysea.kql.facede.EntitySqlResult;
+import top.starrysea.kql.facede.IntegerSqlResult;
+import top.starrysea.kql.facede.KumaSqlDao;
+import top.starrysea.kql.facede.ListSqlResult;
 
 import static org.cae.common.IConstant.*;
 
@@ -23,93 +32,67 @@ public class CallDaoImpl implements ICallDao {
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private JdbcTemplate template;
+	@Autowired
+	private KumaSqlDao KumaSqlDao;
 
 	@Override
 	public DaoResult getAllCallDao(Condition condition, CallRecord callRecord) {
-		String sql = "";
-		List<CallRecord> theResult = null;
-		try {
-			sql = "SELECT cr.call_id,cr.call_version " + "FROM call_record AS cr " + "LEFT JOIN song AS s "
-					+ "USING(song_id) " + "WHERE s.song_id = ? " + "ORDER BY cr.call_version DESC " + "LIMIT "
-					+ condition.getPageStart() + "," + condition.getPageLimit();
-			theResult = template.query(sql, new Object[] { callRecord.getSong().getSongId() },
-					(rs, row) -> new CallRecord.Builder().callId(rs.getString("call_id"))
-							.callVersion(rs.getShort("call_version")).build());
-			return new DaoResult(true, theResult);
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			return new DaoResult(false, ex.getMessage());
-		}
+		KumaSqlDao.selectMode();
+		ListSqlResult theResult = KumaSqlDao.select("call_id", "cr").select("call_version", "cr")
+				.from(CallRecord.class, "cr").leftjoin(Song.class, "s", "song_id", CallRecord.class, "song_id")
+				.where("song_id", "s", WhereType.EQUALS, callRecord.getSong().getSongId())
+				.orderBy("call_version", "cr", OrderByType.DESC)
+				.limit(condition.getPageStart(), condition.getPageLimit())
+				.endForList((rs, row) -> new CallRecord.Builder().callId(rs.getString("call_id"))
+						.callVersion(rs.getShort("call_version")).build());
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override
 	public DaoResult getCallCountDao(Condition condition, CallRecord callRecord) {
-		String sql = "SELECT COUNT(*) " + "FROM call_record AS cr " + "LEFT JOIN song AS s " + "USING(song_id)"
-				+ "WHERE s.song_id = ? ";
-		Integer theResult = template.queryForObject(sql, new Object[] { callRecord.getSong().getSongId() },
-				Integer.class);
-		return new DaoResult(true, theResult);
+		KumaSqlDao.selectMode();
+		IntegerSqlResult theResult = KumaSqlDao.select(SelectClause.COUNT).from(CallRecord.class, "cr")
+				.leftjoin(Song.class, "s", "song_id", CallRecord.class, "song_id")
+				.where("song_id", "s", WhereType.EQUALS, callRecord.getSong().getSongId()).endForNumber();
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override
 	public DaoResult getCallDao(CallRecord callRecord) {
-		String sql = "";
-		CallRecord theResult = null;
-		SqlWithParams sqlWithParams = getTheSqlForGet(callRecord);
+		KumaSqlDao.selectMode();
+		KumaSqlDao temp = KumaSqlDao.select("song_name", "s").select("song_owner", "s").select("call_source", "cr")
+				.select("song_sell_time", "s").select("call_version", "cr").select("song_last_modify_time", "s")
+				.select("song_cover", "s").select("song_id", "s").select("song_video", "s").from(CallRecord.class, "cr")
+				.leftjoin(Song.class, "s", "song_id", CallRecord.class, "song_id");
+		if (isNotNull(callRecord.getSong().getSongId())) {
+			temp.where("song_id", "s", WhereType.EQUALS, callRecord.getSong().getSongId());
+		} else if (isNotNull(callRecord.getCallId())) {
+			temp.where("call_id", "cr", WhereType.EQUALS, callRecord.getCallId());
+		}
+		EntitySqlResult<CallRecord> theResult;
 		try {
-			// 根据歌曲id来获取该歌曲最新的call表记录
-			sql = "SELECT s.song_name,s.song_owner,cr.call_source,song_sell_time,cr.call_version,s.song_last_modify_time,s.song_cover,s.song_id,s.song_video "
-					+ "FROM call_record AS cr " + "LEFT JOIN song AS s " + "USING(song_id) " + sqlWithParams.getWhere()
-					+ "ORDER BY cr.call_version DESC " + "LIMIT 1";
-			theResult = template.queryForObject(sql, sqlWithParams.getParams(), (rs, row) -> new CallRecord.Builder()
-					.callSource(STATIC_PREFIX + rs.getString("call_source")).callVersion(rs.getShort("call_version"))
-					.song(new Song.Builder().songName(rs.getString("song_name")).songOwner(rs.getString("song_owner"))
-							.songSellTime(date2String(rs.getDate("song_sell_time")))
-							.songLastModifyTime(date2String(rs.getDate("song_last_modify_time")))
-							.songCover(STATIC_PREFIX + rs.getString("song_cover")).songId(rs.getString("song_id"))
-							.songVideo(rs.getShort("song_video")).build())
-					.build());
+			theResult = temp.orderBy("call_version", "cr", OrderByType.DESC).limit(1)
+					.endForObject((rs, row) -> new CallRecord.Builder()
+							.callSource(STATIC_PREFIX + rs.getString("call_source"))
+							.callVersion(rs.getShort("call_version"))
+							.song(new Song.Builder().songName(rs.getString("song_name"))
+									.songOwner(rs.getString("song_owner"))
+									.songSellTime(date2String(rs.getDate("song_sell_time")))
+									.songLastModifyTime(date2String(rs.getDate("song_last_modify_time")))
+									.songCover(STATIC_PREFIX + rs.getString("song_cover"))
+									.songId(rs.getString("song_id")).songVideo(rs.getShort("song_video")).build())
+							.build());
 		} catch (EmptyResultDataAccessException ex) {
 			logger.info("当前歌曲" + callRecord.getSong().getSongId() + "不存在call表", ex);
-			return new DaoResult(false, "当前歌曲" + callRecord.getSong().getSongId() + "不存在call表");
+			return new DaoResult(true, "当前歌曲" + callRecord.getSong().getSongId() + "不存在call表");
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			return new DaoResult(false, ex.getMessage());
 		}
-		try {
-			// 该歌曲的点击量+1
-			sql = "UPDATE song " + "SET song_click = song_click + 1 " + "WHERE song_id = ?";
-			template.update(sql, theResult.getSong().getSongId());
-		} catch (Exception ex) {
-			logger.warn("增加歌曲id为" + theResult.getSong().getSongId() + "的歌曲的点击量失败", ex);
-		}
-		return new DaoResult(true, theResult);
-	}
-
-	private SqlWithParams getTheSqlForGet(CallRecord callRecord) {
-		StringBuilder buffer = new StringBuilder();
-		int insertIndex;
-		Object[] preParams = new Object[1];
-		int paramsIndex = 0;
-		buffer.append("WHERE 1=1 ");
-
-		if (isNotNull(callRecord.getSong().getSongId())) {
-			// 这是获取最新的call表的情况,即通过songId来获取
-			insertIndex = buffer.indexOf("WHERE") + 5;
-			buffer.insert(insertIndex, " s.song_id = ? AND ");// 拼接where
-			preParams[paramsIndex] = callRecord.getSong().getSongId();
-			paramsIndex++;
-		} else if (isNotNull(callRecord.getCallId())) {
-			// 这是获取某个旧版本的call表的情况,即通过callId来获取
-			insertIndex = buffer.indexOf("WHERE") + 5;
-			buffer.insert(insertIndex, " cr.call_id = ? AND ");
-			preParams[paramsIndex] = callRecord.getCallId();
-			paramsIndex++;
-		}
-
-		Object[] params = new Object[paramsIndex];
-		System.arraycopy(preParams, 0, params, 0, paramsIndex);
-		return new SqlWithParams(buffer.toString(), params);
+		KumaSqlDao.updateMode();
+		KumaSqlDao.update("song_click", UpdateSetType.ADD, 1)
+				.where("song_id", WhereType.EQUALS, theResult.getResult().getSong().getSongId()).end();
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override

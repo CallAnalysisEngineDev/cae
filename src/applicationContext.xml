@@ -69,4 +69,6 @@
 		<property name="connectionFactory" ref="jmsFactory"></property>
 		<property name="defaultDestination" ref="destination" />
 	</bean>
+	
+	<bean id="kumaSql" class="top.starrysea.kql.facede.KumaSqlDaoImpl"></bean>
 </beans>

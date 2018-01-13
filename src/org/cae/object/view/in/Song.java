@@ -1,4 +1,4 @@
-package org.cae.vo;
+package org.cae.object.view.in;
 
 public class Song {
 
@@ -84,8 +84,8 @@ public class Song {
 		this.songVideo = songVideo;
 	}
 
-	public org.cae.entity.Song toBo() {
-		return new org.cae.entity.Song.Builder().songClick(songClick)
+	public org.cae.object.dto.Song toBo() {
+		return new org.cae.object.dto.Song.Builder().songClick(songClick)
 				.songCover(songCover).songCreateTime(songCreateTime)
 				.songId(songId).songLastModifyTime(songLastModifyTime)
 				.songName(songName).songOwner(songOwner)

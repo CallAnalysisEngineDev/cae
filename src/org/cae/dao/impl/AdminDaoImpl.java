@@ -1,7 +1,5 @@
 package org.cae.dao.impl;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.cae.common.DaoResult;
 import org.cae.common.Generator;
@@ -9,17 +7,21 @@ import org.cae.common.Generator;
 import static org.cae.common.Util.*;
 
 import org.cae.dao.IAdminDao;
-import org.cae.entity.Admin;
+import org.cae.object.dto.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import top.starrysea.kql.clause.WhereType;
+import top.starrysea.kql.facede.EntitySqlResult;
+import top.starrysea.kql.facede.KumaSqlDao;
+import top.starrysea.kql.facede.ListSqlResult;
 
 @Repository("adminDao")
 public class AdminDaoImpl implements IAdminDao {
 
 	private Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
-	private JdbcTemplate template;
+	private KumaSqlDao kumaSqlDao;
 
 	@Override
 	public Logger getLogger() {
@@ -28,19 +30,19 @@ public class AdminDaoImpl implements IAdminDao {
 
 	@Override
 	public DaoResult getAdminInfoDao(Admin admin) {
-		String sql = "SELECT 1 " + "FROM admin " + "WHERE admin_useraccount = ?";
-		List<String> list = template.queryForList(sql, new Object[] { admin.getAdminUseraccount() }, String.class);
-		if (list.size() == 0) {
+		kumaSqlDao.selectMode();
+		ListSqlResult theResult = kumaSqlDao.select("1").from(Admin.class)
+				.where("admin_useraccount", WhereType.EQUALS, admin.getAdminUseraccount()).endForList(String.class);
+		if (theResult.getResult().isEmpty()) {
 			return new DaoResult(false, "管理员账号不存在");
 		}
-		sql = "SELECT admin_id " + "FROM admin " + "WHERE admin_useraccount = ? " + "AND admin_password = ?";
-		// 密码要进行md5处理后才和数据库的对比
 		try {
-			Admin theResult = template.queryForObject(sql,
-					new Object[] { admin.getAdminUseraccount(), md5(admin.getAdminPassword()) },
-					(rs, row) -> Generator.admin(rs.getInt("admin_id")));
-			if (isNotNull(theResult)) {
-				return new DaoResult(true, theResult);
+			EntitySqlResult<Admin> adminResult = kumaSqlDao.select("admin_id").from(Admin.class)
+					.where("admin_useraccount", WhereType.EQUALS, admin.getAdminUseraccount())
+					.where("admin_password", WhereType.EQUALS, md5(admin.getAdminPassword()))
+					.endForObject((rs, row) -> Generator.admin(rs.getInt("admin_id")));
+			if (isNotNull(adminResult.getResult())) {
+				return new DaoResult(true, adminResult.getResult());
 			}
 		} catch (Exception e) {
 			logger.error("有两个相同的管理员账号!", e);

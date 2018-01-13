@@ -1,9 +1,9 @@
 package org.cae.monitor.entity;
 
-import org.cae.entity.Entity;
-import org.cae.entity.IBuilder;
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
 
-public class JVMMemory extends Entity {
+public class JVMMemory implements Entity {
 
 	private String time;
 	private double edenRate;

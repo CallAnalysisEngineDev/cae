@@ -13,8 +13,8 @@ import org.cae.common.Condition;
 import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.controller.IAdminController;
-import org.cae.entity.Admin;
-import org.cae.vo.Song;
+import org.cae.object.dto.Admin;
+import org.cae.object.view.in.Song;
 
 import static org.cae.common.Util.*;
 

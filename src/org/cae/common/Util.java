@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
-import org.cae.entity.Entity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+import top.starrysea.kql.entity.Entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -132,7 +132,7 @@ public class Util {
 	}
 
 	public static String getFieldErrors(BindingResult bindingResult) {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		for (FieldError fieldError : fieldErrors) {
 			list.add(fieldError.getDefaultMessage());

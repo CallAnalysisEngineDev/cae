@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cae.common.Condition;
 import org.cae.common.DaoResult;
-import org.cae.entity.CallRecord;
+import org.cae.object.dto.CallRecord;
 
 public interface ICallDao extends IBaseDao {
 

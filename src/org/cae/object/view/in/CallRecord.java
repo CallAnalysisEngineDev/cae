@@ -1,6 +1,6 @@
-package org.cae.vo;
+package org.cae.object.view.in;
 
-import org.cae.vo.Song;
+import org.cae.object.view.in.Song;
 
 public class CallRecord {
 
@@ -41,8 +41,8 @@ public class CallRecord {
 		this.callVersion = callVersion;
 	}
 
-	public org.cae.entity.CallRecord toBo() {
-		return new org.cae.entity.CallRecord.Builder().callId(callId)
+	public org.cae.object.dto.CallRecord toBo() {
+		return new org.cae.object.dto.CallRecord.Builder().callId(callId)
 				.callSource(callSource).callVersion(callVersion)
 				.song(song.toBo()).build();
 	}

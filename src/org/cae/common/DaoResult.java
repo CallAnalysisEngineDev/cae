@@ -6,6 +6,10 @@ public class DaoResult {
 	private Object result;
 	private String errInfo;
 
+	public DaoResult(boolean successed) {
+		this.successed = successed;
+	}
+
 	public DaoResult(boolean successed, Object result) {
 		this.successed = successed;
 		this.result = result;

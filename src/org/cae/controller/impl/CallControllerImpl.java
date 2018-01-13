@@ -7,8 +7,8 @@ import org.cae.common.Condition;
 import org.cae.common.Generator;
 import org.cae.common.ServiceResult;
 import org.cae.controller.ICallController;
-import org.cae.vo.CallRecord;
-import org.cae.vo.Song;
+import org.cae.object.view.in.CallRecord;
+import org.cae.object.view.in.Song;
 import org.cae.service.ICallService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,7 +69,7 @@ public class CallControllerImpl implements ICallController {
 	@RequestMapping(value = "/removes", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> removeCallController(List<CallRecord> callRecords) {
-		List<org.cae.entity.CallRecord> list = Generator.arrayList();
+		List<org.cae.object.dto.CallRecord> list = Generator.arrayList();
 		for (CallRecord callRecord : callRecords)
 			list.add(callRecord.toBo());
 		ServiceResult result = callService.removeCallService(list);

@@ -3,10 +3,11 @@ package org.cae.monitor.entity;
 import java.util.List;
 
 import org.cae.common.Generator;
-import org.cae.entity.Entity;
-import org.cae.entity.IBuilder;
 
-public class MachineStatic extends Entity {
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
+
+public class MachineStatic implements Entity {
 
 	private String userName;
 	private String computerName;

@@ -1,8 +1,10 @@
 package org.cae.service.impl;
 
 import org.cae.common.ServiceResult;
-import static org.cae.common.Util.toJson;
 import org.cae.mail.entity.MailMessage;
+
+import static org.cae.common.Util.toJson;
+
 import org.cae.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;

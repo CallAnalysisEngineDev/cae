@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
-import org.cae.entity.CallRecord;
-import org.cae.entity.Song;
+import org.cae.object.dto.CallRecord;
+import org.cae.object.dto.Song;
 import org.cae.service.ICallService;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class CallTest {
 	public void queryAllSongService() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		Song song = new Song.Builder().songName("").build();
+		Song song = new Song.Builder().build();
 		ServiceResult result = callService.queryAllSongService(condition, song);
 		System.out.println(result);
 	}
@@ -48,6 +48,18 @@ public class CallTest {
 		System.out.println(result);
 	}
 
+	@Test
+	public void addSongService() {
+		Song song=new Song.Builder().songId("test").songName("asd").songSellTime("2011-11-11 11:11:11").songOwner("me").songCover("asd").songCreateTime("2011-11-11 11:11:11").songClick(11).songLastModifyTime("2011-11-11 11:11:11").songVideo((short)1).build();
+		System.out.println(callService.addSongService(song));
+	}
+	
+	@Test
+	public void removeSongService() {
+		Song song=new Song.Builder().songId("test").build();
+		System.out.println(callService.removeSongService(song));
+	}
+	
 	@Test
 	public void addCallService() {
 		CallRecord callRecord = new CallRecord.Builder()

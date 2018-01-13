@@ -1,9 +1,9 @@
 package org.cae.monitor.entity;
 
-import org.cae.entity.Entity;
-import org.cae.entity.IBuilder;
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
 
-public class ProcessInfo extends Entity {
+public class ProcessInfo implements Entity {
 
 	private String processName;
 	private String processId;

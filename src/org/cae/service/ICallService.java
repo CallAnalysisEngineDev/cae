@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.cae.common.Condition;
 import org.cae.common.ServiceResult;
-import org.cae.entity.CallRecord;
-import org.cae.entity.Song;
+import org.cae.object.dto.CallRecord;
+import org.cae.object.dto.Song;
 
 public interface ICallService {
 

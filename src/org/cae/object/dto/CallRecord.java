@@ -1,8 +1,11 @@
-package org.cae.entity;
+package org.cae.object.dto;
 
 import org.cae.common.Generator;
 
-public class CallRecord extends Entity {
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
+
+public class CallRecord implements Entity {
 
 	private Song song;
 	private String callId;

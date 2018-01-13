@@ -1,6 +1,9 @@
-package org.cae.entity;
+package org.cae.object.dto;
 
-public class Song extends Entity {
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
+
+public class Song implements Entity {
 
 	private String songId;
 	private String songName;

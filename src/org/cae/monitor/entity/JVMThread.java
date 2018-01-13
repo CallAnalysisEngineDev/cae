@@ -1,9 +1,9 @@
 package org.cae.monitor.entity;
 
-import org.cae.entity.Entity;
-import org.cae.entity.IBuilder;
+import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
 
-public class JVMThread extends Entity {
+public class JVMThread implements Entity {
 
 	private String time;
 	private Integer jvmDamonThreadCount;
