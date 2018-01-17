@@ -41,6 +41,14 @@ public class CallTest {
 	}
 
 	@Test
+	public void queryAllCallService() {
+		Condition condition = new Condition();
+		condition.setPage(1);
+		condition.setPageLimit(10);
+		System.out.println(callService.queryAllCallService(condition, new CallRecord.Builder().build()));
+	}
+	
+	@Test
 	public void queryCallService() {
 		Song song = new Song.Builder().songId("jier").build();
 		CallRecord callRecord = new CallRecord.Builder().song(song).build();
@@ -63,8 +71,8 @@ public class CallTest {
 	@Test
 	public void addCallService() {
 		CallRecord callRecord = new CallRecord.Builder()
-				.song(new Song.Builder().songName("gugu").build())
-				.callSource("/aqours/海岸通りで待ってるよ.html").callVersion((short) 25)
+				.song(new Song.Builder().songId("jier").build())
+				.callSource("/aqours/asdasdasd.html").callVersion((short) 25)
 				.build();
 		ServiceResult result = callService.addCallService(callRecord);
 		System.out.println(result);
@@ -72,7 +80,7 @@ public class CallTest {
 
 	@Test
 	public void removeCallService() {
-		CallRecord callRecord = new CallRecord.Builder().callId("CR-gq5UvSY")
+		CallRecord callRecord = new CallRecord.Builder().callId("CR-tUdoWRb")
 				.build();
 		ServiceResult result = callService.removeCallService(callRecord);
 		System.out.println(result);
@@ -81,10 +89,10 @@ public class CallTest {
 	@Test
 	public void removeCallsService() {
 		List<CallRecord> callRecords = new ArrayList<CallRecord>();
-		CallRecord callRecord = new CallRecord.Builder().callId("CR-bGaS4yp")
+		CallRecord callRecord = new CallRecord.Builder().callId("CR-CvwweaH")
 				.build();
 		callRecords.add(callRecord);
-		callRecord = new CallRecord.Builder().callId("CR-0NPVFFF").build();
+		callRecord = new CallRecord.Builder().callId("CR-xNWVIZ0").build();
 		callRecords.add(callRecord);
 		ServiceResult result = callService.removeCallService(callRecords);
 		System.out.println(result);
